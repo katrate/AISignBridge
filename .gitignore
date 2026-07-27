@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+.venv/
+env/
+.env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Models (trained files — too large for git)
+models/gesture_model.h5
+models/gesture_model.pkl
+models/label_encoder.pkl
+models/normalizer.pkl
+models/voice_classifier.pkl
+models/voice_label_encoder.pkl
+models/vosk-model/
+
+# Data (user-collected data)
+data/voice_samples/
+data/processed/
+data/*.csv
+
+# Windows reserved names
+nul
+NUL
+Nul
+
+# OS
+Thumbs.db
+.DS_Store
