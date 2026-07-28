@@ -14,6 +14,9 @@ Emits only single letters/digits (A-Z, 0-9).
 
 import json
 import os
+import sys
+import urllib.request
+import zipfile
 import numpy as np
 import queue
 
@@ -35,6 +38,7 @@ _GRAMMAR = json.dumps(_LETTERS + _DIGITS)
 
 class SpeechListener(QThread):
     word_recognized = pyqtSignal(str)  # Emits recognized letter A-Z or digit 0-9
+    status_message = pyqtSignal(str)   # Status updates for UI
 
     VOSK_MODEL_PATH = resource_path("models/vosk-model")
     SAMPLE_RATE = 16000
@@ -55,12 +59,43 @@ class SpeechListener(QThread):
         status = "MUTED" if muted else "UNMUTED"
         print(f"[SpeechListener] Mic {status}")
 
+    VOSK_DOWNLOAD_URL = "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip"
+    VOSK_EXTRACTED_DIR = "vosk-model-small-en-us-0.15"
+
     def _load_model(self):
-        """Load the Vosk speech recognition model."""
+        """Load or auto-download the Vosk speech recognition model."""
         if not os.path.exists(self.VOSK_MODEL_PATH):
             print(f"[SpeechListener] Vosk model not found at '{self.VOSK_MODEL_PATH}'.")
-            print("  Run:  python scripts/download_vosk_model.py")
-            return
+            self._download_model()
+            if not os.path.exists(self.VOSK_MODEL_PATH):
+                print("[SpeechListener] Model download failed. Speech→Sign disabled.")
+                return
+
+    def _download_model(self):
+        """Download and extract the Vosk model on first run."""
+        models_dir = os.path.dirname(self.VOSK_MODEL_PATH)
+        os.makedirs(models_dir, exist_ok=True)
+        zip_path = os.path.join(models_dir, "vosk-model.zip")
+
+        try:
+            print("[SpeechListener] Downloading Vosk model (~40MB)...")
+            print("  This happens once on first launch.")
+            urllib.request.urlretrieve(self.VOSK_DOWNLOAD_URL, zip_path)
+
+            print("[SpeechListener] Extracting...")
+            with zipfile.ZipFile(zip_path, 'r') as zf:
+                zf.extractall(models_dir)
+
+            extracted = os.path.join(models_dir, self.VOSK_EXTRACTED_DIR)
+            if os.path.exists(extracted):
+                os.rename(extracted, self.VOSK_MODEL_PATH)
+
+            os.remove(zip_path)
+            print("[SpeechListener] Vosk model ready.")
+        except Exception as e:
+            print(f"[SpeechListener] Download failed: {e}")
+            if os.path.exists(zip_path):
+                os.remove(zip_path)
 
         try:
             import vosk
