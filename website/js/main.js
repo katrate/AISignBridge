@@ -526,26 +526,64 @@
     });
   }
 
-  // ====== LAUNCH BUTTON ======
-  function initLaunchBtn() {
-    var btn = document.getElementById('launchBtn');
-    if (!btn) return;
+  // ====== DOWNLOAD BUTTONS (OS Detection + Release Data) ======
+  function initDownloadButtons() {
+    var btnContainer = document.getElementById('downloadButtons');
+    var autoBtn = document.getElementById('autoDownloadBtn');
+    var versionEl = document.getElementById('releaseVersion');
+    if (!btnContainer) return;
 
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      btn.textContent = '\u23F3 Preparing...';
-      btn.style.pointerEvents = 'none';
+    // Fetch the latest release data
+    fetch('release-data.json?' + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var urls = data.download_urls;
+        var ver = data.latest_version;
+        if (versionEl) versionEl.textContent = ver;
 
-      setTimeout(function () {
-        btn.innerHTML =
-          '<span style="display:flex;flex-direction:column;align-items:center;gap:4px;font-size:0.85rem;">' +
-          '<span>\u2B07\uFE0F Install & Run</span>' +
-          '<code style="font-size:0.65rem;opacity:0.7;font-family:monospace;">git clone && python app/main.py</code>' +
-          '</span>' +
-          '<span class="arrow">\u2192</span>';
-        btn.style.pointerEvents = 'auto';
-      }, 1500);
-    });
+        // Set individual OS buttons
+        var btns = btnContainer.querySelectorAll('.download-btn');
+        btns.forEach(function (b) {
+          var os = b.getAttribute('data-os');
+          if (urls[os]) {
+            b.href = urls[os];
+            b.setAttribute('target', '_blank');
+          }
+        });
+
+        // Auto-detect OS
+        if (autoBtn) {
+          var detectedOs = detectOS();
+          if (detectedOs && urls[detectedOs]) {
+            autoBtn.href = urls[detectedOs];
+            autoBtn.setAttribute('target', '_blank');
+            autoBtn.innerHTML = '\u2B07\uFE0F Download for ' + osDisplayName(detectedOs);
+          } else {
+            autoBtn.style.display = 'none';
+          }
+        }
+      })
+      .catch(function () {
+        // Fallback: show GitHub link
+        if (versionEl) versionEl.textContent = '—';
+        if (autoBtn) {
+          autoBtn.href = 'https://github.com/katrate/AISignBridge/releases';
+          autoBtn.innerHTML = '\u2192 View Releases on GitHub';
+        }
+      });
+
+    function detectOS() {
+      var ua = navigator.userAgent || '';
+      if (ua.indexOf('Windows') !== -1) return 'windows';
+      if (ua.indexOf('Mac OS') !== -1 || ua.indexOf('macOS') !== -1 || ua.indexOf('Intel Mac') !== -1 || ua.indexOf('PPC Mac') !== -1) return 'macos';
+      if (ua.indexOf('Linux') !== -1) return 'linux';
+      return null;
+    }
+
+    function osDisplayName(os) {
+      var names = { windows: 'Windows', macos: 'macOS', linux: 'Linux' };
+      return names[os] || os;
+    }
   }
 
   // ====== DEMO INTERACTIVE (fallback for pages without inline script) ======
@@ -653,7 +691,7 @@
     initSmoothScroll();
     initHeroTilt();
     initBackToTop();
-    initLaunchBtn();
+    initDownloadButtons();
     initDemoInteractive();
     initParallax();
     initThemeToggle();

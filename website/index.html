@@ -254,8 +254,29 @@
       <div class="cta-card reveal">
         <h2>Ready to Break Communication Barriers?</h2>
         <p>Download AI Sign Bridge and start translating sign language to speech in minutes. It's free, open source, and works 100% offline.</p>
-        <a href="#" class="btn-primary" id="launchBtn">⬇️ Download & Launch <span class="arrow">→</span></a>
-        <p class="subnote">Free · Open Source · No account needed · Windows, macOS & Linux</p>
+        <div class="download-buttons" id="downloadButtons">
+          <a href="#" class="btn-primary download-btn" data-os="windows">
+            <span class="os-icon">🪟</span>
+            <span class="os-label">Download for <strong>Windows</strong></span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="btn-primary download-btn" data-os="macos">
+            <span class="os-icon">🍎</span>
+            <span class="os-label">Download for <strong>macOS</strong></span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="#" class="btn-primary download-btn" data-os="linux">
+            <span class="os-icon">🐧</span>
+            <span class="os-label">Download for <strong>Linux</strong></span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+        <div class="auto-detect-row">
+          <a href="#" class="btn-auto" id="autoDownloadBtn">⬇️ Detect OS & Download</a>
+          <span class="subnote-sep">·</span>
+          <a href="https://github.com/katrate/AISignBridge/releases" class="btn-gh-link" target="_blank">View on GitHub</a>
+        </div>
+        <p class="subnote">Free · Open Source · No account needed · v<span id="releaseVersion">—</span></p>
       </div>
     </div>
   </section>
@@ -268,7 +289,7 @@
       <p>Making sign language accessible to everyone through the power of AI.</p>
       <ul class="footer-links">
         <li><a href="about.html">About</a></li>
-        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+        <li><a href="https://github.com/katrate/AISignBridge" target="_blank">GitHub</a></li>
         <li><a href="features.html">Features</a></li>
         <li><a href="how-it-works.html">How It Works</a></li>
         <li><a href="learn.html">Learn ASL</a></li>

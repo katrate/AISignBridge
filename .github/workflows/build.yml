@@ -1,0 +1,227 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r app/requirements.txt
+          pip install pyinstaller
+
+      - name: Download Vosk model
+        run: python scripts/download_vosk_model.py
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --onedir `
+            --name "AI-Sign-Bridge" `
+            --add-data "app;app" `
+            --add-data "models;models" `
+            --add-data "data;data" `
+            --hidden-import "app.ensemble_model" `
+            --hidden-import "app.feature_extraction" `
+            --hidden-import "sklearn.ensemble" `
+            --hidden-import "sklearn.neural_network" `
+            --hidden-import "sklearn.preprocessing" `
+            --hidden-import "tensorflow" `
+            --hidden-import "pyttsx3" `
+            --hidden-import "vosk" `
+            --hidden-import "sounddevice" `
+            --hidden-import "joblib" `
+            --collect-all "mediapipe" `
+            --collect-all "tensorflow" `
+            --windowed `
+            app/main.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AI-Sign-Bridge-Windows
+          path: dist/AI-Sign-Bridge/
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r app/requirements.txt
+          pip install pyinstaller
+
+      - name: Download Vosk model
+        run: python scripts/download_vosk_model.py
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --onedir \
+            --name "AI-Sign-Bridge" \
+            --add-data "app:app" \
+            --add-data "models:models" \
+            --add-data "data:data" \
+            --hidden-import "app.ensemble_model" \
+            --hidden-import "app.feature_extraction" \
+            --hidden-import "sklearn.ensemble" \
+            --hidden-import "sklearn.neural_network" \
+            --hidden-import "sklearn.preprocessing" \
+            --hidden-import "tensorflow" \
+            --hidden-import "pyttsx3" \
+            --hidden-import "vosk" \
+            --hidden-import "sounddevice" \
+            --hidden-import "joblib" \
+            --collect-all "mediapipe" \
+            --collect-all "tensorflow" \
+            --windowed \
+            app/main.py
+
+      - name: Create DMG
+        run: |
+          mkdir -p dist/dmg
+          cp -r "dist/AI-Sign-Bridge.app" dist/dmg/
+          hdiutil create -volname "AI Sign Bridge" \
+            -srcfolder dist/dmg \
+            -ov -format UDZO \
+            "dist/AI-Sign-Bridge-macOS.dmg"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AI-Sign-Bridge-macOS
+          path: dist/AI-Sign-Bridge-macOS.dmg
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libportaudio2 libsndfile1
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r app/requirements.txt
+          pip install pyinstaller
+
+      - name: Download Vosk model
+        run: python scripts/download_vosk_model.py
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller --onedir \
+            --name "AI-Sign-Bridge" \
+            --add-data "app:app" \
+            --add-data "models:models" \
+            --add-data "data:data" \
+            --hidden-import "app.ensemble_model" \
+            --hidden-import "app.feature_extraction" \
+            --hidden-import "sklearn.ensemble" \
+            --hidden-import "sklearn.neural_network" \
+            --hidden-import "sklearn.preprocessing" \
+            --hidden-import "tensorflow" \
+            --hidden-import "pyttsx3" \
+            --hidden-import "vosk" \
+            --hidden-import "sounddevice" \
+            --hidden-import "joblib" \
+            --collect-all "mediapipe" \
+            --collect-all "tensorflow" \
+            --windowed \
+            app/main.py
+
+      - name: Create AppImage
+        run: |
+          mkdir -p dist/AppDir
+          cp -r dist/AI-Sign-Bridge/* dist/AppDir/
+          wget -q https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          ./appimagetool-x86_64.AppImage dist/AppDir "dist/AI-Sign-Bridge-Linux.AppImage"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AI-Sign-Bridge-Linux
+          path: dist/AI-Sign-Bridge-Linux.AppImage
+
+  create-release:
+    needs: [build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Get tag name
+        id: tag
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: AI Sign Bridge ${{ steps.tag.outputs.tag }}
+          body: |
+            ## AI Sign Bridge ${{ steps.tag.outputs.tag }}
+
+            ### Downloads:
+            - [Windows (.exe)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Windows.zip)
+            - [macOS (.dmg)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-macOS.dmg)
+            - [Linux (.AppImage)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Linux.AppImage)
+          files: |
+            AI-Sign-Bridge-Windows/**/*
+            AI-Sign-Bridge-macOS/*
+            AI-Sign-Bridge-Linux/*
+          draft: false
+          prerelease: false
+
+      - name: Update release data for website
+        run: |
+          cat > website/release-data.json << 'EOF'
+          {
+            "latest_version": "${{ steps.tag.outputs.tag }}",
+            "download_urls": {
+              "windows": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Windows.zip",
+              "macos": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-macOS.dmg",
+              "linux": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Linux.AppImage"
+            }
+          }
+          EOF
+
+      - name: Commit updated release data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add website/release-data.json
+          git commit -m "Update release data to ${{ steps.tag.outputs.tag }} [skip ci]" || echo "No changes"
+          git push
