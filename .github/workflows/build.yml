@@ -138,8 +138,8 @@ jobs:
             - [Windows (.exe)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge.exe)
             - [macOS (.dmg)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-macOS.dmg)
           files: |
-            AI-Sign-Bridge.exe
-            AI-Sign-Bridge-macOS.dmg
+            AI-Sign-Bridge-Windows/AI-Sign-Bridge.exe
+            AI-Sign-Bridge-macOS/AI-Sign-Bridge-macOS.dmg
           draft: false
           prerelease: false
 
