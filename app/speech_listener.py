@@ -25,6 +25,15 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from app.paths import resource_path
 
 
+# ── Writable model storage (not the read-only MEIPASS temp dir) ──
+def _model_dir():
+    """Return a writable path for storing downloaded models.
+    In frozen EXE: next to the EXE. In source: project root."""
+    if getattr(sys, 'frozen', False):
+        return os.path.join(os.path.dirname(sys.executable), "models")
+    return resource_path("models")
+
+
 # ── Complete ASL letter/digit vocabulary for grammar mode ──
 # Vosk will ONLY recognize these exact words, nothing else.
 _LETTERS = [chr(i) for i in range(ord('a'), ord('z') + 1)]
@@ -41,7 +50,7 @@ class SpeechListener(QThread):
     status_message = pyqtSignal(str)   # Status updates for UI
     model_ready = pyqtSignal(bool)     # Emits True when model loaded, False on failure
 
-    VOSK_MODEL_PATH = resource_path("models/vosk-model")
+    VOSK_MODEL_PATH = os.path.join(_model_dir(), "vosk-model")
     SAMPLE_RATE = 16000
     CHUNK = 4096
 
