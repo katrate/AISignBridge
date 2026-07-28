@@ -1174,6 +1174,17 @@ body::after {
   position: relative;
 }
 
+.cta-card .subnote a {
+  color: var(--accent-amber);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.cta-card .subnote a:hover {
+  opacity: 0.7;
+}
+
 /* ---------- ABOUT PAGE ---------- */
 .about-grid {
   display: grid;
