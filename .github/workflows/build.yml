@@ -164,4 +164,5 @@ jobs:
           git config user.email "actions@github.com"
           git add website/release-data.json
           git commit -m "Update release data to ${{ steps.tag.outputs.tag }} [skip ci]"
+          git pull origin master --rebase
           git push origin HEAD:master
