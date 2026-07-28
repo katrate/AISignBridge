@@ -60,9 +60,9 @@ class SignDetector(QThread):
         self.model = None
         self.label_encoder = None
         self.normalizer = None
-        self._load_model()
         self._buffer = []        # list of (label, confidence) tuples
         self._last_spoken = None # last label that was emitted
+        # Model loading deferred to run() for boot speed
 
     def _load_model(self):
         """Load TF model (.h5) first, fallback to joblib (.pkl)."""
@@ -95,6 +95,9 @@ class SignDetector(QThread):
 
     def run(self):
         self.running = True
+
+        # Load model inside the thread (not in __init__) for instant UI response
+        self._load_model()
 
         # Use the new MediaPipe Tasks API for hand landmarking
         landmarker_options = vision.HandLandmarkerOptions(

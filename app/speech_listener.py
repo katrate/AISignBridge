@@ -39,6 +39,7 @@ _GRAMMAR = json.dumps(_LETTERS + _DIGITS)
 class SpeechListener(QThread):
     word_recognized = pyqtSignal(str)  # Emits recognized letter A-Z or digit 0-9
     status_message = pyqtSignal(str)   # Status updates for UI
+    model_ready = pyqtSignal(bool)     # Emits True when model loaded, False on failure
 
     VOSK_MODEL_PATH = resource_path("models/vosk-model")
     SAMPLE_RATE = 16000
@@ -50,7 +51,7 @@ class SpeechListener(QThread):
         self._muted = False
         self._vosk_model = None
         self._queue = queue.Queue()
-        self._load_model()
+        # Model loading deferred to run() for boot speed
 
     def set_muted(self, muted: bool):
         """Mute or unmute the microphone. When muted, audio is drained
@@ -83,9 +84,11 @@ class SpeechListener(QThread):
         zip_path = os.path.join(models_dir, "vosk-model.zip")
 
         try:
+            self.status_message.emit("MODAL_DOWNLOAD:Downloading Vosk speech model (~40 MB)…")
             print("[SpeechListener] Downloading Vosk model (~40MB)...")
             print("  This happens once on first launch.")
             urllib.request.urlretrieve(self.VOSK_DOWNLOAD_URL, zip_path)
+            self.status_message.emit("MODAL_EXTRACT:Extracting Vosk model…")
 
             print("[SpeechListener] Extracting...")
             with zipfile.ZipFile(zip_path, 'r') as zf:
@@ -100,7 +103,7 @@ class SpeechListener(QThread):
             self.status_message.emit("Vosk model downloaded. Loading…")
         except Exception as e:
             print(f"[SpeechListener] Download failed: {e}")
-            self.status_message.emit(f"Vosk download failed: {e}")
+            self.status_message.emit(f"MODAL_FAIL:Vosk download failed: {e}")
             if os.path.exists(zip_path):
                 os.remove(zip_path)
 
@@ -124,10 +127,13 @@ class SpeechListener(QThread):
         self._queue.put(indata.copy())
 
     def run(self):
+        self._load_model()
         if self._vosk_model is None:
             print("[SpeechListener] No Vosk model loaded. Speech→Sign pipeline disabled.")
             self.status_message.emit("Speech recognition unavailable (no model).")
+            self.model_ready.emit(False)
             return
+        self.model_ready.emit(True)
 
         self.running = True
 

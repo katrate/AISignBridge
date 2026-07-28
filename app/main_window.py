@@ -13,11 +13,11 @@ import math
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QHBoxLayout, QVBoxLayout,
     QLabel, QPushButton, QFrame, QStatusBar, QSizePolicy,
-    QGraphicsOpacityEffect
+    QGraphicsOpacityEffect, QProgressDialog
 )
 from PyQt6.QtCore import Qt, QTimer, pyqtSlot
 from PyQt6.QtGui import (
-    QPixmap, QFont, QMovie, QColor, QImage,
+    QPixmap, QFont, QMovie, QColor, QImage, QIcon,
     QPainter, QLinearGradient, QPen, QPainterPath,
     QBrush, QRadialGradient
 )
@@ -300,6 +300,11 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("AI Sign Bridge — Real-Time ASL Translator")
         self.setMinimumSize(1150, 720)
         self.setStyleSheet(STYLESHEET)
+
+        # Set window icon
+        icon_path = resource_path("logo.png")
+        if os.path.exists(icon_path):
+            self.setWindowIcon(QIcon(icon_path))
 
         self._detector = None
         self._listener = None
@@ -632,7 +637,9 @@ class MainWindow(QMainWindow):
         self._listener = SpeechListener()
         self._listener.set_muted(True)
         self._listener.word_recognized.connect(self._on_word_recognized)
-        self._listener.status_message.connect(self._status)
+        self._listener.status_message.connect(self._on_listener_status)
+        self._listener.model_ready.connect(self._on_model_ready)
+        self._download_dialog = None
         self._listener.start()
 
     def _stop_detection(self):
@@ -833,6 +840,42 @@ class MainWindow(QMainWindow):
             self.prediction_text.style().unpolish(self.prediction_text)
             self.prediction_text.style().polish(self.prediction_text)
             self._show_sign_gif(letter)
+
+    def _on_listener_status(self, msg: str):
+        """Handle listener status messages, showing modal dialog for downloads."""
+        if msg.startswith("MODAL_DOWNLOAD:"):
+            text = msg.replace("MODAL_DOWNLOAD:", "")
+            if self._download_dialog is None:
+                self._download_dialog = QProgressDialog(text, None, 0, 0, self)
+                self._download_dialog.setWindowTitle("Downloading Model")
+                self._download_dialog.setWindowModality(Qt.WindowModal.WindowModal)
+                self._download_dialog.setMinimumWidth(400)
+                self._download_dialog.setCancelButton(None)
+                self._download_dialog.show()
+            else:
+                self._download_dialog.setLabelText(text)
+        elif msg.startswith("MODAL_EXTRACT:"):
+            text = msg.replace("MODAL_EXTRACT:", "")
+            if self._download_dialog:
+                self._download_dialog.setLabelText(text)
+        elif msg.startswith("MODAL_FAIL:"):
+            text = msg.replace("MODAL_FAIL:", "")
+            if self._download_dialog:
+                self._download_dialog.close()
+                self._download_dialog = None
+            self._status(text)
+        else:
+            self._status(msg)
+
+    def _on_model_ready(self, success: bool):
+        """Called when the Vosk model finishes loading."""
+        if self._download_dialog:
+            self._download_dialog.close()
+            self._download_dialog = None
+        if success:
+            self._status("·  Speech→Sign ready")
+        else:
+            self._status("·  Speech→Sign unavailable (no model)")
 
     @pyqtSlot(str)
     def _on_speaking_started(self, word: str):

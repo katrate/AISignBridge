@@ -528,29 +528,53 @@
     });
   }
 
-  // ====== DOWNLOAD BUTTONS (OS Detection + Release Data) ======
+  // ====== DOWNLOAD BUTTONS (GitHub API + Release Data fallback) ======
   function initDownloadButtons() {
     var btnContainer = document.getElementById('downloadButtons');
     var versionEl = document.getElementById('releaseVersion');
     if (!btnContainer) return;
 
-    fetch('release-data.json?' + Date.now())
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        var urls = data.download_urls;
-        if (versionEl) versionEl.textContent = data.latest_version;
+    function applyRelease(tag, assets) {
+      if (versionEl) versionEl.textContent = tag;
+      var btns = btnContainer.querySelectorAll('.download-btn');
+      btns.forEach(function (b) {
+        var os = b.getAttribute('data-os');
+        var assetName = os === 'windows' ? 'AI-Sign-Bridge.exe' : 'AI-Sign-Bridge-macOS.dmg';
+        var asset = assets.find(function (a) { return a.name === assetName; });
+        if (asset) {
+          b.href = asset.browser_download_url;
+          b.setAttribute('target', '_blank');
+        }
+      });
+    }
 
-        var btns = btnContainer.querySelectorAll('.download-btn');
-        btns.forEach(function (b) {
-          var os = b.getAttribute('data-os');
-          if (urls[os]) {
-            b.href = urls[os];
-            b.setAttribute('target', '_blank');
-          }
-        });
+    function applyLegacy(data) {
+      if (versionEl) versionEl.textContent = data.latest_version;
+      var btns = btnContainer.querySelectorAll('.download-btn');
+      btns.forEach(function (b) {
+        var os = b.getAttribute('data-os');
+        if (data.download_urls && data.download_urls[os]) {
+          b.href = data.download_urls[os];
+          b.setAttribute('target', '_blank');
+        }
+      });
+    }
+
+    fetch('https://api.github.com/repos/katrate/AISignBridge/releases/latest')
+      .then(function (r) {
+        if (!r.ok) throw new Error('GitHub API failed');
+        return r.json();
+      })
+      .then(function (data) {
+        applyRelease(data.tag_name, data.assets);
       })
       .catch(function () {
-        if (versionEl) versionEl.textContent = '—';
+        fetch('release-data.json?' + Date.now())
+          .then(function (r) { return r.json(); })
+          .then(applyLegacy)
+          .catch(function () {
+            if (versionEl) versionEl.textContent = '—';
+          });
       });
   }
 

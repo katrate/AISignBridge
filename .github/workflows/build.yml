@@ -35,6 +35,7 @@ jobs:
             --add-data "app;app" `
             --add-data "models;models" `
             --add-data "data;data" `
+            --add-data "logo.png;." `
             --hidden-import "app.ensemble_model" `
             --hidden-import "app.feature_extraction" `
             --hidden-import "sklearn.ensemble" `
@@ -82,6 +83,7 @@ jobs:
             --add-data "app:app" \
             --add-data "models:models" \
             --add-data "data:data" \
+            --add-data "logo.png:." \
             --hidden-import "app.ensemble_model" \
             --hidden-import "app.feature_extraction" \
             --hidden-import "sklearn.ensemble" \
