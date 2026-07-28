@@ -7,17 +7,30 @@ Run from the project root: python app/main.py
 
 import sys
 import os
+import traceback
 
 # Ensure project root is in path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QMessageBox
 from PyQt6.QtGui import QFont, QIcon
 from app.main_window import MainWindow
 from app.paths import resource_path
 
 
+def exception_hook(exc_type, exc_value, exc_tb):
+    """Global exception handler — show a message box instead of silent crash."""
+    msg = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
+    try:
+        QMessageBox.critical(None, "AI Sign Bridge - Error",
+            f"An unexpected error occurred:\n\n{msg[:1000]}")
+    except Exception:
+        pass
+    sys.exit(1)
+
+
 def main():
+    sys.excepthook = exception_hook
     app = QApplication(sys.argv)
 
     # Set app-wide font

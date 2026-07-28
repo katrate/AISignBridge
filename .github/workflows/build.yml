@@ -25,8 +25,11 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Download Vosk model
+      - name: Download Vosk model (for runtime, not bundled — saves ~128MB)
         run: python scripts/download_vosk_model.py
+
+      - name: Remove Vosk model from bundle (downloaded on first run via modal)
+        run: Remove-Item -Recurse -Force models/vosk-model/
 
       - name: Build with PyInstaller
         run: |
@@ -73,8 +76,11 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Download Vosk model
+      - name: Download Vosk model (for runtime, not bundled)
         run: python scripts/download_vosk_model.py
+
+      - name: Remove Vosk model from bundle (downloaded on first run)
+        run: rm -rf models/vosk-model/
 
       - name: Build with PyInstaller
         run: |
