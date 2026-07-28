@@ -581,7 +581,7 @@
     }
 
     function osDisplayName(os) {
-      var names = { windows: 'Windows', macos: 'macOS', linux: 'Linux' };
+      var names = { windows: 'Windows', macos: 'macOS' };
       return names[os] || os;
     }
   }
