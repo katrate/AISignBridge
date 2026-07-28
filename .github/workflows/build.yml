@@ -153,8 +153,7 @@ jobs:
             "latest_version": "${{ steps.tag.outputs.tag }}",
             "download_urls": {
               "windows": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Windows.zip",
-              "macos": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-macOS.dmg",
-              "linux": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Linux.AppImage"
+              "macos": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-macOS.dmg"
             }
           }
           EOF
@@ -163,7 +162,8 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git checkout master
+          git fetch origin master
+          git switch master
           git add website/release-data.json
           git commit -m "Update release data to ${{ steps.tag.outputs.tag }} [skip ci]" || echo "No changes"
           git push
