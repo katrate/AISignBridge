@@ -62,14 +62,19 @@ class SpeechListener(QThread):
     VOSK_DOWNLOAD_URL = "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip"
     VOSK_EXTRACTED_DIR = "vosk-model-small-en-us-0.15"
 
-    def _load_model(self):
-        """Load or auto-download the Vosk speech recognition model."""
+    def _ensure_model(self):
+        """Ensure the Vosk model exists locally, downloading if needed.
+        Returns True if the model is ready, False otherwise."""
+        if os.path.exists(self.VOSK_MODEL_PATH):
+            return True
+        print(f"[SpeechListener] Vosk model not found at '{self.VOSK_MODEL_PATH}'.")
+        self.status_message.emit("Downloading Vosk speech model (~128 MB)…")
+        self._download_model()
         if not os.path.exists(self.VOSK_MODEL_PATH):
-            print(f"[SpeechListener] Vosk model not found at '{self.VOSK_MODEL_PATH}'.")
-            self._download_model()
-            if not os.path.exists(self.VOSK_MODEL_PATH):
-                print("[SpeechListener] Model download failed. Speech→Sign disabled.")
-                return
+            print("[SpeechListener] Model download failed. Speech→Sign disabled.")
+            self.status_message.emit("Vosk model download failed. Speech→Sign disabled.")
+            return False
+        return True
 
     def _download_model(self):
         """Download and extract the Vosk model on first run."""
@@ -92,17 +97,25 @@ class SpeechListener(QThread):
 
             os.remove(zip_path)
             print("[SpeechListener] Vosk model ready.")
+            self.status_message.emit("Vosk model downloaded. Loading…")
         except Exception as e:
             print(f"[SpeechListener] Download failed: {e}")
+            self.status_message.emit(f"Vosk download failed: {e}")
             if os.path.exists(zip_path):
                 os.remove(zip_path)
 
+    def _load_model(self):
+        """Load or auto-download the Vosk speech recognition model."""
+        if not self._ensure_model():
+            return
         try:
             import vosk
             self._vosk_model = vosk.Model(self.VOSK_MODEL_PATH)
             print("[SpeechListener] Vosk model loaded.")
+            self.status_message.emit("Vosk model loaded. Speech→Sign ready.")
         except Exception as e:
             print(f"[SpeechListener] Failed to load Vosk: {e}")
+            self.status_message.emit(f"Failed to load Vosk model: {e}")
 
     def _audio_callback(self, indata, frames, time, status):
         """Called by sounddevice for each audio chunk."""
@@ -113,6 +126,7 @@ class SpeechListener(QThread):
     def run(self):
         if self._vosk_model is None:
             print("[SpeechListener] No Vosk model loaded. Speech→Sign pipeline disabled.")
+            self.status_message.emit("Speech recognition unavailable (no model).")
             return
 
         self.running = True

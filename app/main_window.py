@@ -632,6 +632,7 @@ class MainWindow(QMainWindow):
         self._listener = SpeechListener()
         self._listener.set_muted(True)
         self._listener.word_recognized.connect(self._on_word_recognized)
+        self._listener.status_message.connect(self._status)
         self._listener.start()
 
     def _stop_detection(self):
