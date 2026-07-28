@@ -163,6 +163,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+          git checkout master
           git add website/release-data.json
           git commit -m "Update release data to ${{ steps.tag.outputs.tag }} [skip ci]" || echo "No changes"
           git push
