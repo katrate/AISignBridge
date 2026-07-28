@@ -21,3 +21,6 @@ models/vosk-model/
 data/combined_dataset.csv
 data/processed/
 data/voice_samples/
+
+# Vercel
+.vercel/
