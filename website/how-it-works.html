@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works — AI Sign Bridge</title>
+  <meta name="description" content="Learn how AI Sign Bridge works: from webcam capture to hand landmark detection, AI classification, and speech output.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>  <link rel="stylesheet" href="css/style.css">
+  <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
+  
+  <style>
+    .pipeline-diagram { text-align: center; margin: 60px 0; }
+    .diagram-box {
+      display: inline-block;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      width: 100%;
+      max-width: 900px;
+    }
+    .diagram-row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .diagram-node {
+      background: rgba(6, 182, 212, 0.05);
+      border: 1px solid rgba(6, 182, 212, 0.12);
+      border-radius: var(--radius-md);
+      padding: 20px 20px;
+      min-width: 120px;
+      flex: 1;
+      transition: all 0.3s ease;
+    }
+    .diagram-node:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-4px);
+      box-shadow: var(--glow-cyan);
+    }
+    .diagram-node .node-icon { font-size: 1.8rem; margin-bottom: 4px; }
+    .diagram-node .node-label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+    .diagram-node .node-detail { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+    .diagram-arrow { font-size: 1.4rem; color: var(--accent-cyan); opacity: 0.4; flex-shrink: 0; }
+    .diagram-metrics {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      margin-top: 32px; padding-top: 32px;
+      border-top: 1px solid rgba(148, 163, 184, 0.06);
+    }
+    .diagram-metric { text-align: center; }
+    .diagram-metric .metric-value {
+      font-size: 1.5rem; font-weight: 800;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .diagram-metric .metric-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+    .tech-deep-dive { margin-top: 60px; }
+    .tech-deep-dive h3 {
+      font-size: 1.3rem; font-weight: 700; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+      color: var(--accent-cyan);
+    }
+    .tech-deep-dive p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; font-size: 0.95rem; }
+    .code-block {
+      background: rgba(5, 5, 10, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.06);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      color: #8892b0;
+      margin: 16px 0;
+    }
+    .code-block .kw { color: var(--accent-cyan); }
+    .code-block .str { color: var(--accent-green); }
+    .code-block .cm { color: #556080; font-style: italic; }
+    @media (max-width: 768px) {
+      .diagram-row { flex-direction: column; }
+      .diagram-arrow { transform: rotate(90deg); }
+      .diagram-metrics { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="three-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="AI Sign Bridge" class="nav-logo-img">
+        <span>Sign Bridge</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="learn.html">Learn ASL</a></li>
+        <li><a href="tech.html">Tech</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#cta" class="nav-cta">Launch App</a></li>
+      </ul>
+      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container reveal">
+      <span class="section-badge"><span class="badge-dot"></span> Technical Deep Dive</span>
+      <div class="section-divider"></div>
+      <h1 class="section-title">How <span class="highlight">AI Sign Bridge</span> Works</h1>
+      <p class="section-desc">From a raw webcam frame to spoken words — here's exactly what happens inside the pipeline.</p>
+    </div>
+  </section>
+
+  <!-- Pipeline Diagram -->
+  <section class="page-section">
+    <div class="container">
+      <div class="pipeline-diagram reveal">
+        <div class="diagram-box">
+          <div class="diagram-row">
+            <div class="diagram-node"><div class="node-icon">📷</div><div class="node-label">Webcam Capture</div><div class="node-detail">OpenCV · 30 FPS</div></div>
+            <div class="diagram-arrow">→</div>
+            <div class="diagram-node"><div class="node-icon">✋</div><div class="node-label">Hand Landmarks</div><div class="node-detail">MediaPipe Tasks API</div></div>
+            <div class="diagram-arrow">→</div>
+            <div class="diagram-node"><div class="node-icon">📐</div><div class="node-label">Feature Extraction</div><div class="node-detail">132 engineered features</div></div>
+            <div class="diagram-arrow">→</div>
+            <div class="diagram-node"><div class="node-icon">🧠</div><div class="node-label">DNN Ensemble</div><div class="node-detail">3 models · 95%+ accuracy</div></div>
+            <div class="diagram-arrow">→</div>
+            <div class="diagram-node"><div class="node-icon">🔊</div><div class="node-label">Speech Output</div><div class="node-detail">pyttsx3 TTS</div></div>
+          </div>
+          <div class="diagram-metrics">
+            <div class="diagram-metric"><div class="metric-value">&lt;100ms</div><div class="metric-label">End-to-end latency</div></div>
+            <div class="diagram-metric"><div class="metric-value">30 FPS</div><div class="metric-label">Camera capture rate</div></div>
+            <div class="diagram-metric"><div class="metric-value">21 pts</div><div class="metric-label">Hand landmarks per frame</div></div>
+            <div class="diagram-metric"><div class="metric-value">132</div><div class="metric-label">Feature dimensions</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step-by-step details -->
+  <section class="page-section alt-bg">
+    <div class="container" style="max-width:860px;">
+      <div class="tech-deep-dive reveal">
+        <h3>📷 Step 1: Webcam Capture</h3>
+        <p>The application initializes your webcam using OpenCV at 640×480 resolution, 30 FPS. Each frame is flipped horizontally (mirror mode) for an intuitive user experience. The capture runs in a dedicated QThread to avoid blocking the UI. Frames are processed every other frame (15 FPS effective inference rate) to balance CPU usage with responsiveness.</p>
+        <div class="code-block">
+          <span class="cm"># Frame capture loop (simplified)</span><br>
+          cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)<br>
+          cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)<br>
+          cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)<br>
+          <span class="kw">while</span> running:<br>
+          &nbsp;&nbsp;ret, frame = cap.read()<br>
+          &nbsp;&nbsp;frame = cv2.flip(frame, 1)  <span class="cm"># mirror</span>
+        </div>
+      </div>
+
+      <div class="tech-deep-dive reveal reveal-delay-1">
+        <h3>✋ Step 2: Hand Landmark Detection</h3>
+        <p>MediaPipe's Tasks API (HandLandmarker) detects 21 3D landmarks on your hand in real-time. These landmarks represent key points: wrist, knuckles (MCP/PIP/DIP), and fingertips for all 5 fingers. The model returns normalized (x, y, z) coordinates for each point, where z represents depth from the camera. Only one hand is tracked per frame for performance.</p>
+        <div class="code-block">
+          <span class="cm"># MediaPipe Tasks hand landmarking</span><br>
+          landmarker = HandLandmarker.create_from_options(options)<br>
+          detection = landmarker.detect_for_video(mp_image, timestamp_ms)<br>
+          <span class="kw">for</span> hand_landmarks <span class="kw">in</span> detection.hand_landmarks:<br>
+          &nbsp;&nbsp;<span class="cm"># 21 landmarks with .x, .y, .z (normalized)</span><br>
+          &nbsp;&nbsp;draw_landmarks(frame, hand_landmarks)
+        </div>
+      </div>
+
+      <div class="tech-deep-dive reveal reveal-delay-2">
+        <h3>📐 Step 3: Feature Engineering</h3>
+        <p>The raw 63 values (21×3) go through sophisticated feature engineering in <code>feature_extraction.py</code>. This produces 132 features:</p>
+        <p><strong>• 42 normalized XY coordinates</strong> — bounding-box normalized for scale invariance<br>
+        <strong>• 21 normalized Z coordinates</strong> — depth values centered on the wrist<br>
+        <strong>• 69 engineered geometric features</strong> — finger extension ratios, tip-to-tip distances, joint angles (PIP/DIP bending), palm geometry, cross-finger distances, and more</p>
+        <p>Using the same feature extraction code in both training and inference prevents the classic train/inference feature mismatch bug.</p>
+      </div>
+
+      <div class="tech-deep-dive reveal reveal-delay-3">
+        <h3>🧠 Step 4: Deep Neural Network Ensemble</h3>
+        <p>Three independently trained DNNs each classify the sign. Each network uses a residual MLP architecture:</p>
+        <p><strong>Input (132)</strong> → Dense(512) → BN → ReLU → Drop → <strong>ResBlock(512)</strong> → ResBlock(256) → ResBlock(256) → ResBlock(128) → ResBlock(128) → ResBlock(64) → Dense(64) → <strong>Output (37 classes)</strong></p>
+        <p>Training uses <strong>focal loss</strong> (γ=2.0) to focus on hard examples, <strong>class weights</strong> to balance rare signs, <strong>on-the-fly augmentation</strong> (noise + masking + scaling), and <strong>cosine learning rate decay</strong> with warmup. At inference, <strong>test-time augmentation (TTA)</strong> averages predictions across 20 noise-injected variants for maximum robustness.</p>
+        <div class="code-block">
+          <span class="cm"># Ensemble prediction with TTA</span><br>
+          <span class="kw">def</span> predict(features):<br>
+          &nbsp;&nbsp;probas = []<br>
+          &nbsp;&nbsp;<span class="kw">for</span> model <span class="kw">in</span> ensemble:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tta_probas = []<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> _ <span class="kw">in</span> range(20):  <span class="cm"># TTA rounds</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aug = apply_augmentation(features)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tta_probas.append(model(aug))<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;probas.append(mean(tta_probas))<br>
+          &nbsp;&nbsp;<span class="kw">return</span> mean(probas)  <span class="cm"># ensemble average</span>
+        </div>
+      </div>
+
+      <div class="tech-deep-dive reveal reveal-delay-4">
+        <h3>🔊 Step 5: Temporal Smoothing & Speech</h3>
+        <p>Raw predictions are smoothed with an <strong>Exponential Moving Average (EMA)</strong> (α=0.6) over the full probability vector to prevent flickering between similar signs (e.g., R vs U). A cooldown system prevents duplicate emissions within 5 frames. The system only emits when confidence exceeds a threshold (50% for new signs, 45% for repeats).</p>
+        <p>Finally, pyttsx3 speaks the recognized sign in a background thread. Multiple detections are accumulated into natural phrases (up to 3 words) before being spoken, creating a fluid conversational rhythm.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Pipeline -->
+  <section class="page-section">
+    <div class="container" style="max-width:860px;">
+      <div class="reveal" style="text-align:center;margin-bottom:48px;">
+        <span class="section-badge"><span class="badge-dot"></span> Training Pipeline</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">How the <span class="highlight">Model</span> Was Trained</h2>
+      </div>
+      <div class="steps-grid" style="margin-top:0;">
+        <div class="step reveal reveal-delay-1">
+          <div class="step-number">1</div>
+          <span class="step-icon">📥</span>
+          <h3>Data Collection</h3>
+          <p>17,495 samples collected from the Kaggle ASL alphabet dataset (A-Z, 0-9). Raw images processed through MediaPipe for landmark extraction.</p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-number">2</div>
+          <span class="step-icon">🔄</span>
+          <h3>Augmentation</h3>
+          <p>Train-only augmentation: mirroring, rotation (±30°), scaling (±15%), aspect stretch, Gaussian jitter. Val/test sets kept clean for honest evaluation.</p>
+        </div>
+        <div class="step reveal reveal-delay-3">
+          <div class="step-number">3</div>
+          <span class="step-icon">⚖️</span>
+          <h3>Balancing</h3>
+          <p>Each class balanced to 1,200 training samples via targeted augmentation. Class weights applied during training for remaining imbalance.</p>
+        </div>
+        <div class="step reveal reveal-delay-4">
+          <div class="step-number">4</div>
+          <span class="step-icon">🧪</span>
+          <h3>Training</h3>
+          <p>3 DNNs trained independently with different seeds. Focal loss, cosine decay, early stopping. Best model achieves 95%+ test accuracy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><span>AI Sign Bridge</span></div>
+      <div class="footer-divider"></div>
+      <p>Making sign language accessible to everyone through the power of AI.</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="learn.html">Learn ASL</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tech.html">Tech</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

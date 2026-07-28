@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Sign Bridge — Real-Time Sign Language Translation</title>
+  <meta name="description" content="Real-time ASL-to-speech translation using AI. Break communication barriers with our advanced hand gesture recognition system.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
+</head>
+<body>
+  <canvas id="three-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="AI Sign Bridge" class="nav-logo-img">
+        <span>Sign Bridge</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="learn.html">Learn ASL</a></li>
+        <li><a href="tech.html">Tech</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#cta" class="nav-cta">Launch App</a></li>
+      </ul>
+      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-badge"><span class="hero-dot"></span> Real-time · Offline · Open Source</div>
+          <h1>Sign Language<br><span class="gradient-text">Translated Instantly</span></h1>
+          <p>AI Sign Bridge translates American Sign Language to speech in real time using an ensemble of deep neural networks. Point your webcam at any ASL hand sign — we'll recognize it and speak it aloud.</p>
+          <div class="hero-actions">
+            <a href="#cta" class="btn-primary">Launch the App <span class="arrow">→</span></a>
+            <a href="how-it-works.html" class="btn-secondary">How It Works</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><h3><span class="counter" data-target="37">37</span></h3><p>Signs Recognized</p></div>
+            <div class="hero-stat"><h3><span class="counter" data-target="95">95</span>%</h3><p>Accuracy Rate</p></div>
+            <div class="hero-stat"><h3>&lt;100ms</h3><p>Latency</p></div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-visual-placeholder" id="heroVisual">
+            <div class="scan-line"></div>
+            <div class="corner-decoration tl"></div>
+            <div class="corner-decoration tr"></div>
+            <div class="corner-decoration bl"></div>
+            <div class="corner-decoration br"></div>
+            <div class="hero-hand-bg">🤟</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="page-section" id="features">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px;" class="reveal">
+        <span class="section-badge"><span class="badge-dot"></span> Features</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">Everything You Need for <span class="highlight">Seamless Communication</span></h2>
+        <p class="section-desc" style="margin:0 auto;">From real-time detection to speech synthesis, every component is built for speed, accuracy, and accessibility.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-number">01</div>
+          <div class="icon-wrapper"><i data-feather="camera" style="width:22px;height:22px;"></i></div>
+          <h3>Live Webcam Detection</h3>
+          <p>Real-time hand tracking using MediaPipe's advanced landmark detection — 21 points per hand, 30+ frames per second.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-number">02</div>
+          <div class="icon-wrapper"><i data-feather="cpu" style="width:22px;height:22px;"></i></div>
+          <h3>Deep Learning Engine</h3>
+          <p>Ensemble of deep neural networks with residual connections, focal loss training, and test-time augmentation for 95%+ accuracy.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-number">03</div>
+          <div class="icon-wrapper"><i data-feather="volume-2" style="width:22px;height:22px;"></i></div>
+          <h3>Text-to-Speech Output</h3>
+          <p>Automatic speech synthesis that speaks every recognized sign aloud. Queued phrase system for natural, flowing conversation.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-number">04</div>
+          <div class="icon-wrapper"><i data-feather="refresh-cw" style="width:22px;height:22px;"></i></div>
+          <h3>Bidirectional Translation</h3>
+          <p>Say a letter or number, and see the corresponding ASL sign displayed visually — true bidirectional communication.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-number">05</div>
+          <div class="icon-wrapper"><i data-feather="lock" style="width:22px;height:22px;"></i></div>
+          <h3>100% Offline & Private</h3>
+          <p>All processing happens locally. No internet needed — your privacy is guaranteed. Every component runs on your machine.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-number">06</div>
+          <div class="icon-wrapper"><i data-feather="zap" style="width:22px;height:22px;"></i></div>
+          <h3>Real-Time Performance</h3>
+          <p>Optimized for CPU inference with every-other-frame prediction, EMA temporal smoothing, and cooldown-based emission.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:40px;" class="reveal">
+        <a href="features.html" class="btn-secondary">View All Features →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Preview -->
+  <section class="page-section alt-bg" id="how-it-works">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px;" class="reveal">
+        <span class="section-badge"><span class="badge-dot"></span> How It Works</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">From <span class="highlight">Gesture</span> to Speech in 4 Steps</h2>
+        <p class="section-desc" style="margin:0 auto;">The entire pipeline is designed for minimal latency while maintaining maximum accuracy.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step reveal reveal-delay-1">
+          <div class="step-number">1</div>
+          <span class="step-icon"><i data-feather="camera" style="width:24px;height:24px;"></i></span>
+          <h3>Camera Capture</h3>
+          <p>Webcam captures your hand sign at 30 FPS. OpenCV processes each frame for landmark detection.</p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-number">2</div>
+          <span class="step-icon"><i data-feather="hand" style="width:24px;height:24px;"></i></span>
+          <h3>Hand Landmarks</h3>
+          <p>MediaPipe Tasks API detects 21 precise 3D hand landmarks — positions, angles, and distances.</p>
+        </div>
+        <div class="step reveal reveal-delay-3">
+          <div class="step-number">3</div>
+          <span class="step-icon"><i data-feather="cpu" style="width:24px;height:24px;"></i></span>
+          <h3>AI Classification</h3>
+          <p>A deep neural network ensemble (3 models, 500K+ parameters each) classifies the sign with 95%+ accuracy.</p>
+        </div>
+        <div class="step reveal reveal-delay-4">
+          <div class="step-number">4</div>
+          <span class="step-icon"><i data-feather="volume-2" style="width:24px;height:24px;"></i></span>
+          <h3>Speech Output</h3>
+          <p>Offline TTS speaks the recognized sign aloud. Temporal smoothing prevents flickering between similar signs.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:40px;" class="reveal">
+        <a href="how-it-works.html" class="btn-secondary">See Detailed Pipeline →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Competition Context -->
+  <section class="page-section" id="competition">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px;" class="reveal">
+        <span class="section-badge"><span class="badge-dot"></span> The Vision</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">Built for <span class="highlight">Impact</span></h2>
+        <p class="section-desc" style="margin:0 auto;">A prototype born from a vision to bridge communication gaps through design thinking and AI-driven innovation.</p>
+      </div>
+      <div style="max-width:800px;margin:0 auto;" class="reveal">
+        <div class="event-badge" style="margin:0 auto 32px;">
+          <span class="event-icon">🏆</span>
+          <span>Innovation Challenge prototype showcasing <strong>AI & IoT applications</strong> for social impact — designed to solve real-world communication barriers through research-driven solutions.</span>
+        </div>
+      </div>
+      <div class="about-grid" style="margin-top:24px;">
+        <div class="about-text reveal-left">
+          <h2>Why This <span class="highlight">Matters</span></h2>
+          <p>Over 70 million deaf people worldwide use sign language as their primary means of communication. Yet most hearing people don't know sign language, creating barriers in everyday situations — at schools, hospitals, banks, and workplaces.</p>
+          <p>AI Sign Bridge was created to bridge this gap using cutting-edge AI. By translating American Sign Language fingerspelling into speech in real time, we enable natural conversation without requiring an interpreter.</p>
+          <p>This prototype was developed for an inter-school Innovation Challenge &mdash; a prototype building competition focused on <strong>advanced problem-solving</strong>, <strong>design thinking</strong>, and <strong>research-driven solutions</strong>. Participants presented their models with live demonstrations, supported by laptops and charts, with electricity provided at each station. The project aligns with the challenge themes of <strong>AI & IoT applications</strong>, <strong>sustainable technology</strong>, and <strong>social impact projects</strong> &mdash; addressing a real communication barrier faced by millions worldwide.</p>
+          <p>The system recognizes 37 distinct signs (A-Z, 0-9) with over 95% accuracy, running entirely offline on a standard laptop &mdash; exactly the kind of practical, scalable solution the competition sought to encourage.</p>
+        </div>
+        <div class="about-visual reveal-right">
+          <div class="about-logo">
+            <div class="glow-ring"></div>
+            <img src="logo.png" alt="AI Sign Bridge Logo">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scaling the Future -->
+  <section class="page-section alt-bg" id="scale">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px;" class="reveal">
+        <span class="section-badge"><span class="badge-dot"></span> The Road Ahead</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">Scaling the <span class="highlight">Future</span></h2>
+        <p class="section-desc" style="margin:0 auto;">From a prototype to a platform — exploring how AI Sign Bridge can grow to bridge communication gaps at scale.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-number">01</div>
+          <div class="icon-wrapper"><i data-feather="book-open" style="width:22px;height:22px;"></i></div>
+          <h3>Full Vocabulary Expansion</h3>
+          <p>From 37 fingerspelling signs to 1,000+ ASL words, including dynamic signs (J, Z) and phrase-level translation using transformer-based sequence models for natural, flowing conversation.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-number">02</div>
+          <div class="icon-wrapper"><i data-feather="globe" style="width:22px;height:22px;"></i></div>
+          <h3>Browser Deployment</h3>
+          <p>Converting the model to ONNX format for in-browser inference. Zero install — just open a URL and start signing. Ideal for schools, hospitals, and public kiosks where installation isn't practical.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-number">03</div>
+          <div class="icon-wrapper"><i data-feather="smartphone" style="width:22px;height:22px;"></i></div>
+          <h3>Mobile Application</h3>
+          <p>Native iOS and Android apps with TensorFlow Lite or CoreML for on-device inference. Real-time sign language translation in your pocket, anywhere, anytime — no internet required.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-number">04</div>
+          <div class="icon-wrapper"><i data-feather="database" style="width:22px;height:22px;"></i></div>
+          <h3>Community Dataset</h3>
+          <p>Open-source dataset contribution platform allowing users to record and contribute sign variations. Scales coverage across dialects, skin tones, lighting conditions, and signing styles.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-number">05</div>
+          <div class="icon-wrapper"><i data-feather="building" style="width:22px;height:22px;"></i></div>
+          <h3>Enterprise Deployment</h3>
+          <p>Dedicated translation kiosks for hospitals, airports, banks, and schools. Multi-language sign support (ASL, ISL, BSL) with customizable vocabulary and accessibility compliance.</p>
+        </div>
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-number">06</div>
+          <div class="icon-wrapper"><i data-feather="users" style="width:22px;height:22px;"></i></div>
+          <h3>Real-Time Conversation</h3>
+          <p>Bidirectional translation combining speech recognition for hearing users with sign-to-text/speech for deaf users. Natural, flowing conversation without barriers — the ultimate goal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="page-section" id="cta">
+    <div class="container">
+      <div class="cta-card reveal">
+        <h2>Ready to Break Communication Barriers?</h2>
+        <p>Download AI Sign Bridge and start translating sign language to speech in minutes. It's free, open source, and works 100% offline.</p>
+        <a href="#" class="btn-primary" id="launchBtn">⬇️ Download & Launch <span class="arrow">→</span></a>
+        <p class="subnote">Free · Open Source · No account needed · Windows, macOS & Linux</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><span>AI Sign Bridge</span></div>
+      <div class="footer-divider"></div>
+      <p>Making sign language accessible to everyone through the power of AI.</p>
+      <ul class="footer-links">
+        <li><a href="about.html">About</a></li>
+        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="learn.html">Learn ASL</a></li>
+        <li><a href="tech.html">Tech</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

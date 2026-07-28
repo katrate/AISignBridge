@@ -6,3 +6,13 @@ __pycache__/
 *.py[cod]
 Thumbs.db
 .DS_Store
+
+# Large downloaded models (run scripts/download_vosk_model.py to get these)
+models/vosk-model/
+
+# Freebuff autosave
+.freebuff/
+
+# Root-level files are duplicated in website/
+/index.html
+/logo.png

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn ASL — AI Sign Bridge</title>
+  <meta name="description" content="Learn American Sign Language fingerspelling — type any word and see the corresponding ASL hand signs.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
+  <style>
+    .learn-hero {
+      text-align: center;
+      padding: 140px 0 40px;
+    }
+    .learn-hero p {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── Input Card ── */
+    .input-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      transition: all var(--transition-smooth);
+    }
+    .input-card:hover {
+      border-color: var(--glass-border-hover);
+    }
+    .input-card label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .input-row {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+    }
+    .input-row input {
+      flex: 1;
+      padding: 16px 20px;
+      background: rgba(6, 6, 14, 0.6);
+      border: 1px solid rgba(180, 170, 200, 0.1);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 1.15rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.3s ease;
+      letter-spacing: 2px;
+    }
+    .input-row input::placeholder {
+      color: var(--text-muted);
+      letter-spacing: 0px;
+      font-weight: 400;
+    }
+    .input-row input:focus {
+      border-color: var(--accent-iris);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.08);
+    }
+    .input-row .btn-clear {
+      padding: 16px 24px;
+      background: rgba(180, 170, 200, 0.04);
+      border: 1px solid rgba(180, 170, 200, 0.1);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .input-row .btn-clear:hover {
+      border-color: var(--accent-iris);
+      color: var(--text-primary);
+      background: rgba(99, 102, 241, 0.06);
+    }
+    .input-hint {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .input-hint .char-count {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-secondary);
+    }
+    .input-hint .char-count span {
+      color: var(--accent-iris);
+      font-weight: 600;
+    }
+
+    /* ── Sign Display ── */
+    .sign-display {
+      max-width: 860px;
+      margin: 36px auto 0;
+      min-height: 200px;
+    }
+    .sign-display-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .sign-display-empty .empty-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+    .sign-display-empty p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .sign-display-empty .empty-hint {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    /* ── Sign Strip ── */
+    .sign-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      padding: 8px 0;
+    }
+    .sign-strip .sign-tile {
+      width: 120px;
+      text-align: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 12px 10px 14px;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      animation: tile-in 0.35s ease both;
+    }
+    .sign-strip .sign-tile:hover {
+      border-color: var(--glass-border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3), var(--glow-iris);
+    }
+    .sign-strip .sign-tile .tile-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 8px;
+      background: rgba(6, 6, 14, 0.5);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .sign-strip .sign-tile .tile-img.load-error {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--text-muted);
+    }
+    .sign-strip .sign-tile .tile-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+    }
+    .sign-strip .sign-tile .tile-label .highlight-char {
+      color: var(--accent-iris);
+    }
+
+    /* ── Space Tile (gap) ── */
+    .sign-strip .space-tile {
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      opacity: 0.3;
+      animation: tile-in 0.35s ease both;
+    }
+
+    /* ── Quick Examples ── */
+    .examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 28px auto 0;
+      max-width: 700px;
+    }
+    .examples .example-chip {
+      padding: 6px 16px;
+      background: rgba(99, 102, 241, 0.06);
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      border-radius: 50px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      font-weight: 500;
+    }
+    .examples .example-chip:hover {
+      border-color: var(--accent-iris);
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+    }
+
+    @keyframes tile-in {
+      0% { opacity: 0; transform: translateY(16px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── 3D Gallery ── */
+    .gallery-scene-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 420px;
+      margin: 0 auto;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+    }
+    .gallery-scene-wrapper canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 600px) {
+      .sign-strip .sign-tile { width: 80px; padding: 8px 6px 10px; }
+      .sign-strip .space-tile { width: 24px; font-size: 1rem; }
+      .input-row { flex-direction: column; }
+      .input-row .btn-clear { padding: 12px; }
+      .input-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="three-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="AI Sign Bridge" class="nav-logo-img">
+        <span>Sign Bridge</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="learn.html" class="active">Learn ASL</a></li>
+        <li><a href="tech.html">Tech</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#cta" class="nav-cta">Launch App</a></li>
+      </ul>
+      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="learn-hero">
+    <div class="container reveal">
+      <span class="section-badge"><span class="badge-dot"></span> Learn ASL</span>
+      <div class="section-divider"></div>
+      <h1 class="section-title">Learn <span class="highlight">Fingerspelling</span></h1>
+      <p class="section-desc">Type any word, name, or phrase and see the corresponding American Sign Language hand signs for each letter. Perfect for beginners learning the ASL alphabet.</p>
+    </div>
+  </section>
+
+  <!-- Input Section -->
+  <section class="page-section" style="padding-top:0;">
+    <div class="container">
+      <div class="input-card reveal" id="inputCard">
+        <label for="textInput">✋ Type something to fingerspell</label>
+        <div class="input-row">
+          <input type="text" id="textInput" placeholder="e.g. HELLO" maxlength="30" autofocus spellcheck="false">
+          <button class="btn-clear" id="clearBtn" title="Clear">✕</button>
+        </div>
+        <div class="input-hint">
+          <span>Letters A–Z and digits 0–9 supported · Spaces create gaps</span>
+          <span class="char-count"><span id="charCount">0</span> / 30</span>
+        </div>
+      </div>
+
+      <!-- Sign Display -->
+      <div class="sign-display reveal" id="signDisplay">
+        <div class="sign-display-empty" id="emptyState">
+          <div class="empty-icon">🖐️</div>
+          <p>Type a word above to see its ASL fingerspelling</p>
+          <p class="empty-hint">Each letter shows the corresponding hand sign image</p>
+        </div>
+        <div class="sign-strip" id="signStrip" style="display:none;"></div>
+      </div>
+
+      <!-- Quick Examples -->
+      <div class="examples reveal">
+        <button class="example-chip" data-text="HELLO">Hello</button>
+        <button class="example-chip" data-text="ASL">ASL</button>
+        <button class="example-chip" data-text="SIGN">Sign</button>
+        <button class="example-chip" data-text="LEARN">Learn</button>
+        <button class="example-chip" data-text="AI">AI</button>
+        <button class="example-chip" data-text="HI">Hi</button>
+        <button class="example-chip" data-text="123">123</button>
+        <button class="example-chip" data-text="HELLO WORLD">Hello World</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D Sign Gallery -->
+  <section class="page-section" id="gallerySection" style="padding-top:20px;">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:24px;" class="reveal">
+        <span class="section-badge"><span class="badge-dot"></span> 3D Gallery</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">Signs in <span class="highlight">Space</span></h2>
+        <p class="section-desc" style="margin:0 auto;">Watch ASL hand sign images orbit in a rotating 3D gallery — A, B, C, L, Y.</p>
+      </div>
+    </div>
+    <div class="gallery-scene-wrapper">
+      <canvas id="gallery-canvas"></canvas>
+    </div>
+  </section>
+
+  <!-- How to Use -->
+  <section class="page-section alt-bg">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:48px;" class="reveal">
+        <span class="section-badge"><span class="badge-dot"></span> Tips</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">Learning <span class="highlight">Fingerspelling</span></h2>
+      </div>
+      <div class="values-grid" style="max-width:800px;margin:0 auto;">
+        <div class="value-card reveal reveal-delay-1">
+          <span class="v-icon">✍️</span>
+          <h3>Practice Daily</h3>
+          <p>Start with your name, then move to common words. Try spelling everything you see for 5 minutes a day.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-2">
+          <span class="v-icon">👀</span>
+          <h3>Watch the Shape</h3>
+          <p>Pay attention to hand shape, finger position, and palm orientation — each sign has a unique form.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-3">
+          <span class="v-icon">🔤</span>
+          <h3>Start Simple</h3>
+          <p>Begin with letters that use distinct hand shapes (A, B, C, L, Y) before moving to similar ones (M, N, T).</p>
+        </div>
+        <div class="value-card reveal reveal-delay-1">
+          <span class="v-icon">🔄</span>
+          <h3>Use Repetition</h3>
+          <p>Type the same word multiple times until the sequence feels natural. Muscle memory builds with repetition.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-2">
+          <span class="v-icon">🤟</span>
+          <h3>Full ASL vs Fingerspelling</h3>
+          <p>Fingerspelling spells words letter-by-letter. It's used for names, places, and when you don't know the sign.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-3">
+          <span class="v-icon">📱</span>
+          <h3>Practice Anywhere</h3>
+          <p>Use this page on your phone too! Type words throughout the day to build vocabulary quickly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><span>AI Sign Bridge</span></div>
+      <div class="footer-divider"></div>
+      <p>Making sign language accessible to everyone through the power of AI.</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="tech.html">Tech</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      var input = document.getElementById('textInput');
+      var clearBtn = document.getElementById('clearBtn');
+      var signStrip = document.getElementById('signStrip');
+      var emptyState = document.getElementById('emptyState');
+      var charCount = document.getElementById('charCount');
+
+      // Map chars to sign image paths
+      function charToImage(c) {
+        var upper = c.toUpperCase();
+        if (upper >= 'A' && upper <= 'Z') return 'signs/' + upper + '.jpg';
+        if (upper >= '0' && upper <= '9') return 'signs/' + upper + '.jpg';
+        return null;
+      }
+
+      function isSupported(c) {
+        var upper = c.toUpperCase();
+        return (upper >= 'A' && upper <= 'Z') || (upper >= '0' && upper <= '9');
+      }
+
+      function buildDisplay(text) {
+        // Remove unsupported chars, but keep spaces
+        var chars = [];
+        for (var i = 0; i < text.length; i++) {
+          var c = text[i];
+          if (c === ' ' || isSupported(c)) {
+            chars.push(c.toUpperCase());
+          }
+        }
+
+        charCount.textContent = text.length;
+
+        if (chars.length === 0) {
+          signStrip.style.display = 'none';
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        emptyState.style.display = 'none';
+        signStrip.style.display = 'flex';
+        signStrip.innerHTML = '';
+
+        chars.forEach(function(c, idx) {
+          if (c === ' ') {
+            var spaceDiv = document.createElement('div');
+            spaceDiv.className = 'space-tile';
+            spaceDiv.textContent = '⸻';
+            spaceDiv.style.animationDelay = (idx * 0.04) + 's';
+            signStrip.appendChild(spaceDiv);
+            return;
+          }
+
+          var tile = document.createElement('div');
+          tile.className = 'sign-tile';
+          tile.style.animationDelay = (idx * 0.04) + 's';
+
+          var img = document.createElement('img');
+          img.className = 'tile-img';
+          img.src = charToImage(c);
+          img.alt = 'ASL sign for ' + c;
+          img.loading = 'lazy';
+
+          // Handle load errors
+          img.onerror = function() {
+            this.style.display = 'none';
+            var fallback = document.createElement('div');
+            fallback.className = 'tile-img load-error';
+            fallback.textContent = '🖐️';
+            tile.insertBefore(fallback, tile.firstChild);
+          };
+
+          var label = document.createElement('div');
+          label.className = 'tile-label';
+          label.innerHTML = '<span class="highlight-char">' + c + '</span>';
+
+          tile.appendChild(img);
+          tile.appendChild(label);
+          signStrip.appendChild(tile);
+        });
+      }
+
+      // Input handler
+      input.addEventListener('input', function() {
+        buildDisplay(this.value);
+      });
+
+      // Clear button
+      clearBtn.addEventListener('click', function() {
+        input.value = '';
+        input.focus();
+        buildDisplay('');
+      });
+
+      // Example chips
+      document.querySelectorAll('.example-chip').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+          input.value = this.getAttribute('data-text');
+          buildDisplay(input.value);
+          input.focus();
+        });
+      });
+
+      // Start with empty state
+      buildDisplay('');
+
+      console.log('ASL Learning page ready!');
+    })();
+  </script>
+
+  <!-- 3D Sign Gallery (separate Three.js scene) -->
+  <script>
+    (function() {
+      'use strict';
+
+      if (typeof THREE === 'undefined') return;
+
+      var canvas = document.getElementById('gallery-canvas');
+      if (!canvas) return;
+
+      var container = canvas.parentElement;
+
+      // ── Renderer (dedicated, transparent background) ──
+      var renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true,
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x000000, 0);
+
+      function resizeRenderer() {
+        var w = container.clientWidth;
+        var h = container.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+
+      // ── Scene ──
+      var scene = new THREE.Scene();
+
+      // ── Camera ──
+      var camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+      camera.position.set(0, 1.2, 6.5);
+      camera.lookAt(0, 0, 0);
+
+      resizeRenderer();
+
+      // ── Sign Image Textures ──
+      var letters = ['A', 'B', 'C', 'L', 'Y'];
+      var textures = [];
+      var loader = new THREE.TextureLoader();
+
+      letters.forEach(function(ltr) {
+        var tex = loader.load('signs/' + ltr + '.jpg');
+        tex.colorSpace = THREE.SRGBColorSpace;
+        textures.push(tex);
+      });
+
+      // ── Gallery Group ──
+      var galleryGroup = new THREE.Group();
+      scene.add(galleryGroup);
+
+      var radius = 2.2;
+      var planeW = 1.6;
+      var planeH = 1.6;
+
+      textures.forEach(function(tex, i) {
+        var angle = (i / textures.length) * Math.PI * 2;
+        var x = Math.sin(angle) * radius;
+        var z = Math.cos(angle) * radius;
+
+        var mat = new THREE.MeshBasicMaterial({
+          map: tex,
+          transparent: true,
+          opacity: 0.0,
+          side: THREE.DoubleSide,
+          depthWrite: false,
+        });
+
+        var geo = new THREE.PlaneGeometry(planeW, planeH);
+        var mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(x, 0, z);
+        mesh.lookAt(0, 0, 0);
+        mesh.userData = { targetOpacity: 0.92, delay: i * 0.15 };
+
+        // ── Border glow ring behind each card ──
+        var ringMat = new THREE.MeshBasicMaterial({
+          color: 0x6366f1,
+          transparent: true,
+          opacity: 0.0,
+          side: THREE.DoubleSide,
+        });
+        var ringGeo = new THREE.RingGeometry(planeW * 0.5 + 0.04, planeW * 0.5 + 0.08, 32);
+        var ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.position.copy(mesh.position);
+        ring.lookAt(0, 0, 0);
+        ring.userData = { targetOpacity: 0.18, delay: i * 0.15 + 0.1 };
+
+        galleryGroup.add(mesh);
+        galleryGroup.add(ring);
+      });
+
+      // ── Orbiting Particles ──
+      var particleCount = 120;
+      var partGeo = new THREE.BufferGeometry();
+      var partPos = new Float32Array(particleCount * 3);
+      var partSizes = new Float32Array(particleCount);
+
+      for (var i = 0; i < particleCount; i++) {
+        var theta = Math.random() * Math.PI * 2;
+        var r = 1.8 + Math.random() * 1.8;
+        var yOffset = (Math.random() - 0.5) * 2.5;
+        partPos[i * 3] = Math.cos(theta) * r;
+        partPos[i * 3 + 1] = yOffset;
+        partPos[i * 3 + 2] = Math.sin(theta) * r;
+        partSizes[i] = 0.012 + Math.random() * 0.025;
+      }
+
+      partGeo.setAttribute('position', new THREE.BufferAttribute(partPos, 3));
+      partGeo.setAttribute('size', new THREE.BufferAttribute(partSizes, 1));
+
+      var partMat = new THREE.PointsMaterial({
+        color: 0xf43f5e,
+        size: 0.02,
+        transparent: true,
+        opacity: 0.35,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+        depthWrite: false,
+      });
+      var particles = new THREE.Points(partGeo, partMat);
+      galleryGroup.add(particles);
+
+      // ── Background Glow Ring ──
+      var glowRingMat = new THREE.MeshBasicMaterial({
+        color: 0x6366f1,
+        transparent: true,
+        opacity: 0.07,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
+      var glowRingGeo = new THREE.RingGeometry(1.2, 1.35, 48);
+      var glowRing = new THREE.Mesh(glowRingGeo, glowRingMat);
+      glowRing.position.set(0, 0, -0.5);
+      galleryGroup.add(glowRing);
+
+      var glowRing2Mat = new THREE.MeshBasicMaterial({
+        color: 0xf59e0b,
+        transparent: true,
+        opacity: 0.05,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
+      var glowRing2 = new THREE.Mesh(glowRingGeo.clone(), glowRing2Mat);
+      glowRing2.position.set(0, 0, 0.5);
+      galleryGroup.add(glowRing2);
+
+      // ── Animation ──
+      var clock = new THREE.Clock();
+      var elapsed = 0;
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        var dt = clock.getDelta();
+        elapsed += dt;
+
+        // Rotate the whole gallery
+        galleryGroup.rotation.y += dt * 0.25;
+
+        // Gentle bob
+        galleryGroup.position.y = Math.sin(elapsed * 0.3) * 0.08;
+
+        // Fade-in for textures and rings
+        galleryGroup.children.forEach(function(child) {
+          if (child.userData && child.userData.targetOpacity != null) {
+            if (elapsed > child.userData.delay) {
+              var target = child.userData.targetOpacity;
+              child.material.opacity += (target - child.material.opacity) * 0.04;
+            }
+          }
+        });
+
+        // Pulse glow rings
+        glowRing.material.opacity = 0.06 + 0.03 * Math.sin(elapsed * 0.6);
+        glowRing.scale.setScalar(1 + 0.04 * Math.sin(elapsed * 0.5));
+        glowRing2.material.opacity = 0.04 + 0.025 * Math.sin(elapsed * 0.5 + 1);
+        glowRing2.scale.setScalar(1 + 0.03 * Math.sin(elapsed * 0.4 + 1));
+
+        // Rotate particles slowly
+        particles.rotation.y += dt * 0.08;
+        particles.rotation.x += dt * 0.02;
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // ── Resize ──
+      window.addEventListener('resize', resizeRenderer);
+
+      console.log('3D Sign Gallery initialized!');
+    })();
+  </script>
+</body>
+</html>

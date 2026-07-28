@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technology — AI Sign Bridge</title>
+  <meta name="description" content="Technology stack behind AI Sign Bridge: TensorFlow, MediaPipe, OpenCV, pyttsx3, Vosk, PyQt6 and more.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>  <link rel="stylesheet" href="css/style.css">
+  <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
+  
+  <style>
+    .tech-hero-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+    .stack-list { display: flex; flex-direction: column; gap: 14px; }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+      font-size: 0.9rem;
+    }
+    .comparison-table th {
+      background: var(--glass-bg);
+      font-weight: 700;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .comparison-table tr:hover td { background: rgba(6, 182, 212, 0.02); }
+    .comparison-table .check { color: var(--accent-green); }
+    .comparison-table .cross { color: #ff5f57; }
+    @media (max-width: 900px) { .tech-hero-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <canvas id="three-canvas"></canvas>
+  <div id="scroll-progress"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="AI Sign Bridge" class="nav-logo-img">
+        <span>Sign Bridge</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="learn.html">Learn ASL</a></li>
+        <li><a href="tech.html">Tech</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#cta" class="nav-cta">Launch App</a></li>
+      </ul>
+      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container reveal">
+      <span class="section-badge"><span class="badge-dot"></span> Technology</span>
+      <div class="section-divider"></div>
+      <h1 class="section-title">Built with <span class="highlight">Modern AI</span> Stack</h1>
+      <p class="section-desc">Every component carefully chosen for the perfect balance of performance, accuracy, and developer experience.</p>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="page-section">
+    <div class="container">
+      <div class="tech-hero-grid">
+        <div class="reveal">
+          <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:16px;">The <span class="highlight">Full Stack</span></h2>
+          <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:24px;">
+            AI Sign Bridge combines 8 major open-source libraries into a cohesive pipeline.
+            From computer vision to deep learning to speech synthesis, each component
+            plays a critical role in delivering real-time sign language translation.
+          </p>
+          <div class="tech-cloud" style="justify-content:flex-start;">
+            <span class="tech-item">🐍 Python 3.13</span>
+            <span class="tech-item">🧠 TensorFlow 2.21</span>
+            <span class="tech-item">✋ MediaPipe</span>
+            <span class="tech-item">📷 OpenCV</span>
+            <span class="tech-item">📊 scikit-learn</span>
+            <span class="tech-item">⚛️ PyQt6</span>
+            <span class="tech-item">🔊 pyttsx3</span>
+            <span class="tech-item">🎤 Vosk</span>
+            <span class="tech-item">📈 NumPy</span>
+            <span class="tech-item">🐼 Pandas</span>
+            <span class="tech-item">🔄 joblib</span>
+          </div>
+        </div>
+
+        <!-- Stats card -->
+        <div class="reveal reveal-delay-1">
+          <div class="glass-card" style="padding:32px;">
+            <div style="margin-bottom:24px;">
+              <div style="font-size:3rem;font-weight:900;background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">11</div>
+              <div style="font-size:0.9rem;color:var(--text-secondary);">Core Dependencies</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div><div style="font-size:1.5rem;font-weight:800;color:var(--accent-cyan);">500K+</div><div style="font-size:0.75rem;color:var(--text-muted);">Model Parameters</div></div>
+              <div><div style="font-size:1.5rem;font-weight:800;color:var(--accent-cyan);">45K</div><div style="font-size:0.75rem;color:var(--text-muted);">Training Samples</div></div>
+              <div><div style="font-size:1.5rem;font-weight:800;color:var(--accent-cyan);">132</div><div style="font-size:0.75rem;color:var(--text-muted);">Feature Dimensions</div></div>
+              <div><div style="font-size:1.5rem;font-weight:800;color:var(--accent-cyan);">3</div><div style="font-size:0.75rem;color:var(--text-muted);">Ensemble Models</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Stack Items -->
+  <section class="page-section alt-bg">
+    <div class="container" style="max-width:860px;">
+      <div style="text-align:center;margin-bottom:48px;" class="reveal">
+        <span class="section-badge"><span class="badge-dot"></span> Deep Dive</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">Every <span class="highlight">Component</span> Explained</h2>
+      </div>
+      <div class="stack-list">
+        <div class="stack-item reveal"><span class="si-icon">🧠</span><div class="si-info"><div class="si-name">TensorFlow 2.21 + Keras</div><div class="si-desc">Deep learning framework powering the 3-model DNN ensemble. Residual MLP blocks, focal loss, AdamW optimizer. CPU-optimized inference via oneDNN.</div></div><span class="si-version">2.21</span></div>
+        <div class="stack-item reveal reveal-delay-1"><span class="si-icon">✋</span><div class="si-info"><div class="si-name">MediaPipe Tasks API</div><div class="si-desc">State-of-the-art hand landmark detection. 21 3D landmarks per hand at 30+ FPS. Uses the new Tasks API (HandLandmarker) with .task model format.</div></div><span class="si-version">0.10.31</span></div>
+        <div class="stack-item reveal reveal-delay-2"><span class="si-icon">📷</span><div class="si-info"><div class="si-name">OpenCV</div><div class="si-desc">Camera capture at 640×480, 30 FPS. Frame flipping, drawing overlays for landmarks and connections. BGR-to-RGB conversion for MediaPipe.</div></div><span class="si-version">4.x</span></div>
+        <div class="stack-item reveal reveal-delay-3"><span class="si-icon">⚛️</span><div class="si-info"><div class="si-name">PyQt6</div><div class="si-desc">Cross-platform desktop UI framework. QThread-based worker threads for camera and speech. Custom dark theme with styled widgets.</div></div><span class="si-version">6.x</span></div>
+        <div class="stack-item reveal reveal-delay-4"><span class="si-icon">🔊</span><div class="si-info"><div class="si-name">pyttsx3</div><div class="si-desc">Offline text-to-speech engine. Voice selection, speed/volume control. Runs in background thread with phrase queuing for natural speech rhythm.</div></div><span class="si-version">2.x</span></div>
+        <div class="stack-item reveal reveal-delay-5"><span class="si-icon">🎤</span><div class="si-info"><div class="si-name">Vosk</div><div class="si-desc">Offline speech recognition for bidirectional communication. Listens for spoken letters/numbers and displays corresponding ASL signs.</div></div><span class="si-version">0.3.x</span></div>
+        <div class="stack-item reveal"><span class="si-icon">📊</span><div class="si-info"><div class="si-name">scikit-learn</div><div class="si-desc">Label encoding, train/test splitting, classification metrics. Also used for legacy ensemble model (HistGradientBoosting + SVM + MLP).</div></div><span class="si-version">1.x</span></div>
+        <div class="stack-item reveal reveal-delay-1"><span class="si-icon">📈</span><div class="si-info"><div class="si-name">NumPy + Pandas</div><div class="si-desc">Data manipulation and numerical computation. Feature engineering with vectorized operations. Dataset loading and preprocessing.</div></div><span class="si-version">—</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="page-section">
+    <div class="container" style="max-width:860px;">
+      <div style="text-align:center;margin-bottom:48px;" class="reveal">
+        <span class="section-badge"><span class="badge-dot"></span> Why This Stack</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">The <span class="highlight">Right Tool</span> for Every Job</h2>
+      </div>
+      <div class="reveal" style="overflow-x:auto;">
+        <table class="comparison-table">
+          <thead>
+            <tr><th>Requirement</th><th>Chosen Solution</th><th>Alternative</th><th>Why We Chose It</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>UI Framework</td><td>PyQt6 <span class="check">✓</span></td><td>Tkinter, Electron</td><td>Native performance, QThread support, rich styling</td></tr>
+            <tr><td>Hand Tracking</td><td>MediaPipe Tasks <span class="check">✓</span></td><td>OpenCV + custom CV</td><td>30 FPS, 21 landmarks, 3D depth, robust occlusion</td></tr>
+            <tr><td>Deep Learning</td><td>TensorFlow <span class="check">✓</span></td><td>PyTorch, ONNX</td><td>Keras ease of use, SavedModel format, TF Lite ready</td></tr>
+            <tr><td>Speech Output</td><td>pyttsx3 <span class="check">✓</span></td><td>gTTS, Windows SAPI</td><td>100% offline, low latency, voice selection</td></tr>
+            <tr><td>Speech Input</td><td>Vosk <span class="check">✓</span></td><td>Google STT, Whisper</td><td>Offline, small model, real-time streaming</td></tr>
+            <tr><td>Deployment</td><td>Python CLI <span class="check">✓</span></td><td>PyInstaller, Docker</td><td>Zero build step, cross-platform, open source</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><span>AI Sign Bridge</span></div>
+      <div class="footer-divider"></div>
+      <p>Making sign language accessible to everyone through the power of AI.</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="how-it-works.html">How It Works</a></li>
+        <li><a href="learn.html">Learn ASL</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
