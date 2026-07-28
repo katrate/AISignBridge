@@ -19,6 +19,7 @@ import queue
 
 import sounddevice as sd
 from PyQt6.QtCore import QThread, pyqtSignal
+from app.paths import resource_path
 
 
 # ── Complete ASL letter/digit vocabulary for grammar mode ──
@@ -35,7 +36,7 @@ _GRAMMAR = json.dumps(_LETTERS + _DIGITS)
 class SpeechListener(QThread):
     word_recognized = pyqtSignal(str)  # Emits recognized letter A-Z or digit 0-9
 
-    VOSK_MODEL_PATH = "models/vosk-model"
+    VOSK_MODEL_PATH = resource_path("models/vosk-model")
     SAMPLE_RATE = 16000
     CHUNK = 4096
 

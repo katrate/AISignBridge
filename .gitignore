@@ -24,3 +24,5 @@ data/voice_samples/
 
 # Vercel
 .vercel/
+
+.vercel

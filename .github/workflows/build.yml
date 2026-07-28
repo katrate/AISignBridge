@@ -30,7 +30,7 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-          pyinstaller --onedir `
+          pyinstaller --onefile `
             --name "AI-Sign-Bridge" `
             --add-data "app;app" `
             --add-data "models;models" `
@@ -50,14 +50,11 @@ jobs:
             --windowed `
             app/main.py
 
-      - name: Zip build
-        run: Compress-Archive -Path dist/AI-Sign-Bridge/* -DestinationPath dist/AI-Sign-Bridge-Windows.zip
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: AI-Sign-Bridge-Windows
-          path: dist/AI-Sign-Bridge-Windows.zip
+          path: dist/AI-Sign-Bridge.exe
 
   build-macos:
     runs-on: macos-latest
@@ -138,7 +135,7 @@ jobs:
             ## AI Sign Bridge ${{ steps.tag.outputs.tag }}
 
             ### Downloads:
-            - [Windows (.zip)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Windows.zip)
+            - [Windows (.exe)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge.exe)
             - [macOS (.dmg)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-macOS.dmg)
           files: |
             AI-Sign-Bridge-Windows/*

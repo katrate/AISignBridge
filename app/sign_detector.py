@@ -24,8 +24,8 @@ from mediapipe.tasks.python.core import base_options
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.feature_extraction import extract_features_from_mediapipe
-# Needed so joblib can unpickle models/gesture_model.pkl (an EnsembleGestureModel instance)
 from app.ensemble_model import EnsembleGestureModel  # noqa: F401
+from app.paths import resource_path
 
 # Hand connections constant (21 landmarks, defined inline)
 # From the MediaPipe hand model
@@ -44,10 +44,10 @@ class SignDetector(QThread):
     frame_ready = pyqtSignal(QImage)          # Processed webcam frame
     prediction_ready = pyqtSignal(str, float) # (sign_label, confidence)
 
-    MODEL_PATH_H5 = "models/gesture_model.h5"
-    MODEL_PATH_PKL = "models/gesture_model.pkl"
-    ENCODER_PATH = "models/label_encoder.pkl"
-    NORMALIZER_PATH = "models/normalizer.pkl"
+    MODEL_PATH_H5 = resource_path("models/gesture_model.h5")
+    MODEL_PATH_PKL = resource_path("models/gesture_model.pkl")
+    ENCODER_PATH = resource_path("models/label_encoder.pkl")
+    NORMALIZER_PATH = resource_path("models/normalizer.pkl")
     # Smoothing constants — tuned for stability vs responsiveness
     WINDOW_SIZE = 15      # Number of recent predictions to consider
     MAJORITY_RATIO = 0.70 # Fraction of window that must agree
@@ -98,7 +98,7 @@ class SignDetector(QThread):
 
         # Use the new MediaPipe Tasks API for hand landmarking
         landmarker_options = vision.HandLandmarkerOptions(
-            base_options=base_options.BaseOptions(model_asset_path="models/hand_landmarker.task"),
+            base_options=base_options.BaseOptions(model_asset_path=resource_path("models/hand_landmarker.task")),
             running_mode=vision.RunningMode.VIDEO,
             num_hands=1,
             min_hand_detection_confidence=0.5,

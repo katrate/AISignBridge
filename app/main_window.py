@@ -25,6 +25,7 @@ from PyQt6.QtGui import (
 from app.sign_detector import SignDetector
 from app.speech_engine import SpeechEngine
 from app.speech_listener import SpeechListener
+from app.paths import resource_path
 
 
 # ─── Elegant Dark Stylesheet ────────────────────────────────────────────
@@ -292,7 +293,7 @@ QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
 
 
 class MainWindow(QMainWindow):
-    SIGNS_DIR = "signs"
+    SIGNS_DIR = resource_path("signs")
 
     def __init__(self):
         super().__init__()
@@ -916,7 +917,7 @@ class MainWindow(QMainWindow):
 
         # 1) data/raw_images/<LABEL>/
         if len(word_upper) == 1:
-            raw_dir = os.path.join("data", "raw_images", word_upper)
+            raw_dir = resource_path(os.path.join("data", "raw_images", word_upper))
             if os.path.exists(raw_dir):
                 images = [
                     img for img in os.listdir(raw_dir)
