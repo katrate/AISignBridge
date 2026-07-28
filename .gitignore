@@ -16,3 +16,6 @@ models/vosk-model/
 # Root-level files are duplicated in website/
 /index.html
 /logo.png
+
+# Large data files (generate by running scripts/)
+data/
