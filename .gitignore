@@ -18,4 +18,6 @@ models/vosk-model/
 /logo.png
 
 # Large data files (generate by running scripts/)
-data/
+data/combined_dataset.csv
+data/processed/
+data/voice_samples/
