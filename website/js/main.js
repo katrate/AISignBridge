@@ -539,8 +539,14 @@
       var btns = btnContainer.querySelectorAll('.download-btn');
       btns.forEach(function (b) {
         var os = b.getAttribute('data-os');
-        var assetName = os === 'windows' ? 'AI-Sign-Bridge.exe' : 'AI-Sign-Bridge-macOS.dmg';
-        var asset = assets.find(function (a) { return a.name === assetName; });
+        var assetNames = os === 'windows'
+          ? ['AI-Sign-Bridge-Windows.zip', 'AI-Sign-Bridge.exe']
+          : ['AI-Sign-Bridge-macOS.dmg'];
+        var asset = null;
+        for (var i = 0; i < assetNames.length; i++) {
+          asset = assets.find(function (a) { return a.name === assetNames[i]; });
+          if (asset) break;
+        }
         if (asset) {
           b.href = asset.browser_download_url;
           b.setAttribute('target', '_blank');

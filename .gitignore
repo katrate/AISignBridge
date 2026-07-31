@@ -10,6 +10,11 @@ Thumbs.db
 # Large downloaded models (run scripts/download_vosk_model.py to get these)
 models/vosk-model/
 
+# PyInstaller build artifacts
+build/
+dist/
+*.log
+
 # Freebuff autosave
 .freebuff/
 
@@ -20,6 +25,9 @@ models/vosk-model/
 data/combined_dataset.csv
 data/processed/
 data/voice_samples/
+
+# Virtual environment
+venv/
 
 # Vercel
 .vercel/

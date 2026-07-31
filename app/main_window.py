@@ -846,14 +846,18 @@ class MainWindow(QMainWindow):
         if msg.startswith("MODAL_DOWNLOAD:"):
             text = msg.replace("MODAL_DOWNLOAD:", "")
             if self._download_dialog is None:
-                self._download_dialog = QProgressDialog(text, None, 0, 0, self)
+                self._download_dialog = QProgressDialog(text, None, 0, 100, self)
                 self._download_dialog.setWindowTitle("Downloading Model")
-                self._download_dialog.setWindowModality(Qt.WindowModal.WindowModal)
+                self._download_dialog.setWindowModality(Qt.WindowModality.WindowModal)
                 self._download_dialog.setMinimumWidth(400)
                 self._download_dialog.setCancelButton(None)
                 self._download_dialog.show()
             else:
                 self._download_dialog.setLabelText(text)
+        elif msg.startswith("MODAL_PROGRESS:"):
+            pct = int(msg.replace("MODAL_PROGRESS:", ""))
+            if self._download_dialog:
+                self._download_dialog.setValue(pct)
         elif msg.startswith("MODAL_EXTRACT:"):
             text = msg.replace("MODAL_EXTRACT:", "")
             if self._download_dialog:

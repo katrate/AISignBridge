@@ -28,9 +28,19 @@ from app.paths import resource_path
 # ── Writable model storage (not the read-only MEIPASS temp dir) ──
 def _model_dir():
     """Return a writable path for storing downloaded models.
-    In frozen EXE: next to the EXE. In source: project root."""
+    PyInstaller: next to the EXE.
+    Nuitka: use app data dir (temp dir is not persistent in onefile mode).
+    Source: project root."""
     if getattr(sys, 'frozen', False):
-        return os.path.join(os.path.dirname(sys.executable), "models")
+        if hasattr(sys, '_MEIPASS'):
+            return os.path.join(os.path.dirname(sys.executable), "models")
+        if sys.platform == 'win32':
+            base = os.environ.get('LOCALAPPDATA', os.path.expanduser('~'))
+        elif sys.platform == 'darwin':
+            base = os.path.join(os.path.expanduser('~'), 'Library', 'Application Support')
+        else:
+            base = os.path.expanduser('~')
+        return os.path.join(base, 'AI-Sign-Bridge', 'models')
     return resource_path("models")
 
 
@@ -87,7 +97,7 @@ class SpeechListener(QThread):
         return True
 
     def _download_model(self):
-        """Download and extract the Vosk model on first run."""
+        """Download and extract the Vosk model on first run with progress."""
         models_dir = os.path.dirname(self.VOSK_MODEL_PATH)
         os.makedirs(models_dir, exist_ok=True)
         zip_path = os.path.join(models_dir, "vosk-model.zip")
@@ -96,7 +106,23 @@ class SpeechListener(QThread):
             self.status_message.emit("MODAL_DOWNLOAD:Downloading Vosk speech model (~40 MB)…")
             print("[SpeechListener] Downloading Vosk model (~40MB)...")
             print("  This happens once on first launch.")
-            urllib.request.urlretrieve(self.VOSK_DOWNLOAD_URL, zip_path)
+
+            req = urllib.request.Request(self.VOSK_DOWNLOAD_URL, method='GET')
+            with urllib.request.urlopen(req) as resp:
+                total = int(resp.headers.get('Content-Length', 0))
+                downloaded = 0
+                chunk_size = 65536
+                with open(zip_path, 'wb') as f:
+                    while True:
+                        chunk = resp.read(chunk_size)
+                        if not chunk:
+                            break
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if total > 0:
+                            pct = int(downloaded * 100 / total)
+                            self.status_message.emit(f"MODAL_PROGRESS:{pct}")
+
             self.status_message.emit("MODAL_EXTRACT:Extracting Vosk model…")
 
             print("[SpeechListener] Extracting...")

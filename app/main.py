@@ -18,9 +18,32 @@ from app.main_window import MainWindow
 from app.paths import resource_path
 
 
+def _setup_logging():
+    """Ensure a valid stdout/stderr in the frozen windowed app.
+    The redirect_stdio runtime hook already does this, but if it was
+    skipped (e.g. running unpackaged) this is a safe fallback."""
+    if not getattr(sys, 'frozen', False):
+        return
+    if hasattr(sys.stdout, "write") and hasattr(sys.stdout, "flush"):
+        return
+    try:
+        log_dir = os.path.dirname(sys.executable)
+        log_path = os.path.join(log_dir, "ai_sign_bridge.log")
+        log_file = open(log_path, "a", encoding="utf-8", buffering=1)
+        sys.stdout = log_file
+        sys.stderr = log_file
+    except Exception:
+        pass
+
+
 def exception_hook(exc_type, exc_value, exc_tb):
-    """Global exception handler — show a message box instead of silent crash."""
+    """Global exception handler — log to file and show a message box instead of silent crash."""
     msg = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
+    try:
+        if hasattr(sys.stdout, "write"):
+            sys.stdout.write(f"FATAL: {msg}\n")
+    except Exception:
+        pass
     try:
         QMessageBox.critical(None, "AI Sign Bridge - Error",
             f"An unexpected error occurred:\n\n{msg[:1000]}")
@@ -30,6 +53,7 @@ def exception_hook(exc_type, exc_value, exc_tb):
 
 
 def main():
+    _setup_logging()
     sys.excepthook = exception_hook
     app = QApplication(sys.argv)
 

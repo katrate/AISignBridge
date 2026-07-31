@@ -2,6 +2,9 @@ name: Build & Release
 
 on:
   push:
+    branches:
+      - master
+      - main
     tags:
       - 'v*'
 
@@ -31,13 +34,13 @@ jobs:
       - name: Remove Vosk model from bundle (downloaded on first run via modal)
         run: Remove-Item -Recurse -Force models/vosk-model/
 
-      - name: Build with PyInstaller
+      - name: "Build with PyInstaller (--onedir: no extraction delay, instant launch)"
         run: |
-          pyinstaller --onefile `
+          pyinstaller --onedir `
             --name "AI-Sign-Bridge" `
             --add-data "app;app" `
             --add-data "models;models" `
-            --add-data "data;data" `
+            --add-data "data/raw_images;data/raw_images" `
             --add-data "logo.png;." `
             --hidden-import "app.ensemble_model" `
             --hidden-import "app.feature_extraction" `
@@ -51,14 +54,21 @@ jobs:
             --hidden-import "joblib" `
             --collect-all "mediapipe" `
             --collect-all "tensorflow" `
+            --collect-all "vosk" `
+            --runtime-hook "rthooks/redirect_stdio.py" `
+            --runtime-hook "rthooks/mock_matplotlib.py" `
+            --exclude-module "matplotlib" `
             --windowed `
             app/main.py
+
+      - name: Package dist folder for release
+        run: Compress-Archive -Path dist/AI-Sign-Bridge/* -DestinationPath dist/AI-Sign-Bridge-Windows.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: AI-Sign-Bridge-Windows
-          path: dist/AI-Sign-Bridge.exe
+          path: dist/AI-Sign-Bridge-Windows.zip
 
   build-macos:
     runs-on: macos-latest
@@ -88,7 +98,7 @@ jobs:
             --name "AI-Sign-Bridge" \
             --add-data "app:app" \
             --add-data "models:models" \
-            --add-data "data:data" \
+            --add-data "data/raw_images:data/raw_images" \
             --add-data "logo.png:." \
             --hidden-import "app.ensemble_model" \
             --hidden-import "app.feature_extraction" \
@@ -102,6 +112,10 @@ jobs:
             --hidden-import "joblib" \
             --collect-all "mediapipe" \
             --collect-all "tensorflow" \
+            --collect-all "vosk" \
+            --runtime-hook "rthooks/redirect_stdio.py" \
+            --runtime-hook "rthooks/mock_matplotlib.py" \
+            --exclude-module "matplotlib" \
             --windowed \
             app/main.py
 
@@ -122,6 +136,7 @@ jobs:
 
   create-release:
     needs: [build-windows, build-macos]
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -143,10 +158,10 @@ jobs:
             ## AI Sign Bridge ${{ steps.tag.outputs.tag }}
 
             ### Downloads:
-            - [Windows (.exe)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge.exe)
+            - [Windows (.zip)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Windows.zip)
             - [macOS (.dmg)](https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-macOS.dmg)
           files: |
-            AI-Sign-Bridge-Windows/AI-Sign-Bridge.exe
+            AI-Sign-Bridge-Windows/AI-Sign-Bridge-Windows.zip
             AI-Sign-Bridge-macOS/AI-Sign-Bridge-macOS.dmg
           draft: false
           prerelease: false
@@ -157,7 +172,7 @@ jobs:
           {
             "latest_version": "${{ steps.tag.outputs.tag }}",
             "download_urls": {
-              "windows": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge.exe",
+              "windows": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-Windows.zip",
               "macos": "https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}/AI-Sign-Bridge-macOS.dmg"
             }
           }
