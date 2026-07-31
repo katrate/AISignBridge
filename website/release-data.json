@@ -1,7 +1,7 @@
 {
-  "latest_version": "v1.0.15",
+  "latest_version": "v1.0.16",
   "download_urls": {
-    "windows": "https://github.com/katrate/AISignBridge/releases/download/v1.0.15/AI-Sign-Bridge.exe",
-    "macos": "https://github.com/katrate/AISignBridge/releases/download/v1.0.15/AI-Sign-Bridge-macOS.dmg"
+    "windows": "https://github.com/katrate/AISignBridge/releases/download/v1.0.16/AI-Sign-Bridge-Windows.zip",
+    "macos": "https://github.com/katrate/AISignBridge/releases/download/v1.0.16/AI-Sign-Bridge-macOS.dmg"
   }
 }
