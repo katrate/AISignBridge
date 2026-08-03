@@ -670,7 +670,27 @@
   // ====== FEATHER ICONS ======
   function initFeatherIcons() {
     if (typeof feather !== 'undefined' && typeof feather.replace === 'function') {
-      feather.replace();
+      try {
+        feather.replace();
+      } catch (e) {
+        // A single unknown icon name throws inside feather.replace() and
+        // silently kills every icon after it. Replace unknown names with
+        // their fallback glyph and re-run so the rest still render.
+        console.warn('Feather Icons: skipping unknown icon name(s).', e);
+        document.querySelectorAll('i[data-feather]').forEach(function (el) {
+          var name = el.getAttribute('data-feather');
+          if (!feather.icons[name]) {
+            var span = document.createElement('span');
+            span.textContent = '✦';
+            el.replaceWith(span);
+          }
+        });
+        try {
+          feather.replace();
+        } catch (e2) {
+          console.warn('Feather Icons: could not complete icon replacement.', e2);
+        }
+      }
     } else {
       console.warn('Feather Icons not loaded — emoji fallback will be used.');
     }

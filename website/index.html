@@ -8,293 +8,243 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
-  <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
+  <link rel="stylesheet" href="css/hero.css">
 </head>
 <body>
-  <canvas id="three-canvas"></canvas>
-  <div id="scroll-progress"></div>
 
-  <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="AI Sign Bridge" class="nav-logo-img">
-        <span>Sign Bridge</span>
-      </a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="features.html">Features</a></li>
-        <li><a href="how-it-works.html">How It Works</a></li>
-        <li><a href="learn.html">Learn ASL</a></li>
-        <li><a href="tech.html">Tech</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="#cta" class="nav-cta">Launch App</a></li>
-      </ul>
-      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
-      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
-    </div>
-  </nav>
+  <!-- ======================= THE FRAME ======================= -->
+  <section class="hm-hero" id="hmHero">
 
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div>
-          <div class="hero-badge"><span class="hero-dot"></span> Real-time · Offline · Open Source</div>
-          <h1>Sign Language<br><span class="gradient-text">Translated Instantly</span></h1>
-          <p>AI Sign Bridge translates American Sign Language to speech in real time using an ensemble of deep neural networks. Point your webcam at any ASL hand sign — we'll recognize it and speak it aloud.</p>
-          <div class="hero-actions">
-            <a href="#cta" class="btn-primary">Launch the App <span class="arrow">→</span></a>
-            <a href="how-it-works.html" class="btn-secondary">How It Works</a>
-          </div>
-          <div class="hero-stats">
-            <div class="hero-stat"><h3><span class="counter" data-target="37">37</span></h3><p>Signs Recognized</p></div>
-            <div class="hero-stat"><h3><span class="counter" data-target="95">95</span>%</h3><p>Accuracy Rate</p></div>
-            <div class="hero-stat"><h3>&lt;100ms</h3><p>Latency</p></div>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <div class="hero-visual-placeholder" id="heroVisual">
-            <div class="scan-line"></div>
-            <div class="corner-decoration tl"></div>
-            <div class="corner-decoration tr"></div>
-            <div class="corner-decoration bl"></div>
-            <div class="corner-decoration br"></div>
-            <div class="hero-hand-bg">🤟</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- Ambient background videos (auto-cycle, crossfade) -->
+    <!-- Ambient background videos: only videos 1 & 3 loop -->
+    <video class="hm-video active" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081127_0992a171-d3c6-4978-8213-0ec5df8b6d63.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <video class="hm-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081042_df7202bf-bd80-4b2b-bbc6-1f09ba2870e9.mp4" autoplay muted loop playsinline preload="metadata"></video>
 
-  <!-- Features -->
-  <section class="page-section" id="features">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:48px;" class="reveal">
-        <span class="section-badge"><span class="badge-dot"></span> Features</span>
-        <div class="section-divider"></div>
-        <h2 class="section-title">Everything You Need for <span class="highlight">Seamless Communication</span></h2>
-        <p class="section-desc" style="margin:0 auto;">From real-time detection to speech synthesis, every component is built for speed, accuracy, and accessibility.</p>
-      </div>
-      <div class="features-grid">
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-number">01</div>
-          <div class="icon-wrapper"><i data-feather="camera" style="width:22px;height:22px;"></i></div>
-          <h3>Live Webcam Detection</h3>
-          <p>Real-time hand tracking using MediaPipe's advanced landmark detection — 21 points per hand, 30+ frames per second.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-number">02</div>
-          <div class="icon-wrapper"><i data-feather="cpu" style="width:22px;height:22px;"></i></div>
-          <h3>Deep Learning Engine</h3>
-          <p>Ensemble of deep neural networks with residual connections, focal loss training, and test-time augmentation for 95%+ accuracy.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-          <div class="feature-number">03</div>
-          <div class="icon-wrapper"><i data-feather="volume-2" style="width:22px;height:22px;"></i></div>
-          <h3>Text-to-Speech Output</h3>
-          <p>Automatic speech synthesis that speaks every recognized sign aloud. Queued phrase system for natural, flowing conversation.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-number">04</div>
-          <div class="icon-wrapper"><i data-feather="refresh-cw" style="width:22px;height:22px;"></i></div>
-          <h3>Bidirectional Translation</h3>
-          <p>Say a letter or number, and see the corresponding ASL sign displayed visually — true bidirectional communication.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-number">05</div>
-          <div class="icon-wrapper"><i data-feather="lock" style="width:22px;height:22px;"></i></div>
-          <h3>100% Offline & Private</h3>
-          <p>All processing happens locally. No internet needed — your privacy is guaranteed. Every component runs on your machine.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-          <div class="feature-number">06</div>
-          <div class="icon-wrapper"><i data-feather="zap" style="width:22px;height:22px;"></i></div>
-          <h3>Real-Time Performance</h3>
-          <p>Optimized for CPU inference with every-other-frame prediction, EMA temporal smoothing, and cooldown-based emission.</p>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:40px;" class="reveal">
-        <a href="features.html" class="btn-secondary">View All Features →</a>
-      </div>
-    </div>
-  </section>
+    <!-- Ambient overlays -->
+    <div class="hm-overlay"></div>
+    <div class="hm-shade"></div>
 
-  <!-- How It Works Preview -->
-  <section class="page-section alt-bg" id="how-it-works">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:48px;" class="reveal">
-        <span class="section-badge"><span class="badge-dot"></span> How It Works</span>
-        <div class="section-divider"></div>
-        <h2 class="section-title">From <span class="highlight">Gesture</span> to Speech in 4 Steps</h2>
-        <p class="section-desc" style="margin:0 auto;">The entire pipeline is designed for minimal latency while maintaining maximum accuracy.</p>
-      </div>
-      <div class="steps-grid">
-        <div class="step reveal reveal-delay-1">
-          <div class="step-number">1</div>
-          <span class="step-icon"><i data-feather="camera" style="width:24px;height:24px;"></i></span>
-          <h3>Camera Capture</h3>
-          <p>Webcam captures your hand sign at 30 FPS. OpenCV processes each frame for landmark detection.</p>
-        </div>
-        <div class="step reveal reveal-delay-2">
-          <div class="step-number">2</div>
-          <span class="step-icon"><i data-feather="hand" style="width:24px;height:24px;"></i></span>
-          <h3>Hand Landmarks</h3>
-          <p>MediaPipe Tasks API detects 21 precise 3D hand landmarks — positions, angles, and distances.</p>
-        </div>
-        <div class="step reveal reveal-delay-3">
-          <div class="step-number">3</div>
-          <span class="step-icon"><i data-feather="cpu" style="width:24px;height:24px;"></i></span>
-          <h3>AI Classification</h3>
-          <p>A deep neural network ensemble (3 models, 500K+ parameters each) classifies the sign with 95%+ accuracy.</p>
-        </div>
-        <div class="step reveal reveal-delay-4">
-          <div class="step-number">4</div>
-          <span class="step-icon"><i data-feather="volume-2" style="width:24px;height:24px;"></i></span>
-          <h3>Speech Output</h3>
-          <p>Offline TTS speaks the recognized sign aloud. Temporal smoothing prevents flickering between similar signs.</p>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:40px;" class="reveal">
-        <a href="how-it-works.html" class="btn-secondary">See Detailed Pipeline →</a>
-      </div>
-    </div>
-  </section>
+    <div class="hm-content">
 
-  <!-- Competition Context -->
-  <section class="page-section" id="competition">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:48px;" class="reveal">
-        <span class="section-badge"><span class="badge-dot"></span> The Vision</span>
-        <div class="section-divider"></div>
-        <h2 class="section-title">Built for <span class="highlight">Impact</span></h2>
-        <p class="section-desc" style="margin:0 auto;">A prototype born from a vision to bridge communication gaps through design thinking and AI-driven innovation.</p>
-      </div>
-      <div style="max-width:800px;margin:0 auto;" class="reveal">
-        <div class="event-badge" style="margin:0 auto 32px;">
-          <span class="event-icon">🏆</span>
-          <span>Innovation Challenge prototype showcasing <strong>AI & IoT applications</strong> for social impact — designed to solve real-world communication barriers through research-driven solutions.</span>
-        </div>
-      </div>
-      <div class="about-grid" style="margin-top:24px;">
-        <div class="about-text reveal-left">
-          <h2>Why This <span class="highlight">Matters</span></h2>
-          <p>Over 70 million deaf people worldwide use sign language as their primary means of communication. Yet most hearing people don't know sign language, creating barriers in everyday situations — at schools, hospitals, banks, and workplaces.</p>
-          <p>AI Sign Bridge was created to bridge this gap using cutting-edge AI. By translating American Sign Language fingerspelling into speech in real time, we enable natural conversation without requiring an interpreter.</p>
-          <p>This prototype was developed for an inter-school Innovation Challenge &mdash; a prototype building competition focused on <strong>advanced problem-solving</strong>, <strong>design thinking</strong>, and <strong>research-driven solutions</strong>. Participants presented their models with live demonstrations, supported by laptops and charts, with electricity provided at each station. The project aligns with the challenge themes of <strong>AI & IoT applications</strong>, <strong>sustainable technology</strong>, and <strong>social impact projects</strong> &mdash; addressing a real communication barrier faced by millions worldwide.</p>
-          <p>The system recognizes 37 distinct signs (A-Z, 0-9) with over 95% accuracy, running entirely offline on a standard laptop &mdash; exactly the kind of practical, scalable solution the competition sought to encourage.</p>
-        </div>
-        <div class="about-visual reveal-right">
-          <div class="about-logo">
-            <div class="glow-ring"></div>
-            <img src="logo.png" alt="AI Sign Bridge Logo">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+      <!-- ============ CENTERED NAV ============ -->
+      <nav class="hm-nav" id="hmNav" aria-label="Primary">
+        <button type="button" class="hm-logo" data-page="home" aria-label="Sign Bridge — Home">
+          <img src="logo.png" alt="" class="hm-logo-img" aria-hidden="true">Sign Bridge
+        </button>
 
-  <!-- Scaling the Future -->
-  <section class="page-section alt-bg" id="scale">
-    <div class="container">
-      <div style="text-align:center;margin-bottom:48px;" class="reveal">
-        <span class="section-badge"><span class="badge-dot"></span> The Road Ahead</span>
-        <div class="section-divider"></div>
-        <h2 class="section-title">Scaling the <span class="highlight">Future</span></h2>
-        <p class="section-desc" style="margin:0 auto;">From a prototype to a platform — exploring how AI Sign Bridge can grow to bridge communication gaps at scale.</p>
+        <div class="hm-nav-pill hm-glass">
+          <button type="button" class="hm-nav-link active" data-page="home">Home</button>
+          <button type="button" class="hm-nav-link" data-page="features">Features</button>
+          <button type="button" class="hm-nav-link" data-page="how">How It Works</button>
+          <button type="button" class="hm-nav-link" data-page="learn">Learn ASL</button>
+          <button type="button" class="hm-nav-link" data-page="about">About</button>
+          <button type="button" class="hm-btn-solid" data-go="home:1">Download App</button>
+        </div>
+
+        <div class="hm-mobile-row">
+          <button class="hm-hamburger hm-glass" id="hmMenuBtn" aria-label="Open menu" aria-expanded="false" title="Menu">
+            <svg class="hm-icon hm-icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+            <svg class="hm-icon hm-icon-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- ============ STAGE (pages &rarr; sections) ============ -->
+      <div class="hm-stage" id="hmStage">
+
+        <!-- ───────────── HOME ───────────── -->
+        <div class="hm-page active" data-page="home">
+          <section class="hm-section active" data-section="Overview">
+            <div class="hm-badge hm-glass">Real-time &middot; Offline &middot; Open Source</div>
+            <h1 class="hm-title">Sign Language,<br><em>Spoken Instantly</em></h1>
+            <p class="hm-sub">Point your webcam at any ASL hand sign and hear it spoken aloud. An offline-first AI that turns gestures into voice &mdash; bridging deaf and hearing worlds in real time.</p>
+            <button type="button" class="hm-cta-ghost" data-page="how">See How It Works &rarr;</button>
+          </section>
+
+          <section class="hm-section" data-section="Download">
+            <div class="hm-badge hm-glass">Free &middot; Open Source &middot; v<span id="releaseVersion">&mdash;</span></div>
+            <h2 class="hm-sec-title">Download <em>the App</em></h2>
+            <p class="hm-sec-sub">Works fully offline &mdash; no account, no cloud, no tracking. Windows, macOS &amp; Linux.</p>
+            <div class="hm-downloads" id="downloadButtons">
+              <a href="https://github.com/katrate/AISignBridge/releases/download/v1.0.16/AI-Sign-Bridge-Windows.zip" class="hm-btn-solid download-btn" data-os="windows" target="_blank" rel="noopener">🪟 Download for <strong>Windows</strong></a>
+              <a href="https://github.com/katrate/AISignBridge/releases/download/v1.0.16/AI-Sign-Bridge-macOS.dmg" class="hm-btn-solid download-btn" data-os="macos" target="_blank" rel="noopener">🍎 Download for <strong>macOS</strong></a>
+            </div>
+            <a class="hm-sec-link" href="https://github.com/katrate/AISignBridge" target="_blank" rel="noopener">View on GitHub</a>
+            <p class="hm-sec-note">Python 3.12 · PyInstaller build · Auto-detects your OS</p>
+          </section>
+        </div>
+
+        <!-- ───────────── FEATURES ───────────── -->
+        <div class="hm-page" data-page="features">
+          <section class="hm-section" data-section="Highlights">
+            <h2 class="hm-sec-title">Everything <em>You Need</em></h2>
+            <div class="hm-cards">
+              <div class="hm-card hm-glass"><div class="hm-card-icon">📷</div><h3>Live Webcam Detection</h3><p>21-point hand tracking at 30+ FPS via MediaPipe.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🧠</div><h3>AI Ensemble Engine</h3><p>3 deep networks voting &mdash; 95%+ accuracy.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🔊</div><h3>Text-to-Speech</h3><p>Every sign spoken aloud, fully offline.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🔄</div><h3>Bidirectional</h3><p>Sign &rarr; speech and speech &rarr; sign.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🔒</div><h3>100% Private</h3><p>All processing on-device. No cloud, ever.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">⚡</div><h3>Real-Time</h3><p>Under 100ms latency on a standard laptop.</p></div>
+            </div>
+          </section>
+
+          <section class="hm-section" data-section="In Depth">
+            <h2 class="hm-sec-title">Under <em>the Hood</em></h2>
+            <div class="hm-rows">
+              <div class="hm-row hm-glass"><span class="hm-row-icon">🧠</span><div><h3>The Model</h3><p>Residual MLP ensembles trained with focal loss, class balancing and 20-round test-time augmentation for maximum stability.</p><div class="hm-tags"><span class="hm-tag">3-Model Ensemble</span><span class="hm-tag">Focal Loss</span><span class="hm-tag">TTA</span></div></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon">📐</span><div><h3>The Pipeline</h3><p>Camera &rarr; 21 hand landmarks &rarr; 132 engineered features &rarr; EMA temporal smoothing &rarr; offline speech output.</p><div class="hm-tags"><span class="hm-tag">132 Features</span><span class="hm-tag">EMA Smoothing</span><span class="hm-tag">&lt;100ms</span></div></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon">🛠️</span><div><h3>Retrainable &amp; Open</h3><p>Collect your own gestures, augment and retrain the whole pipeline &mdash; new signs need just 100+ samples.</p><div class="hm-tags"><span class="hm-tag">Open Source</span><span class="hm-tag">Custom Training</span><span class="hm-tag">A&ndash;Z · 0&ndash;9</span></div></div></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ───────────── HOW IT WORKS ───────────── -->
+        <div class="hm-page" data-page="how">
+          <section class="hm-section" data-section="Pipeline">
+            <h2 class="hm-sec-title">Gesture <em>to</em> Speech</h2>
+            <div class="hm-steps">
+              <div class="hm-step hm-glass"><span class="hm-step-num">01</span><span class="hm-step-icon">📷</span><h3>Camera</h3><p>Webcam capture at 30 FPS, mirror mode.</p></div>
+              <span class="hm-step-arrow">&rarr;</span>
+              <div class="hm-step hm-glass"><span class="hm-step-num">02</span><span class="hm-step-icon">✋</span><h3>Landmarks</h3><p>21 precise 3D hand points via MediaPipe.</p></div>
+              <span class="hm-step-arrow">&rarr;</span>
+              <div class="hm-step hm-glass"><span class="hm-step-num">03</span><span class="hm-step-icon">🧠</span><h3>AI Classifies</h3><p>3-model ensemble, 95%+ accuracy.</p></div>
+              <span class="hm-step-arrow">&rarr;</span>
+              <div class="hm-step hm-glass"><span class="hm-step-num">04</span><span class="hm-step-icon">🔊</span><h3>Speech</h3><p>Offline TTS speaks the sign aloud.</p></div>
+            </div>
+            <div class="hm-metrics">
+              <div class="hm-metric"><div class="hm-metric-value">&lt;100ms</div><div class="hm-metric-label">Latency</div></div>
+              <div class="hm-metric"><div class="hm-metric-value">30 FPS</div><div class="hm-metric-label">Capture</div></div>
+              <div class="hm-metric"><div class="hm-metric-value">21 pts</div><div class="hm-metric-label">Landmarks</div></div>
+              <div class="hm-metric"><div class="hm-metric-value">132</div><div class="hm-metric-label">Features</div></div>
+            </div>
+          </section>
+
+          <section class="hm-section" data-section="Bidirectional">
+            <h2 class="hm-sec-title">Talk <em>Both Ways</em></h2>
+            <div class="hm-duo">
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🤟</div><h3>Sign &rarr; Speech</h3><p>You sign &mdash; the app recognizes the gesture and speaks it aloud in real time.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🗣️</div><h3>Speech &rarr; Sign</h3><p>You say a letter or number &mdash; Vosk grammar mode hears it and shows the matching ASL sign.</p></div>
+            </div>
+            <div class="hm-tags"><span class="hm-tag">Vosk STT</span><span class="hm-tag">Offline</span><span class="hm-tag">A&ndash;Z · 0&ndash;9</span></div>
+          </section>
+
+          <section class="hm-section" data-section="Training">
+            <h2 class="hm-sec-title">How the <em>Model</em> Was Trained</h2>
+            <div class="hm-cards">
+              <div class="hm-card hm-glass"><div class="hm-card-icon">📥</div><h3>Collect</h3><p>17.5K ASL alphabet samples (A&ndash;Z, 0&ndash;9).</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🔄</div><h3>Augment</h3><p>Mirror, rotate &plusmn;30&deg;, scale &amp; jitter &mdash; train-only.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">⚖️</div><h3>Balance</h3><p>1,200 samples per class with class weights.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🧪</div><h3>Train</h3><p>3 DNNs, focal loss, cosine decay &mdash; 95%+ accuracy.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">📊</div><h3>Validate</h3><p>Clean held-out sets, honest metrics.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🚀</div><h3>Ship</h3><p>Frozen EXE / DMG / AppImage on every release.</p></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ───────────── LEARN ASL ───────────── -->
+        <div class="hm-page" data-page="learn">
+          <section class="hm-section" data-section="Fingerspell">
+            <h2 class="hm-sec-title">Fingerspell <em>Anything</em></h2>
+            <div class="hm-learn-input hm-glass">
+              <label for="textInput">✋ Type something to fingerspell</label>
+              <div class="hm-input-row">
+                <input type="text" id="textInput" placeholder="e.g. HELLO" maxlength="30" spellcheck="false" autocomplete="off" aria-label="Word to fingerspell">
+                <button type="button" class="hm-clear" id="clearBtn" aria-label="Clear">✕</button>
+              </div>
+              <div class="hm-input-hint"><span>Letters A&ndash;Z and digits 0&ndash;9 · Spaces create gaps</span><span><b id="charCount">0</b> / 30</span></div>
+            </div>
+            <div class="hm-sign-strip" id="signStrip"></div>
+            <div class="hm-empty" id="signEmpty"><div class="hm-empty-icon">🖐️</div>Type a word above to see its ASL fingerspelling</div>
+            <div class="hm-chips">
+              <button type="button" class="hm-chip" data-text="HELLO">Hello</button>
+              <button type="button" class="hm-chip" data-text="ASL">ASL</button>
+              <button type="button" class="hm-chip" data-text="SIGN">Sign</button>
+              <button type="button" class="hm-chip" data-text="LEARN">Learn</button>
+              <button type="button" class="hm-chip" data-text="AI">AI</button>
+              <button type="button" class="hm-chip" data-text="123">123</button>
+            </div>
+          </section>
+
+          <section class="hm-section" data-section="Tips">
+            <h2 class="hm-sec-title">Learning <em>Tips</em></h2>
+            <div class="hm-cards">
+              <div class="hm-card hm-glass"><div class="hm-card-icon">✍️</div><h3>Practice Daily</h3><p>Spell your name, then everyday words &mdash; 5 minutes a day.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">👀</div><h3>Watch the Shape</h3><p>Hand shape, finger position and palm orientation matter.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🔤</div><h3>Start Simple</h3><p>Begin with distinct signs &mdash; A, B, C, L, Y.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🔄</div><h3>Repeat Words</h3><p>Repetition builds muscle memory quickly.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🤟</div><h3>Fingerspell vs Signs</h3><p>Spelling covers names, places and unknown signs.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">📱</div><h3>Practice Anywhere</h3><p>Works on phone or laptop &mdash; anytime.</p></div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ───────────── ABOUT ───────────── -->
+        <div class="hm-page" data-page="about">
+          <section class="hm-section" data-section="Mission">
+            <div class="hm-badge hm-glass">Why It Matters</div>
+            <h2 class="hm-sec-title">Bridging <em>Silence</em> &amp; Sound</h2>
+            <p class="hm-sec-sub">Over 70 million deaf people worldwide use sign language as their primary language &mdash; yet most hearing people don't know it, creating barriers at schools, hospitals, banks and workplaces. AI Sign Bridge translates ASL fingerspelling into speech in real time, with no interpreter required.</p>
+            <div class="hm-metrics">
+              <div class="hm-metric"><div class="hm-metric-value">37</div><div class="hm-metric-label">Signs</div></div>
+              <div class="hm-metric"><div class="hm-metric-value">95%+</div><div class="hm-metric-label">Accuracy</div></div>
+              <div class="hm-metric"><div class="hm-metric-value">100%</div><div class="hm-metric-label">Offline</div></div>
+              <div class="hm-metric"><div class="hm-metric-value">MIT</div><div class="hm-metric-label">License</div></div>
+            </div>
+          </section>
+
+          <section class="hm-section" data-section="Values">
+            <h2 class="hm-sec-title">What <em>Drives</em> Us</h2>
+            <div class="hm-cards">
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🌍</div><h3>Accessibility for All</h3><p>Communication is a human right &mdash; free and open source.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🔒</div><h3>Privacy First</h3><p>Runs entirely offline &mdash; no servers, no data collection.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🧪</div><h3>Scientific Rigor</h3><p>95%+ accuracy on held-out sets. Measured, not guessed.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🤝</div><h3>Open Collaboration</h3><p>Built in the open with a transparent, reproducible pipeline.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">⚡</div><h3>Performance</h3><p>Every millisecond optimized &mdash; real-time means real-time.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon">🚀</div><h3>Continuous Improvement</h3><p>Browser inference, dynamic signs and a bigger vocabulary on the way.</p></div>
+            </div>
+          </section>
+
+          <section class="hm-section" data-section="Roadmap">
+            <h2 class="hm-sec-title">Scaling the <em>Future</em></h2>
+            <div class="hm-rows">
+              <div class="hm-row hm-glass"><span class="hm-row-icon">📚</span><div><h3>Full Vocabulary</h3><p>From 37 fingerspelling signs to 1,000+ ASL words and phrase-level translation.</p></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon">🌐</span><div><h3>In-Browser Inference</h3><p>ONNX models for zero-install sign language translation in any browser.</p></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon">📱</span><div><h3>Mobile Apps</h3><p>Native iOS &amp; Android with on-device inference &mdash; in your pocket, offline.</p></div></div>
+            </div>
+          </section>
+        </div>
+
+      </div><!-- /stage -->
+
+      <!-- ============ BOTTOM: SECTION SWITCHER + STATS ============ -->
+      <div class="hm-switcher" id="hmSwitcher" role="tablist" aria-label="Sections"></div>
+
+      <div class="hm-stats">
+        <span>37+ Signs Recognized</span><span class="hm-stat-divider">|</span>
+        <span>95%+ Accuracy</span><span class="hm-stat-divider">|</span>
+        <span>&lt;100ms Latency</span><span class="hm-stat-divider">|</span>
+        <span>100% Offline</span>
       </div>
-      <div class="features-grid">
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-number">01</div>
-          <div class="icon-wrapper"><i data-feather="book-open" style="width:22px;height:22px;"></i></div>
-          <h3>Full Vocabulary Expansion</h3>
-          <p>From 37 fingerspelling signs to 1,000+ ASL words, including dynamic signs (J, Z) and phrase-level translation using transformer-based sequence models for natural, flowing conversation.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-number">02</div>
-          <div class="icon-wrapper"><i data-feather="globe" style="width:22px;height:22px;"></i></div>
-          <h3>Browser Deployment</h3>
-          <p>Converting the model to ONNX format for in-browser inference. Zero install — just open a URL and start signing. Ideal for schools, hospitals, and public kiosks where installation isn't practical.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-          <div class="feature-number">03</div>
-          <div class="icon-wrapper"><i data-feather="smartphone" style="width:22px;height:22px;"></i></div>
-          <h3>Mobile Application</h3>
-          <p>Native iOS and Android apps with TensorFlow Lite or CoreML for on-device inference. Real-time sign language translation in your pocket, anywhere, anytime — no internet required.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-number">04</div>
-          <div class="icon-wrapper"><i data-feather="database" style="width:22px;height:22px;"></i></div>
-          <h3>Community Dataset</h3>
-          <p>Open-source dataset contribution platform allowing users to record and contribute sign variations. Scales coverage across dialects, skin tones, lighting conditions, and signing styles.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-number">05</div>
-          <div class="icon-wrapper"><i data-feather="building" style="width:22px;height:22px;"></i></div>
-          <h3>Enterprise Deployment</h3>
-          <p>Dedicated translation kiosks for hospitals, airports, banks, and schools. Multi-language sign support (ASL, ISL, BSL) with customizable vocabulary and accessibility compliance.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-          <div class="feature-number">06</div>
-          <div class="icon-wrapper"><i data-feather="users" style="width:22px;height:22px;"></i></div>
-          <h3>Real-Time Conversation</h3>
-          <p>Bidirectional translation combining speech recognition for hearing users with sign-to-text/speech for deaf users. Natural, flowing conversation without barriers — the ultimate goal.</p>
-        </div>
-      </div>
+
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="page-section" id="cta">
-    <div class="container">
-      <div class="cta-card reveal">
-        <h2>Ready to Break Communication Barriers?</h2>
-        <p>Download AI Sign Bridge and start translating sign language to speech in minutes. It's free, open source, and works 100% offline.</p>
-        <div class="download-buttons" id="downloadButtons">
-          <a href="#" class="btn-primary download-btn" data-os="windows">
-            <span class="os-icon">🪟</span>
-            <span class="os-label">Download for <strong>Windows</strong></span>
-            <span class="arrow">→</span>
-          </a>
-          <a href="#" class="btn-primary download-btn" data-os="macos">
-            <span class="os-icon">🍎</span>
-            <span class="os-label">Download for <strong>macOS</strong></span>
-            <span class="arrow">→</span>
-          </a>
-
-        </div>
-        <p class="subnote">
-          <a href="https://github.com/katrate/AISignBridge" target="_blank">View on GitHub</a>
-          · Free · Open Source · No account needed · v<span id="releaseVersion">—</span>
-        </p>
-      </div>
+  <!-- ======================= MOBILE MENU ======================= -->
+  <div class="hm-menu" id="hmMenu" aria-hidden="true">
+    <div class="hm-menu-panel">
+      <button type="button" class="hm-menu-link" data-page="home">Home</button>
+      <button type="button" class="hm-menu-link" data-page="features">Features</button>
+      <button type="button" class="hm-menu-link" data-page="how">How It Works</button>
+      <button type="button" class="hm-menu-link" data-page="learn">Learn ASL</button>
+      <button type="button" class="hm-menu-link" data-page="about">About</button>
+      <button type="button" class="hm-menu-cta hm-btn-solid" data-go="home:1">Download App</button>
     </div>
-  </section>
+  </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-brand"><span>AI Sign Bridge</span></div>
-      <div class="footer-divider"></div>
-      <p>Making sign language accessible to everyone through the power of AI.</p>
-      <ul class="footer-links">
-        <li><a href="about.html">About</a></li>
-        <li><a href="https://github.com/katrate/AISignBridge" target="_blank">GitHub</a></li>
-        <li><a href="features.html">Features</a></li>
-        <li><a href="how-it-works.html">How It Works</a></li>
-        <li><a href="learn.html">Learn ASL</a></li>
-        <li><a href="tech.html">Tech</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  <!-- Back to Top -->
-  <button id="back-to-top" aria-label="Back to top">↑</button>
-
+  <script src="js/hero.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
