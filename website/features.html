@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Features — AI Sign Bridge</title>
   <meta name="description" content="Explore all features of AI Sign Bridge: real-time webcam detection, deep learning engine, TTS output, speech-to-sign, offline mode.">
-  <!-- Redirect to the main SPA and open the Features section -->
+  
   <script>window.location.replace('index.html?page=features');</script>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="css/style.css">
   <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
 </head>
@@ -20,7 +20,7 @@
   <canvas id="three-canvas"></canvas>
   <div id="scroll-progress"></div>
 
-  <!-- Navbar -->
+  
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
@@ -36,12 +36,12 @@
         <li><a href="about.html">About</a></li>
         <li><a href="index.html#cta" class="nav-cta">Launch App</a></li>
       </ul>
-      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
-      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode"><i data-lucide="moon"></i></button>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu"><i data-lucide="menu"></i></button>
     </div>
   </nav>
 
-  <!-- Page Header -->
+  
   <section class="page-header">
     <div class="container reveal">
       <span class="section-badge"><span class="badge-dot"></span> Features</span>
@@ -51,11 +51,11 @@
     </div>
   </section>
 
-  <!-- Feature Details -->
+  
   <section class="page-section">
     <div class="container" style="max-width:860px;">
       <div class="feature-detail-card reveal">
-        <div class="fd-icon"><i data-feather="camera" style="width:24px;height:24px;"></i></div>
+        <div class="fd-icon"><i data-lucide="camera" style="width:24px;height:24px;"></i></div>
         <div class="fd-content">
           <h3>Live Webcam Detection</h3>
           <p>Real-time video capture at 30 FPS using OpenCV. Frames are processed immediately through the MediaPipe hand landmark pipeline, detecting 21 precise 3D points on your hand. The system supports dynamic lighting conditions, different hand orientations, and works with both left and right hands.</p>
@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="feature-detail-card reveal reveal-delay-1">
-        <div class="fd-icon"><i data-feather="cpu" style="width:24px;height:24px;"></i></div>
+        <div class="fd-icon"><i data-lucide="cpu" style="width:24px;height:24px;"></i></div>
         <div class="fd-content">
           <h3>Deep Neural Network Ensemble</h3>
           <p>Our classification engine uses an ensemble of 3 deep neural networks, each with 500K+ parameters. Features include residual MLP blocks, batch normalization, dropout regularization, and Swish activation. Focal loss training focuses on hard examples, while test-time augmentation (TTA) averages predictions across multiple noise-injected variants for maximum stability.</p>
@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="feature-detail-card reveal reveal-delay-2">
-        <div class="fd-icon"><i data-feather="volume-2" style="width:24px;height:24px;"></i></div>
+        <div class="fd-icon"><i data-lucide="volume-2" style="width:24px;height:24px;"></i></div>
         <div class="fd-content">
           <h3>Intelligent Speech Output</h3>
           <p>Every recognized sign is spoken aloud using pyttsx3 offline TTS engine. The system intelligently queues words into natural phrases before speaking, preventing robotic one-word-at-a-time speech. A background worker thread handles speech without blocking the UI, and the engine supports voice selection, speed control, and volume adjustment.</p>
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class="feature-detail-card reveal reveal-delay-3">
-        <div class="fd-icon"><i data-feather="repeat" style="width:24px;height:24px;"></i></div>
+        <div class="fd-icon"><i data-lucide="repeat" style="width:24px;height:24px;"></i></div>
         <div class="fd-content">
           <h3>Bidirectional Communication</h3>
           <p>Not just sign-to-speech — also speech-to-sign! Using Vosk offline speech recognition, you can speak a letter or number and see its ASL sign displayed visually. This creates a truly bidirectional communication bridge: deaf users sign and hear the translation; hearing users speak and see the sign.</p>
@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="feature-detail-card reveal reveal-delay-4">
-        <div class="fd-icon"><i data-feather="lock" style="width:24px;height:24px;"></i></div>
+        <div class="fd-icon"><i data-lucide="lock" style="width:24px;height:24px;"></i></div>
         <div class="fd-content">
           <h3>100% Offline & Private</h3>
           <p>Every single component runs locally on your machine. No data ever leaves your computer. No cloud APIs, no internet required, no account needed. The model, the speech engine, the speech recognition — all of it runs on your hardware. Your privacy is guaranteed by design.</p>
@@ -95,7 +95,7 @@
         </div>
       </div>
       <div class="feature-detail-card reveal reveal-delay-5">
-        <div class="fd-icon"><i data-feather="zap" style="width:24px;height:24px;"></i></div>
+        <div class="fd-icon"><i data-lucide="zap" style="width:24px;height:24px;"></i></div>
         <div class="fd-content">
           <h3>Optimized Real-Time Performance</h3>
           <p>Engineered for CPU inference with smart frame skipping (every-other-frame prediction), EMA temporal smoothing to prevent flickering, cooldown-based emission to avoid duplicate detections, and minimum hand presence detection. Runs at 15+ FPS on modern laptops without a GPU.</p>
@@ -103,7 +103,7 @@
         </div>
       </div>
       <div class="feature-detail-card reveal reveal-delay-1">
-        <div class="fd-icon"><i data-feather="bar-chart-2" style="width:24px;height:24px;"></i></div>
+        <div class="fd-icon"><i data-lucide="bar-chart-2" style="width:24px;height:24px;"></i></div>
         <div class="fd-content">
           <h3>37 Recognized Signs</h3>
           <p>Supports all 26 letters (A-Z) and 10 digits (0-9), plus space. The model was trained on a balanced dataset of 45,000+ samples with aggressive data augmentation (rotation, scaling, jitter, mirroring) for robust real-world performance. Weak classes like O, C, and digits have dedicated upweighting in training.</p>
@@ -111,7 +111,7 @@
         </div>
       </div>
       <div class="feature-detail-card reveal reveal-delay-2">
-        <div class="fd-icon"><i data-feather="rotate-cw" style="width:24px;height:24px;"></i></div>
+        <div class="fd-icon"><i data-lucide="rotate-cw" style="width:24px;height:24px;"></i></div>
         <div class="fd-content">
           <h3>Retrainable Pipeline</h3>
           <p>The entire training pipeline is open and customizable. Collect your own data with the built-in data collector, augment it with rotation/scale/jitter, and retrain the model. Includes scripts for data collection, augmentation, feature extraction, and model training. New signs can be added by collecting just 100+ samples.</p>
@@ -121,19 +121,19 @@
     </div>
   </section>
 
-  <!-- CTA -->
+  
   <section class="page-section" id="cta">
     <div class="container">
       <div class="cta-card reveal">
         <h2>Ready to Experience These Features?</h2>
         <p>Download AI Sign Bridge and start translating sign language to speech in minutes.</p>
-        <a href="#" class="btn-primary" id="launchBtn">⬇️ Download & Launch <span class="arrow">→</span></a>
+        <a href="#" class="btn-primary" id="launchBtn"><i data-lucide="download"></i> Download & Launch <span class="arrow">→</span></a>
         <p class="subnote">Free · Open Source · No account needed</p>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  
   <footer class="footer">
     <div class="container">
       <div class="footer-brand"><span>AI Sign Bridge</span></div>
@@ -149,7 +149,7 @@
     </div>
   </footer>
 
-  <!-- Back to Top -->
+  
   <button id="back-to-top" aria-label="Back to top">↑</button>
 
   <script src="js/main.js"></script>

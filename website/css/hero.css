@@ -1,17 +1,12 @@
-/* ============================================================
-   AI Sign Bridge — Cinematic Frame (Remake v2)
-   Single-viewport frame · no page scroll · pages switch
-   behind the frame via top nav · sections switch via the
-   bottom switcher (replacing scroll). Videos auto-cycle.
-   ============================================================ */
 
-/* ---------- GLOBAL: LOCK TO THE FRAME ---------- */
+
+
 html, body {
   height: 100%;
   overflow: hidden;
 }
 
-/* ---------- FRAME ---------- */
+
 .hm-hero {
   position: relative;
   width: 100%;
@@ -19,11 +14,11 @@ html, body {
   height: 100svh;
   min-height: 560px;
   overflow: hidden;
-  background: #000; /* prevents flash before videos load */
+  background: #000; 
   color: #fff;
 }
 
-/* ---------- VIDEO LAYER (auto-cycles) ---------- */
+
 .hm-video {
   position: absolute;
   inset: 0;
@@ -36,7 +31,7 @@ html, body {
 }
 .hm-video.active { opacity: 1; }
 
-/* ---------- AMBIENT OVERLAY ---------- */
+
 .hm-overlay {
   position: absolute;
   inset: 0;
@@ -53,7 +48,7 @@ html, body {
   50%      { transform: translateY(-6px) scale(1.03); }
 }
 
-/* Soft shade keeps white text legible over any video */
+
 .hm-shade {
   position: absolute;
   inset: 0;
@@ -62,7 +57,7 @@ html, body {
   background: radial-gradient(120% 90% at 50% 40%, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0.46) 100%);
 }
 
-/* ---------- CONTENT LAYER ---------- */
+
 .hm-content {
   position: relative;
   z-index: 2;
@@ -75,7 +70,7 @@ html, body {
   padding: 0 24px;
 }
 
-/* ---------- LIQUID GLASS ---------- */
+
 .hm-glass {
   background: rgba(0, 0, 0, 0.18);
   background-blend-mode: normal;
@@ -102,7 +97,7 @@ html, body {
   pointer-events: none;
 }
 
-/* ---------- NAVIGATION (centered) ---------- */
+
 .hm-nav {
   position: relative;
   display: flex;
@@ -207,9 +202,9 @@ html, body {
 }
 .hm-icon-btn:hover { color: #fff; }
 
-/* Theme toggle removed — dark mode always active */
 
-/* Hamburger + theme mirror — pinned top-right on mobile */
+
+
 .hm-mobile-row {
   position: absolute;
   top: 12px;
@@ -241,7 +236,7 @@ html, body {
 .hm-hamburger.open .hm-icon-menu { opacity: 0; transform: rotate(90deg) scale(0.75); }
 .hm-hamburger.open .hm-icon-x { opacity: 1; transform: rotate(0) scale(1); }
 
-/* ---------- STAGE (pages → sections) ---------- */
+
 .hm-stage {
   flex: 1;
   position: relative;
@@ -255,10 +250,11 @@ html, body {
   inset: 0;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 450ms ease, visibility 450ms ease;
   overflow: hidden;
 }
-.hm-page.active { opacity: 1; visibility: visible; }
+.hm-page.active { opacity: 1; visibility: visible; pointer-events: auto; }
 
 .hm-section {
   position: absolute;
@@ -269,10 +265,11 @@ html, body {
   justify-content: safe center;
   text-align: center;
   gap: 10px;
-  /* Clamp width to the visible train-window glass area */
+  
   padding: 4px clamp(14px, calc(50% - 310px), 50%) 8px;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transform: translateY(22px);
   overflow-y: auto;
   scrollbar-width: none;
@@ -281,9 +278,9 @@ html, body {
               visibility 500ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .hm-section::-webkit-scrollbar { display: none; }
-.hm-section.active { opacity: 1; visibility: visible; transform: translateY(0); }
+.hm-section.active { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
 
-/* ---------- SHARED SECTION BUILDING BLOCKS ---------- */
+
 .hm-badge {
   display: inline-flex;
   align-items: center;
@@ -365,7 +362,7 @@ html, body {
   .hm-cta-ghost { width: 100%; justify-content: center; }
 }
 
-/* ---------- CARDS GRID ---------- */
+
 .hm-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -412,7 +409,7 @@ html, body {
   padding: 2px 8px;
 }
 
-/* ---------- ROWS (in-depth lists) ---------- */
+
 .hm-rows {
   display: flex;
   flex-direction: column;
@@ -445,7 +442,7 @@ html, body {
   line-height: 1.45;
 }
 
-/* ---------- STEPS (pipeline) — 2×2 grid so it fits the window ---------- */
+
 .hm-steps {
   display: grid;
   grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
@@ -495,7 +492,7 @@ html, body {
   margin-top: 1px;
 }
 
-/* ---------- DUO PANELS (bidirectional) ---------- */
+
 .hm-duo {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -505,7 +502,7 @@ html, body {
 }
 .hm-duo .hm-card { padding: 14px 12px; }
 
-/* ---------- LEARN (fingerspell) ---------- */
+
 .hm-learn-input {
   width: 100%;
   max-width: 560px;
@@ -622,7 +619,7 @@ html, body {
 }
 .hm-chip:hover { border-color: rgba(255, 255, 255, 0.4); color: #fff; transform: translateY(-2px); }
 
-/* ---------- DOWNLOAD ---------- */
+
 .hm-downloads { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 .hm-downloads .hm-btn-solid { padding: 15px 28px; font-size: 0.95rem; }
 .hm-sec-link {
@@ -637,7 +634,7 @@ html, body {
 .hm-sec-link:hover { color: #fff; border-color: #fff; }
 .hm-sec-note { font-family: system-ui, sans-serif; font-size: 0.78rem; color: rgba(255, 255, 255, 0.55); }
 
-/* ---------- BOTTOM SWITCHER (sections) ---------- */
+
 .hm-switcher {
   display: flex;
   align-items: center;
@@ -664,7 +661,7 @@ html, body {
 .hm-switch-btn:hover { color: rgba(255, 255, 255, 0.85); }
 .hm-switch-btn.active { color: #fff; border-bottom-color: #fff; }
 
-/* ---------- BOTTOM STATS ---------- */
+
 .hm-stats {
   display: none;
   align-items: center;
@@ -680,7 +677,7 @@ html, body {
 .hm-stat-divider { color: rgba(255, 255, 255, 0.35); }
 @media (min-width: 640px) { .hm-stats { display: flex; font-size: 0.85rem; } }
 
-/* ---------- MOBILE MENU OVERLAY ---------- */
+
 .hm-menu {
   position: fixed;
   inset: 0;
@@ -736,7 +733,7 @@ html, body {
 .hm-menu.open .hm-menu-cta { opacity: 1; transform: scale(1); transition-delay: 350ms; }
 .hm-menu-cta .hm-btn-solid { padding: 15px 36px; font-size: 1rem; }
 
-/* ---------- SHORT VIEWPORTS ---------- */
+
 @media (max-height: 720px) {
   .hm-nav { gap: 6px; padding-top: 10px; padding-bottom: 6px; }
   .hm-section { gap: 8px; padding-top: 4px; }
@@ -762,13 +759,13 @@ html, body {
   .hm-sec-title { font-size: clamp(1rem, 2.5vw, 1.5rem); }
 }
 
-/* ---------- SMALL SCREENS ---------- */
+
 @media (max-width: 767px) {
   .hm-content { padding: 0 12px; }
-  /* Cards already 2-col; stack to 1 on very small mobile */
+  
   .hm-cards { grid-template-columns: 1fr; max-width: 280px; }
   .hm-duo { grid-template-columns: 1fr; max-width: 280px; }
-  /* Steps: collapse to 2x2 grid on mobile */
+  
   .hm-steps {
     grid-template-columns: 1fr auto 1fr;
     grid-template-rows: auto auto;
@@ -780,9 +777,7 @@ html, body {
   .hm-learn-input .hm-clear { padding: 10px; }
 }
 
-/* ---------- TONED-DOWN CONTENT BLOCKS ----------
-   Cards, rows, steps, inputs and tiles sit INSIDE the frame —
-   darker, semi-transparent, with only a hairline rim glow. */
+
 .hm-card,
 .hm-row,
 .hm-step,
@@ -843,7 +838,7 @@ html, body {
   border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* ---------- REDUCED MOTION ---------- */
+
 @media (prefers-reduced-motion: reduce) {
   .hm-overlay,
   .hm-video,
@@ -863,3 +858,10 @@ html, body {
     transition: none !important;
   }
 }
+
+.lucide, i[data-lucide] svg { display: inline-block; vertical-align: middle; }
+.hm-card .hm-card-icon svg, .hm-row .hm-row-icon svg, .hm-step .hm-step-icon svg { width: 1.25rem; height: 1.25rem; }
+.hm-empty .hm-empty-icon svg { width: 2.6rem; height: 2.6rem; }
+.hm-tile-space svg, .hm-learn-input .hm-clear svg { width: 1rem; height: 1rem; }
+.hm-downloads .hm-btn-solid svg { width: 1rem; height: 1rem; }
+.hm-sec-link svg { width: 0.9rem; height: 0.9rem; }

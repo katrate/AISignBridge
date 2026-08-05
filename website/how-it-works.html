@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How It Works — AI Sign Bridge</title>
   <meta name="description" content="Learn how AI Sign Bridge works: from webcam capture to hand landmark detection, AI classification, and speech output.">
-  <!-- Redirect to the main SPA and open the How It Works section -->
+  
   <script>window.location.replace('index.html?page=how');</script>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>  <link rel="stylesheet" href="css/style.css">
   <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
   
   <style>
@@ -93,7 +93,7 @@
   <canvas id="three-canvas"></canvas>
   <div id="scroll-progress"></div>
 
-  <!-- Navbar -->
+  
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
@@ -109,12 +109,12 @@
         <li><a href="about.html">About</a></li>
         <li><a href="index.html#cta" class="nav-cta">Launch App</a></li>
       </ul>
-      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
-      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode"><i data-lucide="moon"></i></button>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu"><i data-lucide="menu"></i></button>
     </div>
   </nav>
 
-  <!-- Page Header -->
+  
   <section class="page-header">
     <div class="container reveal">
       <span class="section-badge"><span class="badge-dot"></span> Technical Deep Dive</span>
@@ -124,21 +124,21 @@
     </div>
   </section>
 
-  <!-- Pipeline Diagram -->
+  
   <section class="page-section">
     <div class="container">
       <div class="pipeline-diagram reveal">
         <div class="diagram-box">
           <div class="diagram-row">
-            <div class="diagram-node"><div class="node-icon">📷</div><div class="node-label">Webcam Capture</div><div class="node-detail">OpenCV · 30 FPS</div></div>
+            <div class="diagram-node"><div class="node-icon"><i data-lucide="camera"></i></div><div class="node-label">Webcam Capture</div><div class="node-detail">OpenCV · 30 FPS</div></div>
             <div class="diagram-arrow">→</div>
-            <div class="diagram-node"><div class="node-icon">✋</div><div class="node-label">Hand Landmarks</div><div class="node-detail">MediaPipe Tasks API</div></div>
+            <div class="diagram-node"><div class="node-icon"><i data-lucide="hand"></i></div><div class="node-label">Hand Landmarks</div><div class="node-detail">MediaPipe Tasks API</div></div>
             <div class="diagram-arrow">→</div>
-            <div class="diagram-node"><div class="node-icon">📐</div><div class="node-label">Feature Extraction</div><div class="node-detail">132 engineered features</div></div>
+            <div class="diagram-node"><div class="node-icon"><i data-lucide="ruler"></i></div><div class="node-label">Feature Extraction</div><div class="node-detail">132 engineered features</div></div>
             <div class="diagram-arrow">→</div>
-            <div class="diagram-node"><div class="node-icon">🧠</div><div class="node-label">DNN Ensemble</div><div class="node-detail">3 models · 95%+ accuracy</div></div>
+            <div class="diagram-node"><div class="node-icon"><i data-lucide="brain"></i></div><div class="node-label">DNN Ensemble</div><div class="node-detail">3 models · 95%+ accuracy</div></div>
             <div class="diagram-arrow">→</div>
-            <div class="diagram-node"><div class="node-icon">🔊</div><div class="node-label">Speech Output</div><div class="node-detail">pyttsx3 TTS</div></div>
+            <div class="diagram-node"><div class="node-icon"><i data-lucide="volume-2"></i></div><div class="node-label">Speech Output</div><div class="node-detail">pyttsx3 TTS</div></div>
           </div>
           <div class="diagram-metrics">
             <div class="diagram-metric"><div class="metric-value">&lt;100ms</div><div class="metric-label">End-to-end latency</div></div>
@@ -151,11 +151,11 @@
     </div>
   </section>
 
-  <!-- Step-by-step details -->
+  
   <section class="page-section alt-bg">
     <div class="container" style="max-width:860px;">
       <div class="tech-deep-dive reveal">
-        <h3>📷 Step 1: Webcam Capture</h3>
+        <h3><i data-lucide="camera"></i> Step 1: Webcam Capture</h3>
         <p>The application initializes your webcam using OpenCV at 640×480 resolution, 30 FPS. Each frame is flipped horizontally (mirror mode) for an intuitive user experience. The capture runs in a dedicated QThread to avoid blocking the UI. Frames are processed every other frame (15 FPS effective inference rate) to balance CPU usage with responsiveness.</p>
         <div class="code-block">
           <span class="cm"># Frame capture loop (simplified)</span><br>
@@ -169,7 +169,7 @@
       </div>
 
       <div class="tech-deep-dive reveal reveal-delay-1">
-        <h3>✋ Step 2: Hand Landmark Detection</h3>
+        <h3><i data-lucide="hand"></i> Step 2: Hand Landmark Detection</h3>
         <p>MediaPipe's Tasks API (HandLandmarker) detects 21 3D landmarks on your hand in real-time. These landmarks represent key points: wrist, knuckles (MCP/PIP/DIP), and fingertips for all 5 fingers. The model returns normalized (x, y, z) coordinates for each point, where z represents depth from the camera. Only one hand is tracked per frame for performance.</p>
         <div class="code-block">
           <span class="cm"># MediaPipe Tasks hand landmarking</span><br>
@@ -182,7 +182,7 @@
       </div>
 
       <div class="tech-deep-dive reveal reveal-delay-2">
-        <h3>📐 Step 3: Feature Engineering</h3>
+        <h3><i data-lucide="ruler"></i> Step 3: Feature Engineering</h3>
         <p>The raw 63 values (21×3) go through sophisticated feature engineering in <code>feature_extraction.py</code>. This produces 132 features:</p>
         <p><strong>• 42 normalized XY coordinates</strong> — bounding-box normalized for scale invariance<br>
         <strong>• 21 normalized Z coordinates</strong> — depth values centered on the wrist<br>
@@ -191,7 +191,7 @@
       </div>
 
       <div class="tech-deep-dive reveal reveal-delay-3">
-        <h3>🧠 Step 4: Deep Neural Network Ensemble</h3>
+        <h3><i data-lucide="brain"></i> Step 4: Deep Neural Network Ensemble</h3>
         <p>Three independently trained DNNs each classify the sign. Each network uses a residual MLP architecture:</p>
         <p><strong>Input (132)</strong> → Dense(512) → BN → ReLU → Drop → <strong>ResBlock(512)</strong> → ResBlock(256) → ResBlock(256) → ResBlock(128) → ResBlock(128) → ResBlock(64) → Dense(64) → <strong>Output (37 classes)</strong></p>
         <p>Training uses <strong>focal loss</strong> (γ=2.0) to focus on hard examples, <strong>class weights</strong> to balance rare signs, <strong>on-the-fly augmentation</strong> (noise + masking + scaling), and <strong>cosine learning rate decay</strong> with warmup. At inference, <strong>test-time augmentation (TTA)</strong> averages predictions across 20 noise-injected variants for maximum robustness.</p>
@@ -210,14 +210,14 @@
       </div>
 
       <div class="tech-deep-dive reveal reveal-delay-4">
-        <h3>🔊 Step 5: Temporal Smoothing & Speech</h3>
+        <h3><i data-lucide="volume-2"></i> Step 5: Temporal Smoothing & Speech</h3>
         <p>Raw predictions are smoothed with an <strong>Exponential Moving Average (EMA)</strong> (α=0.6) over the full probability vector to prevent flickering between similar signs (e.g., R vs U). A cooldown system prevents duplicate emissions within 5 frames. The system only emits when confidence exceeds a threshold (50% for new signs, 45% for repeats).</p>
         <p>Finally, pyttsx3 speaks the recognized sign in a background thread. Multiple detections are accumulated into natural phrases (up to 3 words) before being spoken, creating a fluid conversational rhythm.</p>
       </div>
     </div>
   </section>
 
-  <!-- Data Pipeline -->
+  
   <section class="page-section">
     <div class="container" style="max-width:860px;">
       <div class="reveal" style="text-align:center;margin-bottom:48px;">
@@ -228,25 +228,25 @@
       <div class="steps-grid" style="margin-top:0;">
         <div class="step reveal reveal-delay-1">
           <div class="step-number">1</div>
-          <span class="step-icon">📥</span>
+          <span class="step-icon"><i data-lucide="download"></i></span>
           <h3>Data Collection</h3>
           <p>17,495 samples collected from the Kaggle ASL alphabet dataset (A-Z, 0-9). Raw images processed through MediaPipe for landmark extraction.</p>
         </div>
         <div class="step reveal reveal-delay-2">
           <div class="step-number">2</div>
-          <span class="step-icon">🔄</span>
+          <span class="step-icon"><i data-lucide="refresh-cw"></i></span>
           <h3>Augmentation</h3>
           <p>Train-only augmentation: mirroring, rotation (±30°), scaling (±15%), aspect stretch, Gaussian jitter. Val/test sets kept clean for honest evaluation.</p>
         </div>
         <div class="step reveal reveal-delay-3">
           <div class="step-number">3</div>
-          <span class="step-icon">⚖️</span>
+          <span class="step-icon"><i data-lucide="scale"></i></span>
           <h3>Balancing</h3>
           <p>Each class balanced to 1,200 training samples via targeted augmentation. Class weights applied during training for remaining imbalance.</p>
         </div>
         <div class="step reveal reveal-delay-4">
           <div class="step-number">4</div>
-          <span class="step-icon">🧪</span>
+          <span class="step-icon"><i data-lucide="flask-conical"></i></span>
           <h3>Training</h3>
           <p>3 DNNs trained independently with different seeds. Focal loss, cosine decay, early stopping. Best model achieves 95%+ test accuracy.</p>
         </div>
@@ -254,7 +254,7 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  
   <footer class="footer">
     <div class="container">
       <div class="footer-brand"><span>AI Sign Bridge</span></div>
@@ -270,7 +270,7 @@
     </div>
   </footer>
 
-  <!-- Back to Top -->
+  
   <button id="back-to-top" aria-label="Back to top">↑</button>
 
   <script src="js/main.js"></script>

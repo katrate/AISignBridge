@@ -1,17 +1,7 @@
-#!/usr/bin/env python3
-"""
-AI Sign Bridge — Demo Server
-================================
-Optional Python backend for the web demo page.
-Provides a simulated sign detection API endpoint.
 
-Usage:
-    pip install flask flask-cors
-    python demo_server.py
 
-Then visit http://localhost:5000/demo.html
-The demo page will connect to this server for enhanced interactivity.
-"""
+
+
 
 import random
 import time
@@ -35,7 +25,7 @@ except ImportError:
 app = Flask(__name__, static_folder='.')
 CORS(app)
 
-# ── Simulated Detection Engine ──
+
 
 LETTERS = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 DETECTION_HISTORY = []
@@ -47,10 +37,7 @@ SESSION_STATS = {
 
 @app.route('/api/detect', methods=['POST'])
 def detect():
-    """
-    Simulate sign detection. Accepts optional 'letter' parameter
-    or returns a random prediction with realistic confidence.
-    """
+    
     data = request.get_json() or {}
     letter = data.get('letter')
 
@@ -59,7 +46,7 @@ def detect():
     else:
         letter = random.choice(LETTERS)
 
-    # Simulate realistic confidence (92-99%)
+    
     confidence = round(92 + random.random() * 7, 1)
 
     detection = {
@@ -82,7 +69,7 @@ def detect():
 
 @app.route('/api/stats', methods=['GET'])
 def stats():
-    """Return current session statistics."""
+    
     uptime = time.time() - SESSION_STATS["start_time"]
     return jsonify({
         **SESSION_STATS,
@@ -94,7 +81,7 @@ def stats():
 
 @app.route('/api/health', methods=['GET'])
 def health():
-    """Health check endpoint."""
+    
     return jsonify({
         "status": "ok",
         "model": "AI Sign Bridge Demo v1.0",
@@ -102,7 +89,7 @@ def health():
     })
 
 
-# Serve static files (the website)
+
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')

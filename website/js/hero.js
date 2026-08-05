@@ -1,8 +1,4 @@
-/* ============================================================
-   AI Sign Bridge — Cinematic Frame (Remake v2)
-   Top nav = pages · bottom switcher = sections (no scroll)
-   Background videos auto-cycle behind the frame.
-   ============================================================ */
+
 
 (function () {
   'use strict';
@@ -10,12 +6,12 @@
   var hero = document.getElementById('hmHero');
   if (!hero) return;
 
-  // ====== PAGES & SECTIONS ======
+  
   var PAGES = {
-    // The Download section stays in the home page (reachable via the
-    // navbar's "Download App" button, data-go="home:1") but has no
-    // tab in the bottom switcher — the switcher shows only Overview.
-    home:     { label: 'Home',         sections: ['Overview'] },
+    
+    
+    
+    home:     { label: 'Home',         sections: ['Overview', 'Download'] },
     features: { label: 'Features',     sections: ['Highlights', 'In Depth'] },
     how:      { label: 'How It Works', sections: ['Pipeline', 'Bidirectional', 'Training'] },
     learn:    { label: 'Learn ASL',    sections: ['Fingerspell', 'Tips'] },
@@ -31,7 +27,7 @@
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.hm-nav-link'));
   var menuLinks = Array.prototype.slice.call(document.querySelectorAll('.hm-menu-link'));
 
-  // Gather page elements
+  
   Object.keys(PAGES).forEach(function (name) {
     pages[name] = stage.querySelector('.hm-page[data-page="' + name + '"]');
   });
@@ -39,8 +35,8 @@
   function goToPage(name, section) {
     if (!PAGES[name]) return;
 
-    // Same page: jump straight to the requested section
-    // (re-clicking a nav link resets the page to its first section)
+    
+    
     if (name === currentPage) {
       if (section == null) goToSection(0);
       else goToSection(section);
@@ -52,19 +48,22 @@
 
     Object.keys(pages).forEach(function (p) {
       pages[p].classList.toggle('active', p === name);
+      pages[p].querySelectorAll('.hm-section').forEach(function (s) {
+        s.classList.remove('active');
+      });
     });
 
-    // Activate the target section
+    
     var secs = pages[name].querySelectorAll('.hm-section');
     secs.forEach(function (s, i) {
       s.classList.toggle('active', i === currentSection);
     });
 
-    // Nav + menu active states
+    
     navLinks.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-page') === name); });
     menuLinks.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-page') === name); });
 
-    // Gently focus the fingerspell input when opening Learn on desktop
+    
     if (name === 'learn' && window.matchMedia('(min-width: 768px)').matches) {
       var ti = document.getElementById('textInput');
       if (ti) window.setTimeout(function () { ti.focus(); }, 520);
@@ -83,7 +82,7 @@
     renderSwitcher();
   }
 
-  // ====== SECTION SWITCHER (rebuilt per page) ======
+  
   function renderSwitcher() {
     if (!switcher) return;
     switcher.innerHTML = '';
@@ -99,9 +98,9 @@
     });
   }
 
-  // ====== NAVIGATION WIRING ======
-  // Nav pill, logo, ghost CTA + mobile menu buttons switch pages.
-  // Scoped to buttons only — the .hm-page section divs also carry data-page.
+  
+  
+  
   var pageButtons = Array.prototype.slice.call(document.querySelectorAll('button[data-page]'));
   pageButtons.forEach(function (b) {
     b.addEventListener('click', function () {
@@ -110,7 +109,7 @@
     });
   });
 
-  // "data-go" buttons jump to a page + section, e.g. data-go="home:1"
+  
   document.querySelectorAll('[data-go]').forEach(function (b) {
     b.addEventListener('click', function () {
       var parts = b.getAttribute('data-go').split(':');
@@ -121,7 +120,7 @@
     });
   });
 
-  // ====== BACKGROUND VIDEOS: AUTO-CYCLE ======
+  
   var videos = Array.prototype.slice.call(hero.querySelectorAll('.hm-video'));
   var videoIdx = 0;
   var videoTimer = null;
@@ -136,7 +135,7 @@
 
   if (videos.length > 1) {
     videoTimer = window.setInterval(cycleVideo, 20000);
-    // Reduce background video motion when the page is hidden
+    
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) {
         window.clearInterval(videoTimer);
@@ -147,7 +146,7 @@
     });
   }
 
-  // ====== LEARN — FINGERSPELLING TOOL ======
+  
   function initFingerspell() {
     var input = document.getElementById('textInput');
     if (!input) return;
@@ -191,7 +190,7 @@
           img.alt = 'ASL sign for ' + c;
           img.loading = 'lazy';
           img.onerror = function () {
-            this.outerHTML = '<div class="hm-tile-space">🖐️</div>';
+            this.outerHTML = '<div class="hm-tile-space"><i data-lucide="hand"></i></div>';
           };
           tile.appendChild(img);
           var label = document.createElement('div');
@@ -201,6 +200,9 @@
         }
         strip.appendChild(tile);
       });
+      if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
     }
 
     input.addEventListener('input', function () { build(this.value); });
@@ -219,7 +221,7 @@
     build('');
   }
 
-  // ====== MOBILE MENU ======
+  
   var menuBtn = document.getElementById('hmMenuBtn');
   var menu = document.getElementById('hmMenu');
 
@@ -240,36 +242,45 @@
       menu.setAttribute('aria-hidden', open ? 'false' : 'true');
       document.body.style.overflow = open ? 'hidden' : '';
     });
+    menu.addEventListener('click', function (e) {
+      if (e.target === menu) closeMenu();
+    });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closeMenu();
     });
   }
 
-  // ====== THEME TOGGLE MIRROR (desktop + mobile) ======
+  
   var themePrimary = document.getElementById('themeToggle');
   var themeMirrors = Array.prototype.slice.call(document.querySelectorAll('[data-theme-toggle-mirror]'));
   if (themePrimary && themeMirrors.length) {
+    var refreshIcons = function () {
+      if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    };
     themeMirrors.forEach(function (m) {
       m.addEventListener('click', function () { themePrimary.click(); });
-      m.textContent = themePrimary.textContent;
+      m.innerHTML = themePrimary.innerHTML;
     });
     var syncIcons = function () {
-      themeMirrors.forEach(function (m) { m.textContent = themePrimary.textContent; });
+      themeMirrors.forEach(function (m) { m.innerHTML = themePrimary.innerHTML; });
+      refreshIcons();
     };
     var observer = new MutationObserver(syncIcons);
     observer.observe(themePrimary, { childList: true, characterData: true, subtree: true });
     syncIcons();
   }
 
-  // ====== INIT ======
+  
   initFingerspell();
   renderSwitcher();
 
-  // ── Deep-link: open the page named in ?page=xxx (used by redirect pages) ──
+  
   (function () {
     var param = new URLSearchParams(window.location.search).get('page');
     if (param && param !== 'home') {
-      // Small delay so the DOM is fully painted before switching
+      
       window.setTimeout(function () { goToPage(param); }, 80);
     }
   })();

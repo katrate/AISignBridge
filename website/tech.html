@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Technology — AI Sign Bridge</title>
   <meta name="description" content="Technology stack behind AI Sign Bridge: TensorFlow, MediaPipe, OpenCV, pyttsx3, Vosk, PyQt6 and more.">
-  <!-- Redirect to the main SPA — features section is the closest equivalent -->
+  
   <script>window.location.replace('index.html?page=features');</script>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>  <link rel="stylesheet" href="css/style.css">
   <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
   
   <style>
@@ -53,7 +53,7 @@
   <canvas id="three-canvas"></canvas>
   <div id="scroll-progress"></div>
 
-  <!-- Navbar -->
+  
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
@@ -69,12 +69,12 @@
         <li><a href="about.html">About</a></li>
         <li><a href="index.html#cta" class="nav-cta">Launch App</a></li>
       </ul>
-      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
-      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode"><i data-lucide="moon"></i></button>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu"><i data-lucide="menu"></i></button>
     </div>
   </nav>
 
-  <!-- Page Header -->
+  
   <section class="page-header">
     <div class="container reveal">
       <span class="section-badge"><span class="badge-dot"></span> Technology</span>
@@ -84,7 +84,7 @@
     </div>
   </section>
 
-  <!-- Tech Stack -->
+  
   <section class="page-section">
     <div class="container">
       <div class="tech-hero-grid">
@@ -96,21 +96,21 @@
             plays a critical role in delivering real-time sign language translation.
           </p>
           <div class="tech-cloud" style="justify-content:flex-start;">
-            <span class="tech-item">🐍 Python 3.13</span>
-            <span class="tech-item">🧠 TensorFlow 2.21</span>
-            <span class="tech-item">✋ MediaPipe</span>
-            <span class="tech-item">📷 OpenCV</span>
-            <span class="tech-item">📊 scikit-learn</span>
-            <span class="tech-item">⚛️ PyQt6</span>
-            <span class="tech-item">🔊 pyttsx3</span>
-            <span class="tech-item">🎤 Vosk</span>
-            <span class="tech-item">📈 NumPy</span>
-            <span class="tech-item">🐼 Pandas</span>
-            <span class="tech-item">🔄 joblib</span>
+            <span class="tech-item"><i data-lucide="snake"></i> Python 3.13</span>
+            <span class="tech-item"><i data-lucide="brain"></i> TensorFlow 2.21</span>
+            <span class="tech-item"><i data-lucide="hand"></i> MediaPipe</span>
+            <span class="tech-item"><i data-lucide="camera"></i> OpenCV</span>
+            <span class="tech-item"><i data-lucide="bar-chart-3"></i> scikit-learn</span>
+            <span class="tech-item"><i data-lucide="atom"></i> PyQt6</span>
+            <span class="tech-item"><i data-lucide="volume-2"></i> pyttsx3</span>
+            <span class="tech-item"><i data-lucide="mic"></i> Vosk</span>
+            <span class="tech-item"><i data-lucide="trending-up"></i> NumPy</span>
+            <span class="tech-item"><i data-lucide="paw-print"></i> Pandas</span>
+            <span class="tech-item"><i data-lucide="refresh-cw"></i> joblib</span>
           </div>
         </div>
 
-        <!-- Stats card -->
+        
         <div class="reveal reveal-delay-1">
           <div class="glass-card" style="padding:32px;">
             <div style="margin-bottom:24px;">
@@ -129,7 +129,7 @@
     </div>
   </section>
 
-  <!-- Detailed Stack Items -->
+  
   <section class="page-section alt-bg">
     <div class="container" style="max-width:860px;">
       <div style="text-align:center;margin-bottom:48px;" class="reveal">
@@ -138,19 +138,19 @@
         <h2 class="section-title">Every <span class="highlight">Component</span> Explained</h2>
       </div>
       <div class="stack-list">
-        <div class="stack-item reveal"><span class="si-icon">🧠</span><div class="si-info"><div class="si-name">TensorFlow 2.21 + Keras</div><div class="si-desc">Deep learning framework powering the 3-model DNN ensemble. Residual MLP blocks, focal loss, AdamW optimizer. CPU-optimized inference via oneDNN.</div></div><span class="si-version">2.21</span></div>
-        <div class="stack-item reveal reveal-delay-1"><span class="si-icon">✋</span><div class="si-info"><div class="si-name">MediaPipe Tasks API</div><div class="si-desc">State-of-the-art hand landmark detection. 21 3D landmarks per hand at 30+ FPS. Uses the new Tasks API (HandLandmarker) with .task model format.</div></div><span class="si-version">0.10.31</span></div>
-        <div class="stack-item reveal reveal-delay-2"><span class="si-icon">📷</span><div class="si-info"><div class="si-name">OpenCV</div><div class="si-desc">Camera capture at 640×480, 30 FPS. Frame flipping, drawing overlays for landmarks and connections. BGR-to-RGB conversion for MediaPipe.</div></div><span class="si-version">4.x</span></div>
-        <div class="stack-item reveal reveal-delay-3"><span class="si-icon">⚛️</span><div class="si-info"><div class="si-name">PyQt6</div><div class="si-desc">Cross-platform desktop UI framework. QThread-based worker threads for camera and speech. Custom dark theme with styled widgets.</div></div><span class="si-version">6.x</span></div>
-        <div class="stack-item reveal reveal-delay-4"><span class="si-icon">🔊</span><div class="si-info"><div class="si-name">pyttsx3</div><div class="si-desc">Offline text-to-speech engine. Voice selection, speed/volume control. Runs in background thread with phrase queuing for natural speech rhythm.</div></div><span class="si-version">2.x</span></div>
-        <div class="stack-item reveal reveal-delay-5"><span class="si-icon">🎤</span><div class="si-info"><div class="si-name">Vosk</div><div class="si-desc">Offline speech recognition for bidirectional communication. Listens for spoken letters/numbers and displays corresponding ASL signs.</div></div><span class="si-version">0.3.x</span></div>
-        <div class="stack-item reveal"><span class="si-icon">📊</span><div class="si-info"><div class="si-name">scikit-learn</div><div class="si-desc">Label encoding, train/test splitting, classification metrics. Also used for legacy ensemble model (HistGradientBoosting + SVM + MLP).</div></div><span class="si-version">1.x</span></div>
-        <div class="stack-item reveal reveal-delay-1"><span class="si-icon">📈</span><div class="si-info"><div class="si-name">NumPy + Pandas</div><div class="si-desc">Data manipulation and numerical computation. Feature engineering with vectorized operations. Dataset loading and preprocessing.</div></div><span class="si-version">—</span></div>
+        <div class="stack-item reveal"><span class="si-icon"><i data-lucide="brain"></i></span><div class="si-info"><div class="si-name">TensorFlow 2.21 + Keras</div><div class="si-desc">Deep learning framework powering the 3-model DNN ensemble. Residual MLP blocks, focal loss, AdamW optimizer. CPU-optimized inference via oneDNN.</div></div><span class="si-version">2.21</span></div>
+        <div class="stack-item reveal reveal-delay-1"><span class="si-icon"><i data-lucide="hand"></i></span><div class="si-info"><div class="si-name">MediaPipe Tasks API</div><div class="si-desc">State-of-the-art hand landmark detection. 21 3D landmarks per hand at 30+ FPS. Uses the new Tasks API (HandLandmarker) with .task model format.</div></div><span class="si-version">0.10.31</span></div>
+        <div class="stack-item reveal reveal-delay-2"><span class="si-icon"><i data-lucide="camera"></i></span><div class="si-info"><div class="si-name">OpenCV</div><div class="si-desc">Camera capture at 640×480, 30 FPS. Frame flipping, drawing overlays for landmarks and connections. BGR-to-RGB conversion for MediaPipe.</div></div><span class="si-version">4.x</span></div>
+        <div class="stack-item reveal reveal-delay-3"><span class="si-icon"><i data-lucide="atom"></i></span><div class="si-info"><div class="si-name">PyQt6</div><div class="si-desc">Cross-platform desktop UI framework. QThread-based worker threads for camera and speech. Custom dark theme with styled widgets.</div></div><span class="si-version">6.x</span></div>
+        <div class="stack-item reveal reveal-delay-4"><span class="si-icon"><i data-lucide="volume-2"></i></span><div class="si-info"><div class="si-name">pyttsx3</div><div class="si-desc">Offline text-to-speech engine. Voice selection, speed/volume control. Runs in background thread with phrase queuing for natural speech rhythm.</div></div><span class="si-version">2.x</span></div>
+        <div class="stack-item reveal reveal-delay-5"><span class="si-icon"><i data-lucide="mic"></i></span><div class="si-info"><div class="si-name">Vosk</div><div class="si-desc">Offline speech recognition for bidirectional communication. Listens for spoken letters/numbers and displays corresponding ASL signs.</div></div><span class="si-version">0.3.x</span></div>
+        <div class="stack-item reveal"><span class="si-icon"><i data-lucide="bar-chart-3"></i></span><div class="si-info"><div class="si-name">scikit-learn</div><div class="si-desc">Label encoding, train/test splitting, classification metrics. Also used for legacy ensemble model (HistGradientBoosting + SVM + MLP).</div></div><span class="si-version">1.x</span></div>
+        <div class="stack-item reveal reveal-delay-1"><span class="si-icon"><i data-lucide="trending-up"></i></span><div class="si-info"><div class="si-name">NumPy + Pandas</div><div class="si-desc">Data manipulation and numerical computation. Feature engineering with vectorized operations. Dataset loading and preprocessing.</div></div><span class="si-version">—</span></div>
       </div>
     </div>
   </section>
 
-  <!-- Comparison -->
+  
   <section class="page-section">
     <div class="container" style="max-width:860px;">
       <div style="text-align:center;margin-bottom:48px;" class="reveal">
@@ -164,19 +164,19 @@
             <tr><th>Requirement</th><th>Chosen Solution</th><th>Alternative</th><th>Why We Chose It</th></tr>
           </thead>
           <tbody>
-            <tr><td>UI Framework</td><td>PyQt6 <span class="check">✓</span></td><td>Tkinter, Electron</td><td>Native performance, QThread support, rich styling</td></tr>
-            <tr><td>Hand Tracking</td><td>MediaPipe Tasks <span class="check">✓</span></td><td>OpenCV + custom CV</td><td>30 FPS, 21 landmarks, 3D depth, robust occlusion</td></tr>
-            <tr><td>Deep Learning</td><td>TensorFlow <span class="check">✓</span></td><td>PyTorch, ONNX</td><td>Keras ease of use, SavedModel format, TF Lite ready</td></tr>
-            <tr><td>Speech Output</td><td>pyttsx3 <span class="check">✓</span></td><td>gTTS, Windows SAPI</td><td>100% offline, low latency, voice selection</td></tr>
-            <tr><td>Speech Input</td><td>Vosk <span class="check">✓</span></td><td>Google STT, Whisper</td><td>Offline, small model, real-time streaming</td></tr>
-            <tr><td>Deployment</td><td>Python CLI <span class="check">✓</span></td><td>PyInstaller, Docker</td><td>Zero build step, cross-platform, open source</td></tr>
+            <tr><td>UI Framework</td><td>PyQt6 <span class="check"><i data-lucide="check"></i></span></td><td>Tkinter, Electron</td><td>Native performance, QThread support, rich styling</td></tr>
+            <tr><td>Hand Tracking</td><td>MediaPipe Tasks <span class="check"><i data-lucide="check"></i></span></td><td>OpenCV + custom CV</td><td>30 FPS, 21 landmarks, 3D depth, robust occlusion</td></tr>
+            <tr><td>Deep Learning</td><td>TensorFlow <span class="check"><i data-lucide="check"></i></span></td><td>PyTorch, ONNX</td><td>Keras ease of use, SavedModel format, TF Lite ready</td></tr>
+            <tr><td>Speech Output</td><td>pyttsx3 <span class="check"><i data-lucide="check"></i></span></td><td>gTTS, Windows SAPI</td><td>100% offline, low latency, voice selection</td></tr>
+            <tr><td>Speech Input</td><td>Vosk <span class="check"><i data-lucide="check"></i></span></td><td>Google STT, Whisper</td><td>Offline, small model, real-time streaming</td></tr>
+            <tr><td>Deployment</td><td>Python CLI <span class="check"><i data-lucide="check"></i></span></td><td>PyInstaller, Docker</td><td>Zero build step, cross-platform, open source</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  
   <footer class="footer">
     <div class="container">
       <div class="footer-brand"><span>AI Sign Bridge</span></div>
@@ -192,7 +192,7 @@
     </div>
   </footer>
 
-  <!-- Back to Top -->
+  
   <button id="back-to-top" aria-label="Back to top">↑</button>
 
   <script src="js/main.js"></script>

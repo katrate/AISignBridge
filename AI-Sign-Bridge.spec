@@ -1,7 +1,7 @@
 ﻿# -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('app', 'app'), ('models', 'models'), ('data/raw_images', 'data/raw_images'), ('logo.png', '.')]
+datas = [('app', 'app'), ('assets', 'assets'), ('models', 'models'), ('data/raw_images', 'data/raw_images'), ('logo.png', '.')]
 binaries = []
 hiddenimports = ['app.ensemble_model', 'app.feature_extraction', 'sklearn.ensemble', 'sklearn.neural_network', 'sklearn.preprocessing', 'tensorflow', 'pyttsx3', 'vosk', 'sounddevice', 'joblib']
 tmp_ret = collect_all('mediapipe')

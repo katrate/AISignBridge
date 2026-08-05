@@ -5,31 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Sign Bridge — Real-Time Sign Language Translation</title>
   <meta name="description" content="Real-time ASL-to-speech translation using AI. Break communication barriers with our advanced hand gesture recognition system.">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/hero.css">
 </head>
 <body>
 
-  <!-- ======================= THE FRAME ======================= -->
+  
   <section class="hm-hero" id="hmHero">
 
-    <!-- Ambient background videos (auto-cycle, crossfade) -->
-    <!-- Ambient background videos: only videos 1 & 3 loop -->
+    
+    
     <video class="hm-video active" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081127_0992a171-d3c6-4978-8213-0ec5df8b6d63.mp4" autoplay muted loop playsinline preload="auto"></video>
     <video class="hm-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081042_df7202bf-bd80-4b2b-bbc6-1f09ba2870e9.mp4" autoplay muted loop playsinline preload="metadata"></video>
 
-    <!-- Ambient overlays -->
+    
     <div class="hm-overlay"></div>
     <div class="hm-shade"></div>
 
     <div class="hm-content">
 
-      <!-- ============ CENTERED NAV ============ -->
+      
       <nav class="hm-nav" id="hmNav" aria-label="Primary">
         <button type="button" class="hm-logo" data-page="home" aria-label="Sign Bridge — Home">
           <img src="logo.png" alt="" class="hm-logo-img" aria-hidden="true">Sign Bridge
@@ -52,67 +52,70 @@
         </div>
       </nav>
 
-      <!-- ============ STAGE (pages &rarr; sections) ============ -->
+      
       <div class="hm-stage" id="hmStage">
 
-        <!-- ───────────── HOME ───────────── -->
+        
         <div class="hm-page active" data-page="home">
           <section class="hm-section active" data-section="Overview">
             <div class="hm-badge hm-glass">Real-time &middot; Offline &middot; Open Source</div>
             <h1 class="hm-title">Sign Language,<br><em>Spoken Instantly</em></h1>
-            <p class="hm-sub">Point your webcam at any ASL hand sign and hear it spoken aloud. An offline-first AI that turns gestures into voice &mdash; bridging deaf and hearing worlds in real time.</p>
+            <p class="hm-sub">Point your webcam at any ASL hand sign and hear it spoken aloud. An offline-first AI that turns gestures into voice &mdash; bridging deaf and hearing worlds in real time. Trained on 17,500+ hand samples across the full ASL alphabet (A&ndash;Z) and digits (0&ndash;9), it runs entirely on your device &mdash; no cloud, no account, no tracking.</p>
             <button type="button" class="hm-cta-ghost" data-page="how">See How It Works &rarr;</button>
           </section>
 
           <section class="hm-section" data-section="Download">
             <div class="hm-badge hm-glass">Free &middot; Open Source &middot; v<span id="releaseVersion">&mdash;</span></div>
             <h2 class="hm-sec-title">Download <em>the App</em></h2>
-            <p class="hm-sec-sub">Works fully offline &mdash; no account, no cloud, no tracking. Windows, macOS &amp; Linux.</p>
+            <p class="hm-sec-sub">Works fully offline &mdash; no account, no cloud, no tracking. Windows, macOS &amp; Linux. The installer bundles the models, Vosk speech recognition and text-to-speech, so you can sign and hear words spoken instantly with nothing but a webcam.</p>
             <div class="hm-downloads" id="downloadButtons">
-              <a href="https://github.com/katrate/AISignBridge/releases/download/v1.0.16/AI-Sign-Bridge-Windows.zip" class="hm-btn-solid download-btn" data-os="windows" target="_blank" rel="noopener">🪟 Download for <strong>Windows</strong></a>
-              <a href="https://github.com/katrate/AISignBridge/releases/download/v1.0.16/AI-Sign-Bridge-macOS.dmg" class="hm-btn-solid download-btn" data-os="macos" target="_blank" rel="noopener">🍎 Download for <strong>macOS</strong></a>
+              <a href="https://github.com/katrate/AISignBridge/releases/download/v1.0.16/AI-Sign-Bridge-Windows.zip" class="hm-btn-solid download-btn" data-os="windows" target="_blank" rel="noopener"><i data-lucide="monitor"></i> Download for <strong>Windows</strong></a>
+              <a href="https://github.com/katrate/AISignBridge/releases/download/v1.0.16/AI-Sign-Bridge-macOS.dmg" class="hm-btn-solid download-btn" data-os="macos" target="_blank" rel="noopener"><i data-lucide="apple"></i> Download for <strong>macOS</strong></a>
             </div>
             <a class="hm-sec-link" href="https://github.com/katrate/AISignBridge" target="_blank" rel="noopener">View on GitHub</a>
             <p class="hm-sec-note">Python 3.12 · PyInstaller build · Auto-detects your OS</p>
           </section>
         </div>
 
-        <!-- ───────────── FEATURES ───────────── -->
+        
         <div class="hm-page" data-page="features">
           <section class="hm-section" data-section="Highlights">
             <h2 class="hm-sec-title">Everything <em>You Need</em></h2>
+            <p class="hm-sec-sub">A complete, self-contained translator. Three lightweight neural networks run as an ensemble to recognize 37 fingerspelling signs with 95%+ accuracy, fast enough for natural conversation.</p>
             <div class="hm-cards">
-              <div class="hm-card hm-glass"><div class="hm-card-icon">📷</div><h3>Live Webcam Detection</h3><p>21-point hand tracking at 30+ FPS via MediaPipe.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🧠</div><h3>AI Ensemble Engine</h3><p>3 deep networks voting &mdash; 95%+ accuracy.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🔊</div><h3>Text-to-Speech</h3><p>Every sign spoken aloud, fully offline.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🔄</div><h3>Bidirectional</h3><p>Sign &rarr; speech and speech &rarr; sign.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🔒</div><h3>100% Private</h3><p>All processing on-device. No cloud, ever.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">⚡</div><h3>Real-Time</h3><p>Under 100ms latency on a standard laptop.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="camera"></i></div><h3>Live Webcam Detection</h3><p>21-point hand tracking at 30+ FPS via MediaPipe.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="brain"></i></div><h3>AI Ensemble Engine</h3><p>3 deep networks voting &mdash; 95%+ accuracy.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="volume-2"></i></div><h3>Text-to-Speech</h3><p>Every sign spoken aloud, fully offline.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="refresh-cw"></i></div><h3>Bidirectional</h3><p>Sign &rarr; speech and speech &rarr; sign.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="lock"></i></div><h3>100% Private</h3><p>All processing on-device. No cloud, ever.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="zap"></i></div><h3>Real-Time</h3><p>Under 100ms latency on a standard laptop.</p></div>
             </div>
           </section>
 
           <section class="hm-section" data-section="In Depth">
             <h2 class="hm-sec-title">Under <em>the Hood</em></h2>
+            <p class="hm-sec-sub">Every layer is engineered for speed and stability &mdash; from the hand-tracking pipeline that feeds the models to the temporal smoothing that keeps recognition steady in real-world lighting and motion.</p>
             <div class="hm-rows">
-              <div class="hm-row hm-glass"><span class="hm-row-icon">🧠</span><div><h3>The Model</h3><p>Residual MLP ensembles trained with focal loss, class balancing and 20-round test-time augmentation for maximum stability.</p><div class="hm-tags"><span class="hm-tag">3-Model Ensemble</span><span class="hm-tag">Focal Loss</span><span class="hm-tag">TTA</span></div></div></div>
-              <div class="hm-row hm-glass"><span class="hm-row-icon">📐</span><div><h3>The Pipeline</h3><p>Camera &rarr; 21 hand landmarks &rarr; 132 engineered features &rarr; EMA temporal smoothing &rarr; offline speech output.</p><div class="hm-tags"><span class="hm-tag">132 Features</span><span class="hm-tag">EMA Smoothing</span><span class="hm-tag">&lt;100ms</span></div></div></div>
-              <div class="hm-row hm-glass"><span class="hm-row-icon">🛠️</span><div><h3>Retrainable &amp; Open</h3><p>Collect your own gestures, augment and retrain the whole pipeline &mdash; new signs need just 100+ samples.</p><div class="hm-tags"><span class="hm-tag">Open Source</span><span class="hm-tag">Custom Training</span><span class="hm-tag">A&ndash;Z · 0&ndash;9</span></div></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon"><i data-lucide="brain"></i></span><div><h3>The Model</h3><p>Residual MLP ensembles trained with focal loss, class balancing and 20-round test-time augmentation for maximum stability.</p><div class="hm-tags"><span class="hm-tag">3-Model Ensemble</span><span class="hm-tag">Focal Loss</span><span class="hm-tag">TTA</span></div></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon"><i data-lucide="ruler"></i></span><div><h3>The Pipeline</h3><p>Camera &rarr; 21 hand landmarks &rarr; 132 engineered features &rarr; EMA temporal smoothing &rarr; offline speech output.</p><div class="hm-tags"><span class="hm-tag">132 Features</span><span class="hm-tag">EMA Smoothing</span><span class="hm-tag">&lt;100ms</span></div></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon"><i data-lucide="wrench"></i></span><div><h3>Retrainable &amp; Open</h3><p>Collect your own gestures, augment and retrain the whole pipeline &mdash; new signs need just 100+ samples.</p><div class="hm-tags"><span class="hm-tag">Open Source</span><span class="hm-tag">Custom Training</span><span class="hm-tag">A&ndash;Z · 0&ndash;9</span></div></div></div>
             </div>
           </section>
         </div>
 
-        <!-- ───────────── HOW IT WORKS ───────────── -->
+        
         <div class="hm-page" data-page="how">
           <section class="hm-section" data-section="Pipeline">
             <h2 class="hm-sec-title">Gesture <em>to</em> Speech</h2>
+            <p class="hm-sec-sub">Signs travel through four optimized stages &mdash; from raw webcam frames to spoken words &mdash; in well under 100 milliseconds.</p>
             <div class="hm-steps">
-              <div class="hm-step hm-glass"><span class="hm-step-num">01</span><span class="hm-step-icon">📷</span><h3>Camera</h3><p>Webcam capture at 30 FPS, mirror mode.</p></div>
+              <div class="hm-step hm-glass"><span class="hm-step-num">01</span><span class="hm-step-icon"><i data-lucide="camera"></i></span><h3>Camera</h3><p>Webcam capture at 30 FPS, mirror mode.</p></div>
               <span class="hm-step-arrow">&rarr;</span>
-              <div class="hm-step hm-glass"><span class="hm-step-num">02</span><span class="hm-step-icon">✋</span><h3>Landmarks</h3><p>21 precise 3D hand points via MediaPipe.</p></div>
+              <div class="hm-step hm-glass"><span class="hm-step-num">02</span><span class="hm-step-icon"><i data-lucide="hand"></i></span><h3>Landmarks</h3><p>21 precise 3D hand points via MediaPipe.</p></div>
               <span class="hm-step-arrow">&rarr;</span>
-              <div class="hm-step hm-glass"><span class="hm-step-num">03</span><span class="hm-step-icon">🧠</span><h3>AI Classifies</h3><p>3-model ensemble, 95%+ accuracy.</p></div>
+              <div class="hm-step hm-glass"><span class="hm-step-num">03</span><span class="hm-step-icon"><i data-lucide="brain"></i></span><h3>AI Classifies</h3><p>3-model ensemble, 95%+ accuracy.</p></div>
               <span class="hm-step-arrow">&rarr;</span>
-              <div class="hm-step hm-glass"><span class="hm-step-num">04</span><span class="hm-step-icon">🔊</span><h3>Speech</h3><p>Offline TTS speaks the sign aloud.</p></div>
+              <div class="hm-step hm-glass"><span class="hm-step-num">04</span><span class="hm-step-icon"><i data-lucide="volume-2"></i></span><h3>Speech</h3><p>Offline TTS speaks the sign aloud.</p></div>
             </div>
             <div class="hm-metrics">
               <div class="hm-metric"><div class="hm-metric-value">&lt;100ms</div><div class="hm-metric-label">Latency</div></div>
@@ -124,40 +127,43 @@
 
           <section class="hm-section" data-section="Bidirectional">
             <h2 class="hm-sec-title">Talk <em>Both Ways</em></h2>
+            <p class="hm-sec-sub">Communication flows in both directions &mdash; you can sign to be spoken for, or speak and watch the matching sign appear. Both modes work offline.</p>
             <div class="hm-duo">
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🤟</div><h3>Sign &rarr; Speech</h3><p>You sign &mdash; the app recognizes the gesture and speaks it aloud in real time.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🗣️</div><h3>Speech &rarr; Sign</h3><p>You say a letter or number &mdash; Vosk grammar mode hears it and shows the matching ASL sign.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="hand"></i></div><h3>Sign &rarr; Speech</h3><p>You sign &mdash; the app recognizes the gesture and speaks it aloud in real time.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="mic"></i></div><h3>Speech &rarr; Sign</h3><p>You say a letter or number &mdash; Vosk grammar mode hears it and shows the matching ASL sign.</p></div>
             </div>
             <div class="hm-tags"><span class="hm-tag">Vosk STT</span><span class="hm-tag">Offline</span><span class="hm-tag">A&ndash;Z · 0&ndash;9</span></div>
           </section>
 
           <section class="hm-section" data-section="Training">
             <h2 class="hm-sec-title">How the <em>Model</em> Was Trained</h2>
+            <p class="hm-sec-sub">A reproducible, data-first pipeline: collect &rarr; augment &rarr; balance &rarr; train &rarr; validate &rarr; ship, with honest, held-out accuracy at every step.</p>
             <div class="hm-cards">
-              <div class="hm-card hm-glass"><div class="hm-card-icon">📥</div><h3>Collect</h3><p>17.5K ASL alphabet samples (A&ndash;Z, 0&ndash;9).</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🔄</div><h3>Augment</h3><p>Mirror, rotate &plusmn;30&deg;, scale &amp; jitter &mdash; train-only.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">⚖️</div><h3>Balance</h3><p>1,200 samples per class with class weights.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🧪</div><h3>Train</h3><p>3 DNNs, focal loss, cosine decay &mdash; 95%+ accuracy.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">📊</div><h3>Validate</h3><p>Clean held-out sets, honest metrics.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🚀</div><h3>Ship</h3><p>Frozen EXE / DMG / AppImage on every release.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="download"></i></div><h3>Collect</h3><p>17.5K ASL alphabet samples (A&ndash;Z, 0&ndash;9).</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="refresh-cw"></i></div><h3>Augment</h3><p>Mirror, rotate &plusmn;30&deg;, scale &amp; jitter &mdash; train-only.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="scale"></i></div><h3>Balance</h3><p>1,200 samples per class with class weights.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="flask-conical"></i></div><h3>Train</h3><p>3 DNNs, focal loss, cosine decay &mdash; 95%+ accuracy.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="bar-chart-3"></i></div><h3>Validate</h3><p>Clean held-out sets, honest metrics.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="rocket"></i></div><h3>Ship</h3><p>Frozen EXE / DMG / AppImage on every release.</p></div>
             </div>
           </section>
         </div>
 
-        <!-- ───────────── LEARN ASL ───────────── -->
+        
         <div class="hm-page" data-page="learn">
           <section class="hm-section" data-section="Fingerspell">
             <h2 class="hm-sec-title">Fingerspell <em>Anything</em></h2>
+            <p class="hm-sec-sub">Type any word, name or phrase and instantly see the ASL hand sign for every letter &mdash; a great way to practice the alphabet or spell words you haven&rsquo;t memorized yet.</p>
             <div class="hm-learn-input hm-glass">
-              <label for="textInput">✋ Type something to fingerspell</label>
+              <label for="textInput"><i data-lucide="hand"></i> Type something to fingerspell</label>
               <div class="hm-input-row">
                 <input type="text" id="textInput" placeholder="e.g. HELLO" maxlength="30" spellcheck="false" autocomplete="off" aria-label="Word to fingerspell">
-                <button type="button" class="hm-clear" id="clearBtn" aria-label="Clear">✕</button>
+                <button type="button" class="hm-clear" id="clearBtn" aria-label="Clear"><i data-lucide="x"></i></button>
               </div>
               <div class="hm-input-hint"><span>Letters A&ndash;Z and digits 0&ndash;9 · Spaces create gaps</span><span><b id="charCount">0</b> / 30</span></div>
             </div>
             <div class="hm-sign-strip" id="signStrip"></div>
-            <div class="hm-empty" id="signEmpty"><div class="hm-empty-icon">🖐️</div>Type a word above to see its ASL fingerspelling</div>
+            <div class="hm-empty" id="signEmpty"><div class="hm-empty-icon"><i data-lucide="hand"></i></div>Type a word above to see its ASL fingerspelling</div>
             <div class="hm-chips">
               <button type="button" class="hm-chip" data-text="HELLO">Hello</button>
               <button type="button" class="hm-chip" data-text="ASL">ASL</button>
@@ -170,23 +176,24 @@
 
           <section class="hm-section" data-section="Tips">
             <h2 class="hm-sec-title">Learning <em>Tips</em></h2>
+            <p class="hm-sec-sub">Fingerspelling gets easier with the right habits. These tips help you build recognition and muscle memory faster &mdash; no prior experience needed.</p>
             <div class="hm-cards">
-              <div class="hm-card hm-glass"><div class="hm-card-icon">✍️</div><h3>Practice Daily</h3><p>Spell your name, then everyday words &mdash; 5 minutes a day.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">👀</div><h3>Watch the Shape</h3><p>Hand shape, finger position and palm orientation matter.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🔤</div><h3>Start Simple</h3><p>Begin with distinct signs &mdash; A, B, C, L, Y.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🔄</div><h3>Repeat Words</h3><p>Repetition builds muscle memory quickly.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🤟</div><h3>Fingerspell vs Signs</h3><p>Spelling covers names, places and unknown signs.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">📱</div><h3>Practice Anywhere</h3><p>Works on phone or laptop &mdash; anytime.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="pencil"></i></div><h3>Practice Daily</h3><p>Spell your name, then everyday words &mdash; 5 minutes a day.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="eye"></i></div><h3>Watch the Shape</h3><p>Hand shape, finger position and palm orientation matter.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="type"></i></div><h3>Start Simple</h3><p>Begin with distinct signs &mdash; A, B, C, L, Y.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="refresh-cw"></i></div><h3>Repeat Words</h3><p>Repetition builds muscle memory quickly.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="hand"></i></div><h3>Fingerspell vs Signs</h3><p>Spelling covers names, places and unknown signs.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="smartphone"></i></div><h3>Practice Anywhere</h3><p>Works on phone or laptop &mdash; anytime.</p></div>
             </div>
           </section>
         </div>
 
-        <!-- ───────────── ABOUT ───────────── -->
+        
         <div class="hm-page" data-page="about">
           <section class="hm-section" data-section="Mission">
             <div class="hm-badge hm-glass">Why It Matters</div>
             <h2 class="hm-sec-title">Bridging <em>Silence</em> &amp; Sound</h2>
-            <p class="hm-sec-sub">Over 70 million deaf people worldwide use sign language as their primary language &mdash; yet most hearing people don't know it, creating barriers at schools, hospitals, banks and workplaces. AI Sign Bridge translates ASL fingerspelling into speech in real time, with no interpreter required.</p>
+            <p class="hm-sec-sub">Over 70 million deaf people worldwide use sign language as their primary language &mdash; yet most hearing people don't know it, creating barriers at schools, hospitals, banks and workplaces. AI Sign Bridge translates ASL fingerspelling into speech in real time, with no interpreter required. We believe communication is a human right, so the entire project is free, open source, and built to run fully offline.</p>
             <div class="hm-metrics">
               <div class="hm-metric"><div class="hm-metric-value">37</div><div class="hm-metric-label">Signs</div></div>
               <div class="hm-metric"><div class="hm-metric-value">95%+</div><div class="hm-metric-label">Accuracy</div></div>
@@ -197,29 +204,31 @@
 
           <section class="hm-section" data-section="Values">
             <h2 class="hm-sec-title">What <em>Drives</em> Us</h2>
+            <p class="hm-sec-sub">These principles shape every design decision &mdash; from the models we train to the way the app is packaged and released.</p>
             <div class="hm-cards">
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🌍</div><h3>Accessibility for All</h3><p>Communication is a human right &mdash; free and open source.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🔒</div><h3>Privacy First</h3><p>Runs entirely offline &mdash; no servers, no data collection.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🧪</div><h3>Scientific Rigor</h3><p>95%+ accuracy on held-out sets. Measured, not guessed.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🤝</div><h3>Open Collaboration</h3><p>Built in the open with a transparent, reproducible pipeline.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">⚡</div><h3>Performance</h3><p>Every millisecond optimized &mdash; real-time means real-time.</p></div>
-              <div class="hm-card hm-glass"><div class="hm-card-icon">🚀</div><h3>Continuous Improvement</h3><p>Browser inference, dynamic signs and a bigger vocabulary on the way.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="globe"></i></div><h3>Accessibility for All</h3><p>Communication is a human right &mdash; free and open source.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="lock"></i></div><h3>Privacy First</h3><p>Runs entirely offline &mdash; no servers, no data collection.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="flask-conical"></i></div><h3>Scientific Rigor</h3><p>95%+ accuracy on held-out sets. Measured, not guessed.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="handshake"></i></div><h3>Open Collaboration</h3><p>Built in the open with a transparent, reproducible pipeline.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="zap"></i></div><h3>Performance</h3><p>Every millisecond optimized &mdash; real-time means real-time.</p></div>
+              <div class="hm-card hm-glass"><div class="hm-card-icon"><i data-lucide="rocket"></i></div><h3>Continuous Improvement</h3><p>Browser inference, dynamic signs and a bigger vocabulary on the way.</p></div>
             </div>
           </section>
 
           <section class="hm-section" data-section="Roadmap">
             <h2 class="hm-sec-title">Scaling the <em>Future</em></h2>
+            <p class="hm-sec-sub">The foundation is built; the vocabulary is growing. Here&rsquo;s where AI Sign Bridge is headed next.</p>
             <div class="hm-rows">
-              <div class="hm-row hm-glass"><span class="hm-row-icon">📚</span><div><h3>Full Vocabulary</h3><p>From 37 fingerspelling signs to 1,000+ ASL words and phrase-level translation.</p></div></div>
-              <div class="hm-row hm-glass"><span class="hm-row-icon">🌐</span><div><h3>In-Browser Inference</h3><p>ONNX models for zero-install sign language translation in any browser.</p></div></div>
-              <div class="hm-row hm-glass"><span class="hm-row-icon">📱</span><div><h3>Mobile Apps</h3><p>Native iOS &amp; Android with on-device inference &mdash; in your pocket, offline.</p></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon"><i data-lucide="book-open"></i></span><div><h3>Full Vocabulary</h3><p>From 37 fingerspelling signs to 1,000+ ASL words and phrase-level translation.</p></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon"><i data-lucide="globe"></i></span><div><h3>In-Browser Inference</h3><p>ONNX models for zero-install sign language translation in any browser.</p></div></div>
+              <div class="hm-row hm-glass"><span class="hm-row-icon"><i data-lucide="smartphone"></i></span><div><h3>Mobile Apps</h3><p>Native iOS &amp; Android with on-device inference &mdash; in your pocket, offline.</p></div></div>
             </div>
           </section>
         </div>
 
-      </div><!-- /stage -->
+      </div>
 
-      <!-- ============ BOTTOM: SECTION SWITCHER + STATS ============ -->
+      
       <div class="hm-switcher" id="hmSwitcher" role="tablist" aria-label="Sections"></div>
 
       <div class="hm-stats">
@@ -232,7 +241,7 @@
     </div>
   </section>
 
-  <!-- ======================= MOBILE MENU ======================= -->
+  
   <div class="hm-menu" id="hmMenu" aria-hidden="true">
     <div class="hm-menu-panel">
       <button type="button" class="hm-menu-link" data-page="home">Home</button>

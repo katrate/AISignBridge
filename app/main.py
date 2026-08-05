@@ -57,8 +57,9 @@ def main():
     sys.excepthook = exception_hook
     app = QApplication(sys.argv)
 
-    # Set app-wide font
-    font = QFont("Segoe UI", 10)
+    # Set app-wide font (rounded clay look, Segoe UI fallback)
+    font = QFont("Fredoka", 10)
+    font.setFamilies(["Fredoka", "Baloo 2", "Nunito", "Quicksand", "Segoe UI", "sans-serif"])
     app.setFont(font)
 
     # Set app icon

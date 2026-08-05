@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — AI Sign Bridge</title>
   <meta name="description" content="About AI Sign Bridge — our mission to make sign language accessible to everyone through AI technology.">
-  <!-- Redirect to the main SPA and open the About section -->
+  
   <script>window.location.replace('index.html?page=about');</script>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%9F%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="css/style.css">
   <script>if(localStorage.getItem('ai-sign-bridge-theme')==='light')document.documentElement.setAttribute('data-theme','light')</script>
 </head>
@@ -20,7 +20,7 @@
   <canvas id="three-canvas"></canvas>
   <div id="scroll-progress"></div>
 
-  <!-- Navbar -->
+  
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
@@ -36,12 +36,12 @@
         <li><a href="about.html">About</a></li>
         <li><a href="index.html#cta" class="nav-cta">Launch App</a></li>
       </ul>
-      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">🌙</button>
-      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+      <button class="nav-theme-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode"><i data-lucide="moon"></i></button>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Menu"><i data-lucide="menu"></i></button>
     </div>
   </nav>
 
-  <!-- Page Header -->
+  
   <section class="page-header">
     <div class="container reveal">
       <span class="section-badge"><span class="badge-dot"></span> About</span>
@@ -51,7 +51,7 @@
     </div>
   </section>
 
-  <!-- About Content -->
+  
   <section class="page-section">
     <div class="container">
       <div class="about-grid">
@@ -72,7 +72,7 @@
     </div>
   </section>
 
-  <!-- Values -->
+  
   <section class="page-section alt-bg">
     <div class="container">
       <div style="text-align:center;margin-bottom:48px;" class="reveal">
@@ -81,17 +81,17 @@
         <h2 class="section-title">What <span class="highlight">Drives</span> Us</h2>
       </div>
       <div class="values-grid">
-        <div class="value-card reveal reveal-delay-1"><span class="v-icon">🌍</span><h3>Accessibility For All</h3><p>Communication is a human right. We believe technology should tear down barriers, not create them. Our software is free and open source.</p></div>
-        <div class="value-card reveal reveal-delay-2"><span class="v-icon">🔒</span><h3>Privacy First</h3><p>Your conversations belong to you. That's why we run everything offline — no servers, no cloud, no data collection. Ever.</p></div>
-        <div class="value-card reveal reveal-delay-3"><span class="v-icon">🧪</span><h3>Scientific Rigor</h3><p>Every design decision is backed by data. Our ensemble achieves 95%+ accuracy on held-out test sets. We measure, optimize, and validate.</p></div>
-        <div class="value-card reveal reveal-delay-1"><span class="v-icon">🤝</span><h3>Open Collaboration</h3><p>Built in the open with contributions from the community. Our training pipeline is fully transparent and reproducible.</p></div>
-        <div class="value-card reveal reveal-delay-2"><span class="v-icon">⚡</span><h3>Performance Matters</h3><p>Real-time means real-time. We optimized every millisecond of the pipeline — from camera capture to speech output — for low latency.</p></div>
-        <div class="value-card reveal reveal-delay-3"><span class="v-icon">🚀</span><h3>Continuous Improvement</h3><p>We're actively working on browser deployment (ONNX Runtime Web), dynamic signs (J, Z), and expanding the vocabulary.</p></div>
+        <div class="value-card reveal reveal-delay-1"><span class="v-icon"><i data-lucide="globe"></i></span><h3>Accessibility For All</h3><p>Communication is a human right. We believe technology should tear down barriers, not create them. Our software is free and open source.</p></div>
+        <div class="value-card reveal reveal-delay-2"><span class="v-icon"><i data-lucide="lock"></i></span><h3>Privacy First</h3><p>Your conversations belong to you. That's why we run everything offline — no servers, no cloud, no data collection. Ever.</p></div>
+        <div class="value-card reveal reveal-delay-3"><span class="v-icon"><i data-lucide="flask-conical"></i></span><h3>Scientific Rigor</h3><p>Every design decision is backed by data. Our ensemble achieves 95%+ accuracy on held-out test sets. We measure, optimize, and validate.</p></div>
+        <div class="value-card reveal reveal-delay-1"><span class="v-icon"><i data-lucide="handshake"></i></span><h3>Open Collaboration</h3><p>Built in the open with contributions from the community. Our training pipeline is fully transparent and reproducible.</p></div>
+        <div class="value-card reveal reveal-delay-2"><span class="v-icon"><i data-lucide="zap"></i></span><h3>Performance Matters</h3><p>Real-time means real-time. We optimized every millisecond of the pipeline — from camera capture to speech output — for low latency.</p></div>
+        <div class="value-card reveal reveal-delay-3"><span class="v-icon"><i data-lucide="rocket"></i></span><h3>Continuous Improvement</h3><p>We're actively working on browser deployment (ONNX Runtime Web), dynamic signs (J, Z), and expanding the vocabulary.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- Timeline -->
+  
   <section class="page-section">
     <div class="container" style="max-width:860px;">
       <div style="text-align:center;margin-bottom:48px;" class="reveal">
@@ -124,7 +124,7 @@
     </div>
   </section>
 
-  <!-- Scaling the Future -->
+  
   <section class="page-section">
     <div class="container">
       <div style="text-align:center;margin-bottom:48px;" class="reveal">
@@ -136,37 +136,37 @@
       <div class="features-grid">
         <div class="feature-card reveal reveal-delay-1">
           <div class="feature-number">01</div>
-          <div class="icon-wrapper"><i data-feather="book-open" style="width:22px;height:22px;"></i></div>
+          <div class="icon-wrapper"><i data-lucide="book-open" style="width:22px;height:22px;"></i></div>
           <h3>Full Vocabulary Expansion</h3>
           <p>From 37 fingerspelling signs to 1,000+ ASL words, including dynamic signs (J, Z) and phrase-level translation using transformer-based sequence models for natural, flowing conversation.</p>
         </div>
         <div class="feature-card reveal reveal-delay-2">
           <div class="feature-number">02</div>
-          <div class="icon-wrapper"><i data-feather="globe" style="width:22px;height:22px;"></i></div>
+          <div class="icon-wrapper"><i data-lucide="globe" style="width:22px;height:22px;"></i></div>
           <h3>Browser Deployment</h3>
           <p>Converting the model to ONNX format for in-browser inference. Zero install — just open a URL and start signing. Ideal for schools, hospitals, and public kiosks where installation isn't practical.</p>
         </div>
         <div class="feature-card reveal reveal-delay-3">
           <div class="feature-number">03</div>
-          <div class="icon-wrapper"><i data-feather="smartphone" style="width:22px;height:22px;"></i></div>
+          <div class="icon-wrapper"><i data-lucide="smartphone" style="width:22px;height:22px;"></i></div>
           <h3>Mobile Application</h3>
           <p>Native iOS and Android apps with TensorFlow Lite or CoreML for on-device inference. Real-time sign language translation in your pocket, anywhere, anytime — no internet required.</p>
         </div>
         <div class="feature-card reveal reveal-delay-1">
           <div class="feature-number">04</div>
-          <div class="icon-wrapper"><i data-feather="database" style="width:22px;height:22px;"></i></div>
+          <div class="icon-wrapper"><i data-lucide="database" style="width:22px;height:22px;"></i></div>
           <h3>Community Dataset</h3>
           <p>Open-source dataset contribution platform allowing users to record and contribute sign variations. Scales coverage across dialects, skin tones, lighting conditions, and signing styles.</p>
         </div>
         <div class="feature-card reveal reveal-delay-2">
           <div class="feature-number">05</div>
-          <div class="icon-wrapper"><i data-feather="building" style="width:22px;height:22px;"></i></div>
+          <div class="icon-wrapper"><i data-lucide="building" style="width:22px;height:22px;"></i></div>
           <h3>Enterprise Deployment</h3>
           <p>Dedicated translation kiosks for hospitals, airports, banks, and schools. Multi-language sign support (ASL, ISL, BSL) with customizable vocabulary and accessibility compliance.</p>
         </div>
         <div class="feature-card reveal reveal-delay-3">
           <div class="feature-number">06</div>
-          <div class="icon-wrapper"><i data-feather="users" style="width:22px;height:22px;"></i></div>
+          <div class="icon-wrapper"><i data-lucide="users" style="width:22px;height:22px;"></i></div>
           <h3>Real-Time Conversation</h3>
           <p>Bidirectional translation combining speech recognition for hearing users with sign-to-text/speech for deaf users. Natural, flowing conversation without barriers — the ultimate goal.</p>
         </div>
@@ -174,19 +174,19 @@
     </div>
   </section>
 
-  <!-- CTA -->
+  
   <section class="page-section">
     <div class="container">
       <div class="cta-card reveal">
         <h2>Join Us in Breaking Barriers</h2>
         <p>AI Sign Bridge is free, open source, and developed in the open. Contribute, suggest features, or just download and use it.</p>
-        <a href="index.html#cta" class="btn-primary">⬇️ Get Started <span class="arrow">→</span></a>
+        <a href="index.html#cta" class="btn-primary"><i data-lucide="download"></i> Get Started <span class="arrow">→</span></a>
         <p class="subnote">Open Source · MIT License · Contributions Welcome</p>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  
   <footer class="footer">
     <div class="container">
       <div class="footer-brand"><span>AI Sign Bridge</span></div>
@@ -202,7 +202,7 @@
     </div>
   </footer>
 
-  <!-- Back to Top -->
+  
   <button id="back-to-top" aria-label="Back to top">↑</button>
 
   <script src="js/main.js"></script>

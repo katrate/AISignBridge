@@ -1,14 +1,11 @@
-/* ============================================================
-   AI Sign Bridge — Enhanced Main JavaScript
-   Organic flowing background · Fixed demo · All interactions
-   ============================================================ */
+
 
 (function () {
   'use strict';
 
-  // ====== THREE.JS ORGANIC BACKGROUND ======
-  // Designed to feel human-made: flowing ribbons, glowing orbs,
-  // warm natural colors, breathing motion — no hard wireframes
+  
+  
+  
   function initThreeScene() {
     if (typeof THREE === 'undefined') return;
     const canvas = document.getElementById('three-canvas');
@@ -34,7 +31,7 @@
 
     const clock = new THREE.Clock();
 
-    // ─── Color Palette (iris indigo, coral rose, gold — Midnight Bloom) ───
+    
     const palette = {
       deepNavy:  new THREE.Color('#06060e'),
       accentIris: new THREE.Color('#6366f1'),
@@ -45,8 +42,8 @@
       deepPurple: new THREE.Color('#3730a3'),
     };
 
-    // ─── 1. FLOWING SILK RIBBONS ───
-    // Organic curves that drift like silk in water
+    
+    
     const ribbons = [];
     const ribbonCount = 6;
 
@@ -64,7 +61,7 @@
       const curve = new THREE.CatmullRomCurve3(points);
       const curvePoints = curve.getPoints(60);
 
-      // Create geometry once, update positions in-place for performance
+      
       const geometry = new THREE.BufferGeometry();
       const posArray = new Float32Array(curvePoints.length * 3);
       curvePoints.forEach(function(p, i) {
@@ -98,9 +95,9 @@
       scene.add(line);
       ribbons.push(line);
 
-      // Second thinner line slightly offset for depth (static, not animated)
+      
       const pos2 = new Float32Array(posArray);
-      // Shift depth layer points slightly
+      
       for (let i = 0; i < curvePoints.length; i++) {
         pos2[i * 3] += 0.3;
         pos2[i * 3 + 1] -= 0.3;
@@ -113,7 +110,7 @@
         opacity: 0.03,
       });
       const line2 = new THREE.Line(geo2, mat2);
-      // Separate userData — no animation for depth layer
+      
       line2.userData = { isDepth: true, baseOpacity: 0.03 };
       scene.add(line2);
       ribbons.push(line2);
@@ -121,7 +118,7 @@
       return { line, line2 };
     }
 
-    // Create ribbons with organic placement
+    
     const ribbonConfigs = [
       { color: palette.accentIris,  x: -3, y: 1,  z: -3, scale: 1.0 },
       { color: palette.accentCoral, x: 3,  y: -1, z: -4, scale: 0.9 },
@@ -135,8 +132,8 @@
       createRibbon(cfg.color, cfg.x, cfg.y, cfg.z, cfg.scale);
     });
 
-    // ─── 2. GLOWING ORBS ───
-    // Soft spheres that pulse and drift like living things
+    
+    
     const orbs = [];
     const orbCount = 8;
 
@@ -176,8 +173,8 @@
       orbs.push(mesh);
     }
 
-    // ─── 3. AMBIENT DUST MOTES ───
-    // Fine, slow-moving particles like dust in sunlight
+    
+    
     const dustCount = 400;
     const dustGeo = new THREE.BufferGeometry();
     const dustPos = new Float32Array(dustCount * 3);
@@ -204,8 +201,8 @@
     const dust = new THREE.Points(dustGeo, dustMat);
     scene.add(dust);
 
-    // ─── 4. ATMOSPHERIC COLOR WASH ───
-    // Large subtle gradient planes for depth
+    
+    
     const washMat = new THREE.MeshBasicMaterial({
       color: 0x6366f1,
       transparent: true,
@@ -228,7 +225,7 @@
     wash2.rotation.z = 0.3;
     scene.add(wash2);
 
-    // ─── 5. MOUSE PARALLAX ───
+    
     let mouseX = 0, mouseY = 0;
     let smoothX = 0, smoothY = 0;
 
@@ -237,35 +234,35 @@
       mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
     });
 
-    // ─── ANIMATION LOOP ───
+    
     function animate() {
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      // Theme-aware opacity factor (reads data-theme from <html>)
+      
       const isLight = document.documentElement.getAttribute('data-theme') === 'light';
       const targetFactor = isLight ? 0.4 : 1.0;
       themeFactor += (targetFactor - themeFactor) * 0.03;
 
-      // Smooth clear color transition between dark midnight and warm cream
+      
       clearColor.copy(darkClear).lerp(lightClear, 1 - themeFactor);
       renderer.setClearColor(clearColor, 0);
 
-      // Smooth mouse tracking
+      
       smoothX += (mouseX - smoothX) * 0.02;
       smoothY += (mouseY - smoothY) * 0.02;
 
-      // Move camera subtly with mouse
+      
       camera.position.x = smoothX * 0.5;
       camera.position.y = smoothY * 0.3;
       camera.lookAt(0, 0, 0);
 
-      // Animate ribbons: Catmull-Rom curve + write sampled points into buffer
+      
       ribbons.forEach(function(rib) {
         const ud = rib.userData;
         if (!ud || !ud.basePoints || ud.isDepth) return;
 
-        // Distort control points with waves (lightweight, no GPU ops)
+        
         var newPts = [];
         ud.basePoints.forEach(function(p, i) {
           var tt = i / 40;
@@ -278,11 +275,11 @@
           ));
         });
 
-        // Create new curve + sample (object creation, no GPU buffer ops)
+        
         var newCurve = new THREE.CatmullRomCurve3(newPts);
         var smoothPts = newCurve.getPoints(60);
 
-        // Write 61 smooth points into existing position buffer (fast!)
+        
         var pos = rib.geometry.attributes.position.array;
         smoothPts.forEach(function(pt, i) {
           pos[i * 3] = pt.x;
@@ -292,14 +289,14 @@
         rib.geometry.attributes.position.needsUpdate = true;
       });
 
-      // Apply theme factor to all ribbons (main + depth lines)
+      
       ribbons.forEach(function(rib) {
         if (rib.userData && rib.userData.baseOpacity != null) {
           rib.material.opacity = rib.userData.baseOpacity * themeFactor;
         }
       });
 
-      // Animate orbs: drift and pulse
+      
       orbs.forEach(function(orb) {
         const ud = orb.userData;
         orb.position.x = ud.baseX + Math.sin(t * ud.speed + ud.phase) * ud.floatAmp;
@@ -311,12 +308,12 @@
         orb.scale.set(s, s, s);
       });
 
-      // Rotate dust motes very slowly
+      
       dust.rotation.y += 0.0002;
       dust.rotation.x += 0.0001;
       dustMat.opacity = 0.15 * themeFactor;
 
-      // Subtle color wash animation
+      
       wash.position.x = Math.sin(t * 0.05) * 0.3;
       wash.position.y = Math.cos(t * 0.04) * 0.3;
       wash.material.opacity = (0.015 + 0.01 * Math.sin(t * 0.1)) * themeFactor;
@@ -329,7 +326,7 @@
 
     animate();
 
-    // ─── RESIZE ───
+    
     window.addEventListener('resize', function () {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -337,7 +334,7 @@
     });
   }
 
-  // ====== SCROLL PROGRESS BAR ======
+  
   function initScrollProgress() {
     var bar = document.getElementById('scroll-progress');
     if (!bar) {
@@ -354,7 +351,7 @@
     });
   }
 
-  // ====== SCROLL REVEAL ANIMATIONS ======
+  
   function initScrollReveal() {
     var revealSelectors = '.reveal, .reveal-left, .reveal-right, .reveal-scale';
     var reveals = document.querySelectorAll(revealSelectors);
@@ -373,7 +370,7 @@
     });
   }
 
-  // ====== NAVBAR SCROLL ======
+  
   function initNavbar() {
     var navbar = document.getElementById('navbar');
     if (!navbar) return;
@@ -387,7 +384,7 @@
     });
   }
 
-  // ====== MOBILE MENU ======
+  
   function initMobileMenu() {
     var btn = document.getElementById('mobileMenuBtn');
     var links = document.getElementById('navLinks');
@@ -404,7 +401,7 @@
     });
   }
 
-  // ====== ACTIVE NAV LINK ======
+  
   function initActiveNav() {
     var path = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-links a').forEach(function (link) {
@@ -415,7 +412,7 @@
     });
   }
 
-  // ====== ANIMATED COUNTERS ======
+  
   function initCounters() {
     var counters = document.querySelectorAll('.counter');
     if (counters.length === 0) return;
@@ -446,9 +443,9 @@
     });
   }
 
-  // ====== LIVE DEMO CYCLE (homepage only, not on demo page) ======
+  
   function initDemoCycle() {
-    // Only on pages with demoLetter AND without the interactive sign-grid
+    
     var demoLetter = document.getElementById('demoLetter');
     var hasSignGrid = document.querySelector('.sign-grid');
     if (!demoLetter || hasSignGrid) return;
@@ -470,7 +467,7 @@
     }, 1400);
   }
 
-  // ====== SMOOTH SCROLL ======
+  
   function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
       anchor.addEventListener('click', function (e) {
@@ -485,7 +482,7 @@
     });
   }
 
-  // ====== HERO VISUAL 3D TILT ======
+  
   function initHeroTilt() {
     var heroVisual = document.getElementById('heroVisual');
     if (!heroVisual) return;
@@ -510,7 +507,7 @@
     });
   }
 
-  // ====== BACK TO TOP ======
+  
   function initBackToTop() {
     var btn = document.getElementById('back-to-top');
     if (!btn) return;
@@ -528,7 +525,7 @@
     });
   }
 
-  // ====== DOWNLOAD BUTTONS (GitHub API + Release Data fallback) ======
+  
   function initDownloadButtons() {
     var btnContainer = document.getElementById('downloadButtons');
     var versionEl = document.getElementById('releaseVersion');
@@ -584,11 +581,11 @@
       });
   }
 
-  // ====== DEMO INTERACTIVE (fallback for pages without inline script) ======
+  
   function initDemoInteractive() {
     var cells = document.querySelectorAll('.sign-cell');
     if (cells.length === 0) return;
-    // Skip if page has its own inline demo script
+    
     if (document.querySelector('script[data-demo-inline]')) return;
 
     var liveLetter = document.getElementById('liveLetter');
@@ -626,7 +623,7 @@
     });
   }
 
-  // ====== PARALLAX ON SCROLL ======
+  
   function initParallax() {
     var parallaxElements = document.querySelectorAll('.parallax');
     if (parallaxElements.length === 0) return;
@@ -640,16 +637,22 @@
     });
   }
 
-  // ====== THEME TOGGLE (dark/light) ======
+  
   function initThemeToggle() {
     var btn = document.getElementById('themeToggle');
     if (!btn) return;
 
-    // Apply saved theme on load
+    function setIcon(name) {
+      if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+        btn.innerHTML = '<i data-lucide="' + name + '"></i>';
+        lucide.createIcons();
+      }
+    }
+
     var saved = localStorage.getItem('ai-sign-bridge-theme');
     if (saved === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
-      btn.textContent = '☀️';
+      setIcon('sun');
     }
 
     btn.addEventListener('click', function () {
@@ -658,45 +661,23 @@
       if (isLight) {
         html.removeAttribute('data-theme');
         localStorage.setItem('ai-sign-bridge-theme', 'dark');
-        btn.textContent = '🌙';
+        setIcon('moon');
       } else {
         html.setAttribute('data-theme', 'light');
         localStorage.setItem('ai-sign-bridge-theme', 'light');
-        btn.textContent = '☀️';
+        setIcon('sun');
       }
     });
   }
 
-  // ====== FEATHER ICONS ======
-  function initFeatherIcons() {
-    if (typeof feather !== 'undefined' && typeof feather.replace === 'function') {
-      try {
-        feather.replace();
-      } catch (e) {
-        // A single unknown icon name throws inside feather.replace() and
-        // silently kills every icon after it. Replace unknown names with
-        // their fallback glyph and re-run so the rest still render.
-        console.warn('Feather Icons: skipping unknown icon name(s).', e);
-        document.querySelectorAll('i[data-feather]').forEach(function (el) {
-          var name = el.getAttribute('data-feather');
-          if (!feather.icons[name]) {
-            var span = document.createElement('span');
-            span.textContent = '✦';
-            el.replaceWith(span);
-          }
-        });
-        try {
-          feather.replace();
-        } catch (e2) {
-          console.warn('Feather Icons: could not complete icon replacement.', e2);
-        }
-      }
-    } else {
-      console.warn('Feather Icons not loaded — emoji fallback will be used.');
+  
+  function initLucideIcons() {
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
     }
   }
 
-  // ====== INIT ALL ======
+  
   document.addEventListener('DOMContentLoaded', function () {
     initThreeScene();
     initScrollProgress();
@@ -714,8 +695,8 @@
     initParallax();
     initThemeToggle();
 
-    // Feather icons (loaded via CDN)
-    setTimeout(initFeatherIcons, 100);
+    
+    setTimeout(initLucideIcons, 100);
   });
 
 })();
